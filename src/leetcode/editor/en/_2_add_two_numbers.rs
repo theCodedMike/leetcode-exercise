@@ -61,33 +61,35 @@ impl ListNode {
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn add_two_numbers(
-        l1: Option<Box<ListNode>>,
-        l2: Option<Box<ListNode>>,
+        mut l1: Option<Box<ListNode>>,
+        mut l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        match (l1, l2) {
-            (None, None) => None,
-            (Some(n1), None) => Some(n1),
-            (None, Some(n2)) => Some(n2),
-            (Some(n1), Some(n2)) => {
-                let sum = n1.val + n2.val;
+        let mut carry = 0;
+        let mut head = Box::new(ListNode::new(0)); // 结果链表的头节点
+        let mut spider = &mut head; // 结果链表的最后一个节点
 
-                if sum < 10 {
-                    Some(Box::new(ListNode {
-                        val: sum,
-                        next: Solution::add_two_numbers(n1.next, n2.next),
-                    }))
-                } else {
-                    let carry = Some(Box::new(ListNode::new(1)));
-                    Some(Box::new(ListNode {
-                        val: sum - 10,
-                        next: Solution::add_two_numbers(
-                            Solution::add_two_numbers(carry, n1.next),
-                            n2.next,
-                        ),
-                    }))
+        while l1.is_some() || l2.is_some() || carry == 1 {
+            let sum = match l1 {
+                None => 0,
+                Some(n1) => {
+                    l1 = n1.next;
+                    n1.val
                 }
-            }
+            } + match l2 {
+                None => 0,
+                Some(n2) => {
+                    l2 = n2.next;
+                    n2.val
+                }
+            } + carry;
+
+            carry = sum / 10;
+
+            spider.next = Some(Box::new(ListNode::new(sum % 10)));
+            spider = spider.next.as_mut().unwrap();
         }
+
+        head.next
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
