@@ -54,7 +54,7 @@ pub struct ListNode {
 impl ListNode {
     #[inline]
     fn new(val: i32) -> Self {
-        ListNode { next: None, val }
+        ListNode { val, next: None }
     }
 }
 
@@ -64,124 +64,30 @@ impl Solution {
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        if l1.is_none() && l2.is_none() {
-            return None;
-        }
-        if l1.is_none() {
-            return l2;
-        }
-        if l2.is_none() {
-            return l1;
-        }
+        match (l1, l2) {
+            (None, None) => None,
+            (Some(n1), None) => Some(n1),
+            (None, Some(n2)) => Some(n2),
+            (Some(n1), Some(n2)) => {
+                let sum = n1.val + n2.val;
 
-        let mut size = 0; // 生成的链表中节点个数
-        let mut result = None;
-        let mut l1_node = l1.as_ref().unwrap();
-        let mut l2_node = l2.as_ref().unwrap();
-        let mut greater_than_nine = false;
-        loop {
-            let l1_val = l1_node.val;
-            let l2_val = l2_node.val;
-
-            let mut sum = l1_val + l2_val;
-            if greater_than_nine {
-                greater_than_nine = false;
-                sum += 1;
-            }
-            if sum > 9 {
-                greater_than_nine = true;
-                sum -= 10;
-            }
-
-            let new_node = Some(Box::new(ListNode::new(sum)));
-            if result.is_none() {
-                result = new_node;
-            } else {
-                let mut head = result.as_mut().unwrap();
-                /* while let Some(node) = head.next.as_mut() {
-                    head = node;
-                }*/
-                for _ in 0..size - 1 {
-                    head = head.next.as_mut().unwrap();
+                if sum < 10 {
+                    Some(Box::new(ListNode {
+                        val: sum,
+                        next: Solution::add_two_numbers(n1.next, n2.next),
+                    }))
+                } else {
+                    let carry = Some(Box::new(ListNode::new(1)));
+                    Some(Box::new(ListNode {
+                        val: sum - 10,
+                        next: Solution::add_two_numbers(
+                            Solution::add_two_numbers(carry, n1.next),
+                            n2.next,
+                        ),
+                    }))
                 }
-                head.next = new_node;
             }
-            size += 1;
-
-            if l1_node.next.is_none() || l2_node.next.is_none() {
-                break;
-            }
-            l1_node = l1_node.next.as_ref().unwrap();
-            l2_node = l2_node.next.as_ref().unwrap();
         }
-
-        while let Some(node) = l1_node.next.as_ref() {
-            let mut val = node.val;
-            if greater_than_nine {
-                greater_than_nine = false;
-                val += 1;
-            }
-            if val > 9 {
-                greater_than_nine = true;
-                val -= 10;
-            }
-            let new = Some(Box::new(ListNode::new(val)));
-
-            let mut head = result.as_mut().unwrap();
-            /*while let Some(node) = head.next.as_mut() {
-                head = node;
-            }*/
-            for _ in 0..size - 1 {
-                head = head.next.as_mut().unwrap();
-            }
-
-            head.next = new;
-            size += 1;
-            l1_node = node;
-        }
-
-        while let Some(node) = l2_node.next.as_ref() {
-            let mut val = node.val;
-            if greater_than_nine {
-                greater_than_nine = false;
-                val += 1;
-            }
-            if val > 9 {
-                greater_than_nine = true;
-                val -= 10;
-            }
-            let new = Some(Box::new(ListNode::new(val)));
-
-            let mut head = result.as_mut().unwrap();
-            /* while let Some(node) = head.next.as_mut() {
-                head = node;
-            }*/
-            for _ in 0..size - 1 {
-                head = head.next.as_mut().unwrap();
-            }
-
-            head.next = new;
-            size += 1;
-            l2_node = node;
-        }
-
-        if greater_than_nine {
-            greater_than_nine = false;
-            let new = Some(Box::new(ListNode::new(1)));
-
-            let mut head = result.as_mut().unwrap();
-            /*while let Some(node) = head.next.as_mut() {
-                head = node;
-            }*/
-            for _ in 0..size - 1 {
-                head = head.next.as_mut().unwrap();
-            }
-
-            head.next = new;
-            size += 1;
-        }
-
-        result
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
