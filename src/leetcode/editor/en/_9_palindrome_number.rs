@@ -44,21 +44,18 @@ pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
-    pub fn is_palindrome(x: i32) -> bool {
-        if x < 0 {
+    pub fn is_palindrome(mut x: i32) -> bool {
+        if x < 0 || (x != 0 && x % 10 == 0) {
             return false;
         }
 
-        let x_str = x.to_string();
-        let len = x_str.len();
-        let half_len = len / 2;
-        for i in 0..half_len {
-            if x_str.get(i..i + 1) != x_str.get(len - i - 1..len - i) {
-                return false;
-            }
+        let mut reverted_num = 0;
+        while x > reverted_num {
+            reverted_num = reverted_num * 10 + x % 10;
+            x /= 10;
         }
 
-        true
+        x == reverted_num || x == reverted_num / 10
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
