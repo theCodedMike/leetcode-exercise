@@ -37,6 +37,7 @@
 //
 //
 // Related Topics Hash Table String Sliding Window 👍 34340 👎 1507
+#![allow(dead_code)]
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
