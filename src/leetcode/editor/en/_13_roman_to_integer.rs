@@ -75,31 +75,34 @@ use std::collections::HashMap;
 impl Solution {
     pub fn roman_to_int(s: String) -> i32 {
         let mut map = HashMap::new();
-        map.insert('I', 1);
-        map.insert('V', 5);
-        map.insert('X', 10);
-        map.insert('L', 50);
-        map.insert('C', 100);
-        map.insert('D', 500);
-        map.insert('M', 1000);
-        map.insert('A', 4);
-        map.insert('B', 9);
-        map.insert('E', 40);
-        map.insert('F', 90);
-        map.insert('G', 400);
-        map.insert('H', 900);
-
-        let target = s
-            .replace("IV", "A")
-            .replace("IX", "B")
-            .replace("XL", "E")
-            .replace("XC", "F")
-            .replace("CD", "G")
-            .replace("CM", "H");
+        map.insert("I", 1);
+        map.insert("V", 5);
+        map.insert("X", 10);
+        map.insert("L", 50);
+        map.insert("C", 100);
+        map.insert("D", 500);
+        map.insert("M", 1000);
 
         let mut sum = 0;
-        for c in target.chars() {
-            sum += map[&c]
+        let len = s.len();
+        let mut i = 0;
+        while i < len {
+            let cur_char = s.get(i..i + 1).unwrap();
+            let cur_val = map[cur_char];
+            if i + 2 <= len {
+                let next_char = s.get(i + 1..i + 2).unwrap();
+                let next_val = map[next_char];
+                if cur_val >= next_val {
+                    sum += cur_val;
+                    i += 1;
+                } else {
+                    sum += (next_val - cur_val);
+                    i += 2;
+                }
+            } else {
+                sum += cur_val;
+                i += 1;
+            }
         }
 
         sum
