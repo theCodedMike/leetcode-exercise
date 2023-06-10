@@ -96,7 +96,7 @@ impl Solution {
                     sum += cur_val;
                     i += 1;
                 } else {
-                    sum += (next_val - cur_val);
+                    sum += next_val - cur_val;
                     i += 2;
                 }
             } else {
