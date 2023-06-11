@@ -32,8 +32,6 @@
 
 #![allow(dead_code)]
 
-use std::ops::Index;
-
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
