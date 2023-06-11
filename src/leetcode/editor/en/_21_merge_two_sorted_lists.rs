@@ -63,36 +63,29 @@ impl Solution {
         mut list1: Option<Box<ListNode>>,
         mut list2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        let mut head = Box::new(ListNode::new(0));
+        let mut head = ListNode::new(0);
         let mut tail = &mut head;
 
-        while list1.is_some() || list2.is_some() {
-            match (list1.as_ref(), list2.as_ref()) {
-                (None, None) => {
-                    // 这种情况应该不会出现, 在while那里有判断
-                }
-                (Some(v1), None) => {
-                    tail.next = Some(Box::new(ListNode::new(v1.val)));
-                    tail = tail.next.as_mut().unwrap();
-                    list1 = list1.unwrap().next;
-                }
-                (None, Some(v2)) => {
-                    tail.next = Some(Box::new(ListNode::new(v2.val)));
-                    tail = tail.next.as_mut().unwrap();
-                    list2 = list2.unwrap().next;
-                }
-                (Some(v1), Some(v2)) => {
-                    if v1.val <= v2.val {
-                        tail.next = Some(Box::new(ListNode::new(v1.val)));
-                        tail = tail.next.as_mut().unwrap();
-                        list1 = list1.unwrap().next;
-                    } else {
-                        tail.next = Some(Box::new(ListNode::new(v2.val)));
-                        tail = tail.next.as_mut().unwrap();
-                        list2 = list2.unwrap().next;
-                    }
-                }
-            }
+        while list1.is_some() && list2.is_some() {
+            let val1 = list1.as_ref().unwrap().val;
+            let val2 = list2.as_ref().unwrap().val;
+
+            let small = if val1 <= val2 {
+                list1 = list1.take().unwrap().next;
+                val1
+            } else {
+                list2 = list2.take().unwrap().next;
+                val2
+            };
+
+            tail.next = Some(Box::new(ListNode::new(small)));
+            tail = tail.next.as_mut().unwrap();
+        }
+
+        if list1.is_none() {
+            tail.next = list2;
+        } else {
+            tail.next = list1;
         }
 
         head.next
