@@ -73,13 +73,14 @@ pub struct Solution;
 
 impl Solution {
     pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-        let mut count = 1;
+        let mut count = 1; // 非重复数字的个数
         let mut len = nums.len();
 
         for i in 1..len {
             if nums[i] != nums[i - 1] {
                 count += 1;
                 if i != count - 1 {
+                    // 这里表明当前值之前肯定有重复的元素，向前移位
                     nums[count - 1] = nums[i];
                 }
             }
