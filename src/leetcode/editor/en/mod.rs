@@ -5,6 +5,7 @@ mod _20_valid_parentheses;
 mod _21_merge_two_sorted_lists;
 mod _26_remove_duplicates_from_sorted_array;
 mod _27_remove_element;
+mod _28_find_the_index_of_the_first_occurrence_in_a_string;
 mod _2_add_two_numbers;
 mod _3_longest_substring_without_repeating_characters;
 mod _9_palindrome_number;

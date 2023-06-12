@@ -74,7 +74,7 @@ pub struct Solution;
 impl Solution {
     pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
         let mut count = 1; // 非重复数字的个数
-        let mut len = nums.len();
+        let len = nums.len();
 
         for i in 1..len {
             if nums[i] != nums[i - 1] {
