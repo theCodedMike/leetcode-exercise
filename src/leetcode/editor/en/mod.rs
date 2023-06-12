@@ -4,6 +4,7 @@ mod _1_two_sum;
 mod _20_valid_parentheses;
 mod _21_merge_two_sorted_lists;
 mod _26_remove_duplicates_from_sorted_array;
+mod _27_remove_element;
 mod _2_add_two_numbers;
 mod _3_longest_substring_without_repeating_characters;
 mod _9_palindrome_number;
