@@ -75,20 +75,19 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-        let mut count = 0;
+        let mut count = 0; // 不等于val的元素个数
         let len = nums.len();
 
         for i in 0..len {
-            if nums[i] == val {
+            if nums[i] != val {
                 count += 1;
-            } else {
-                if count > 0 {
-                    nums[i - count] = nums[i];
+                if i != count - 1 {
+                    nums[count - 1] = nums[i];
                 }
             }
         }
 
-        (len - count) as i32
+        count as i32
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
