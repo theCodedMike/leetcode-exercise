@@ -36,19 +36,10 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn str_str(haystack: String, needle: String) -> i32 {
-        let len = haystack.len();
-        let sub_len = needle.len();
-
-        let mut i = 0;
-        while i + sub_len <= len {
-            if haystack
-                .get(i..i + sub_len)
-                .filter(|&str| str.eq(&needle))
-                .is_some()
-            {
-                return i as i32;
+        for (idx, val) in haystack.as_bytes().windows(needle.len()).enumerate() {
+            if needle.as_bytes().eq(val) {
+                return idx as i32;
             }
-            i += 1;
         }
 
         -1
