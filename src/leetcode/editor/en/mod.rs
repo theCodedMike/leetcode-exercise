@@ -11,4 +11,5 @@ mod _35_search_insert_position;
 mod _3_longest_substring_without_repeating_characters;
 mod _58_length_of_last_word;
 mod _66_plus_one;
+mod _67_add_binary;
 mod _9_palindrome_number;
