@@ -29,17 +29,11 @@ impl Solution {
     pub fn add_binary(a: String, b: String) -> String {
         let mut result = "".to_string();
         let mut carry = 0;
-        let a_len = a.len();
-        let b_len = b.len();
+        let mut a_stack = a.into_bytes();
+        let mut b_stack = b.into_bytes();
 
-        let (len_diff, len, short, long) = if a_len <= b_len {
-            (b_len - a_len, b_len, a, b)
-        } else {
-            (a_len - b_len, a_len, b, a)
-        };
-
-        for i in (0..len).rev() {
-            let sum = get_digit(&long, i as i32) + get_digit(&short, (i - len_diff) as i32) + carry;
+        while !a_stack.is_empty() || !b_stack.is_empty() {
+            let sum = get_digit(a_stack.as_mut()) + get_digit(b_stack.as_mut()) + carry;
             carry = sum / 2;
             result.insert_str(0, (sum % 2).to_string().as_str());
         }
@@ -52,15 +46,11 @@ impl Solution {
     }
 }
 
-fn get_digit(str: &str, idx: i32) -> usize {
-    if idx < 0 {
-        return 0;
-    }
-
-    match str.get(idx as usize..idx as usize + 1) {
+fn get_digit(stack: &mut Vec<u8>) -> usize {
+    match stack.pop() {
         None => 0,
         Some(x) => match x {
-            "0" => 0,
+            48 => 0,
             _ => 1,
         },
     }
