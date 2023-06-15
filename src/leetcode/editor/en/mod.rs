@@ -13,4 +13,5 @@ mod _58_length_of_last_word;
 mod _66_plus_one;
 mod _67_add_binary;
 mod _69_sqrt_x;
+mod _70_climbing_stairs;
 mod _9_palindrome_number;
