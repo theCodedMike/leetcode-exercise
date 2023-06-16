@@ -35,6 +35,7 @@
 // Related Topics Math Binary Search 👍 6564 👎 4095
 
 #![allow(dead_code)]
+#![allow(unused_assignments)]
 
 /// 解决方案1: 从n=1开始迭代，判断n^2<=x，n每次递增1
 /// 解决方案2: 使用二分搜索，low = 1，high = x / 2

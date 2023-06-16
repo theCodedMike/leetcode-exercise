@@ -41,8 +41,8 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn climb_stairs(n: i32) -> i32 {
-        /// 超时了，后续优化
-        /// todo
+        // 超时了，后续优化
+        // todo
         count_of_ways(n)
     }
 }
