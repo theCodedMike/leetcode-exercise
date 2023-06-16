@@ -1,1 +1,1 @@
-mod editor;
+pub mod editor;

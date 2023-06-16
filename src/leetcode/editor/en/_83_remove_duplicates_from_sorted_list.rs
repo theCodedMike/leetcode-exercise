@@ -40,33 +40,37 @@ pub struct ListNode {
 
 impl ListNode {
     #[inline]
-    fn new(val: i32) -> Self {
-        ListNode { next: None, val }
+    pub fn new(val: i32, next: Option<Box<ListNode>>) -> Self {
+        ListNode { val, next }
     }
 }
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn delete_duplicates(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        if head.is_none() {
-            return None;
-        }
+        let mut spider = head.as_mut();
 
-        let mut dummy = ListNode::new(i32::MIN);
-        let mut tail = &mut dummy;
+        while let Some(curr) = spider.take() {
+            let curr_val = curr.val;
 
-        while let Some(curr) = head {
-            let val = curr.val;
-
-            if tail.val != val {
-                tail.next = Some(Box::new(ListNode::new(val)));
-                tail = tail.next.as_mut().unwrap();
+            if curr.next.is_none() {
+                break;
             }
 
-            head = curr.next;
+            curr.next.take().map(|next| {
+                let next_val = next.val;
+
+                if curr_val == next_val {
+                    curr.next = next.next;
+                    spider = Some(curr);
+                } else {
+                    curr.next = Some(next);
+                    spider = curr.next.as_mut();
+                }
+            });
         }
 
-        dummy.next
+        head
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
