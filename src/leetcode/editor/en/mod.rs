@@ -15,4 +15,5 @@ pub mod _67_add_binary;
 pub mod _69_sqrt_x;
 pub mod _70_climbing_stairs;
 pub mod _83_remove_duplicates_from_sorted_list;
+pub mod _88_merge_sorted_array;
 pub mod _9_palindrome_number;

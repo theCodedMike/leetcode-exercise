@@ -2,6 +2,7 @@ use leetcode_exercise::leetcode::editor::en::_83_remove_duplicates_from_sorted_l
     ListNode, Solution,
 };
 
+/// cargo test -- --show-output remove_duplicates_from_sorted_list
 #[test]
 fn remove_duplicates_from_sorted_list() {
     //let _3_node = ListNode::new(3, None);
