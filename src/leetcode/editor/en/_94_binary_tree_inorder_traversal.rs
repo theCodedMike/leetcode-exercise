@@ -37,6 +37,7 @@
 // Related Topics Stack Tree Depth-First Search Binary Tree 👍 11638 👎 595
 
 #![allow(dead_code)]
+#![allow(unused_variables)]
 
 pub struct Solution;
 
@@ -65,7 +66,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        let mut res = vec![];
+        let res = vec![];
 
         match root {
             None => {}
