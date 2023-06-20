@@ -12,6 +12,7 @@ pub mod _35_search_insert_position;
 pub mod _3_longest_substring_without_repeating_characters;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _58_length_of_last_word;
+pub mod _5_longest_palindromic_substring;
 pub mod _66_plus_one;
 pub mod _67_add_binary;
 pub mod _69_sqrt_x;
