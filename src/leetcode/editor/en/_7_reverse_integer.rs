@@ -45,29 +45,29 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn reverse(mut x: i32) -> i32 {
-        let mut res;
-        if x < 0 {
-            if x == i32::MIN {
-                return 0;
-            }
-            x = x.abs();
-            res = "-".to_string();
-        } else {
-            res = "".to_string();
-        }
+        let mut res = 0_i64;
+        let mut temp = 0_i64;
+        let i32_max = i32::MAX as i64;
+        let i32_min = i32::MIN as i64;
 
-        while x > 0 {
+        while x != 0 {
             let rem = x % 10;
 
-            res += rem.to_string().as_str();
+            temp = res * 10 + rem as i64;
+            if x > 0 && temp > i32_max {
+                res = 0;
+                break;
+            } else if x < 0 && temp < i32_min {
+                res = 0;
+                break;
+            } else {
+                res = temp;
+            }
 
             x /= 10;
         }
 
-        match res.parse::<i32>() {
-            Ok(val) => val,
-            Err(_) => 0,
-        }
+        res as i32
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
