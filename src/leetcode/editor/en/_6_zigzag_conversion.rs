@@ -56,13 +56,14 @@
 // Related Topics String 👍 6282 👎 12488
 
 #![allow(dead_code)]
+#![allow(unused)]
 
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn convert(s: String, num_rows: i32) -> String {
-        "".to_string()
+        todo!();
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
