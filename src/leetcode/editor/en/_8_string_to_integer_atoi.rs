@@ -103,8 +103,8 @@ pub struct Solution;
 /// 测试用例: "00000-42a1234"
 /// 期望结果: 0
 ///
-/// 测试用例:"   +0 123"
-/// 期望结果:0
+/// 测试用例: "   +0 123"
+/// 期望结果: 0
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn my_atoi(s: String) -> i32 {
