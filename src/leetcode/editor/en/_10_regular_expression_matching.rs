@@ -49,6 +49,8 @@
 // Related Topics String Dynamic Programming Recursion 👍 10820 👎 1777
 
 #![allow(dead_code)]
+#![allow(unreachable_code)]
+#![allow(unused)]
 
 pub struct Solution;
 

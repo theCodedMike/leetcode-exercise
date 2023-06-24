@@ -38,22 +38,19 @@
 
 #![allow(dead_code)]
 
-use std::num::ParseIntError;
-
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn reverse(mut x: i32) -> i32 {
         let mut res = 0_i64;
-        let mut temp = 0_i64;
         let i32_max = i32::MAX as i64;
         let i32_min = i32::MIN as i64;
 
         while x != 0 {
             let rem = x % 10;
 
-            temp = res * 10 + rem as i64;
+            let temp = res * 10 + rem as i64;
             if x > 0 && temp > i32_max {
                 res = 0;
                 break;

@@ -109,7 +109,6 @@ pub struct Solution;
 impl Solution {
     pub fn my_atoi(s: String) -> i32 {
         let mut res = 0_i64;
-        let mut temp = 0_i64;
         let i32_max = i32::MAX as i64;
         let mut positive = true; // 正数或负数
         let mut sign_count = 0; //'+'/'-'符号的个数，只能有1个
@@ -144,7 +143,7 @@ impl Solution {
                     '0'..='9' => {
                         detect_digit = true;
 
-                        temp = res * 10 + convert_char_to_digit(x);
+                        let temp = res * 10 + convert_char_to_digit(x);
 
                         if positive && temp > i32_max {
                             res = i32_max;
@@ -165,7 +164,7 @@ impl Solution {
         }
 
         if !positive {
-            res = (0 - res);
+            res = 0 - res;
         }
 
         res as i32

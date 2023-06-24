@@ -39,6 +39,7 @@
 // Related Topics Array Two Pointers Greedy 👍 24784 👎 1328
 
 #![allow(dead_code)]
+#![allow(unused_assignments)]
 
 pub struct Solution;
 
