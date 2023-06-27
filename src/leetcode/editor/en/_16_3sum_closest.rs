@@ -40,10 +40,9 @@ pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
-    pub fn three_sum_closest(mut nums: Vec<i32>, target: i32) -> i32 {
+    pub fn three_sum_closest(nums: Vec<i32>, target: i32) -> i32 {
         let len = nums.len();
         let mut sums = Vec::new();
-        let mut res = i32::MIN;
 
         for i in 0..len {
             for j in i + 1..len {
@@ -73,9 +72,8 @@ impl Solution {
                 idx
             }
         };
-        res = sums[idx];
 
-        res
+        sums[idx]
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
