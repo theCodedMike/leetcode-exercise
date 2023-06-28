@@ -42,12 +42,9 @@
 // -10⁵ <= nums[i] <= 10⁵
 //
 //
-// Related Topics Array Two Pointers Sorting 👍 26398 👎 2377
+// Related Topics Array Two Pointers Sorting 👍 26479 👎 2382
 
 #![allow(dead_code)]
-
-// 测试用例:[0,0,0,0]
-// 期望结果:[[0,0,0]]
 
 pub struct Solution;
 

@@ -4,7 +4,7 @@ pub mod _11_container_with_most_water;
 pub mod _12_integer_to_roman;
 pub mod _13_roman_to_integer;
 pub mod _14_longest_common_prefix;
-pub mod _15_3sum;
+pub mod _15_3_sum;
 pub mod _16_3sum_closest;
 pub mod _17_letter_combinations_of_a_phone_number;
 pub mod _18_4_sum;
