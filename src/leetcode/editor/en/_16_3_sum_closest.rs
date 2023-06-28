@@ -31,11 +31,10 @@
 // -10⁴ <= target <= 10⁴
 //
 //
-// Related Topics Array Two Pointers Sorting 👍 9336 👎 484
+// Related Topics Array Two Pointers Sorting 👍 9352 👎 484
 
 #![allow(dead_code)]
 
-// Time Limit Exceeded
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
