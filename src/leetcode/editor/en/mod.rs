@@ -13,6 +13,7 @@ pub mod _1_two_sum;
 pub mod _20_valid_parentheses;
 pub mod _21_merge_two_sorted_lists;
 pub mod _22_generate_parentheses;
+pub mod _23_merge_k_sorted_lists;
 pub mod _26_remove_duplicates_from_sorted_array;
 pub mod _27_remove_element;
 pub mod _28_find_the_index_of_the_first_occurrence_in_a_string;
