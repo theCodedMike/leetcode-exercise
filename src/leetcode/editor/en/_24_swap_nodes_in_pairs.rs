@@ -55,24 +55,31 @@ impl ListNode {
 //leetcode submit region begin(Prohibit modification and deletion)
 
 impl Solution {
-    pub fn swap_pairs(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut p = head.as_mut();
-
-        while let Some(p_node) = p {
-            if p_node.next.is_none() {
+    pub fn swap_pairs(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut dummy = ListNode::new(0);
+        dummy.next = head;
+        let mut p = &mut dummy;
+        loop {
+            if p.next.is_none() {
                 break;
             }
 
-            let p_next = p_node.next.as_mut().unwrap();
+            if p.next.as_ref().unwrap().next.is_none() {
+                break;
+            }
 
-            let temp = p_node.val;
-            p_node.val = p_next.val;
-            p_next.val = temp;
+            p.next.take().map(|mut cur| {
+                cur.next.take().map(|mut cur_next| {
+                    cur.next = cur_next.next;
+                    cur_next.next = Some(cur);
+                    p.next = Some(cur_next);
+                })
+            });
 
-            p = p_next.next.as_mut();
+            p = p.next.as_mut().unwrap().next.as_mut().unwrap();
         }
 
-        head
+        dummy.next
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
