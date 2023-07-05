@@ -21,6 +21,7 @@ pub mod _27_remove_element;
 pub mod _28_find_the_index_of_the_first_occurrence_in_a_string;
 pub mod _29_divide_two_integers;
 pub mod _2_add_two_numbers;
+pub mod _30_substring_with_concatenation_of_all_words;
 pub mod _35_search_insert_position;
 pub mod _3_longest_substring_without_repeating_characters;
 pub mod _4_median_of_two_sorted_arrays;
