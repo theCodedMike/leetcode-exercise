@@ -25,6 +25,7 @@ pub mod _30_substring_with_concatenation_of_all_words;
 pub mod _31_next_permutation;
 pub mod _32_longest_valid_parentheses;
 pub mod _33_search_in_rotated_sorted_array;
+pub mod _34_find_first_and_last_position_of_element_in_sorted_array;
 pub mod _35_search_insert_position;
 pub mod _3_longest_substring_without_repeating_characters;
 pub mod _4_median_of_two_sorted_arrays;

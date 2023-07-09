@@ -57,9 +57,9 @@ impl Solution {
             } else {
                 let m_idx = (l_idx + r_idx) / 2;
                 if target > nums[m_idx as usize] {
-                    l_idx += 1;
+                    l_idx = m_idx + 1;
                 } else if target < nums[m_idx as usize] {
-                    r_idx -= 1;
+                    r_idx = m_idx - 1;
                 } else {
                     return m_idx;
                 }
