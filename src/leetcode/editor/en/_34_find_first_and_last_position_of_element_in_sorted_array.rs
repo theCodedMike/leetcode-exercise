@@ -46,34 +46,34 @@ pub struct Solution;
 impl Solution {
     pub fn search_range(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let mut res = vec![-1, -1];
-        let len = nums.len() as i32;
-        let mut l_idx = 0_i32;
-        let mut r_idx = len - 1;
+        let len = nums.len();
+        let mut l_idx = 0;
+        let mut r_idx = len;
 
-        while l_idx <= r_idx {
+        while l_idx < r_idx {
             let m_idx = (l_idx + r_idx) / 2;
-            if target < nums[m_idx as usize] {
-                r_idx = m_idx - 1;
-            } else if target > nums[m_idx as usize] {
+            if target < nums[m_idx] {
+                r_idx = m_idx;
+            } else if target > nums[m_idx] {
                 l_idx = m_idx + 1;
             } else {
                 l_idx = m_idx;
                 r_idx = m_idx;
                 loop {
-                    if l_idx >= 0 && nums[l_idx as usize] == target {
+                    if l_idx > 0 && nums[l_idx - 1] == target {
                         l_idx -= 1;
                     }
-                    if r_idx < len && nums[r_idx as usize] == target {
+                    if r_idx < len - 1 && nums[r_idx + 1] == target {
                         r_idx += 1;
                     }
-                    if (l_idx < 0 || nums[l_idx as usize] != target)
-                        && (r_idx == len || nums[r_idx as usize] != target)
+                    if (l_idx <= 0 || nums[l_idx - 1] != target)
+                        && (r_idx >= len - 1 || nums[r_idx + 1] != target)
                     {
                         break;
                     }
                 }
-                res[0] = l_idx + 1;
-                res[1] = r_idx - 1;
+                res[0] = l_idx as i32;
+                res[1] = r_idx as i32;
                 break;
             }
         }

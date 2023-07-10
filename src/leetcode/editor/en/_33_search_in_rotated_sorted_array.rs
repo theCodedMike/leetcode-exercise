@@ -46,22 +46,22 @@ pub struct Solution;
 impl Solution {
     pub fn search(nums: Vec<i32>, target: i32) -> i32 {
         let mut l_idx = 0;
-        let mut r_idx = (nums.len() - 1) as i32;
+        let mut r_idx = nums.len();
 
-        while l_idx <= r_idx {
-            if nums[l_idx as usize] > nums[r_idx as usize] {
-                if nums[r_idx as usize] == target {
-                    return r_idx;
+        while l_idx < r_idx {
+            if nums[l_idx] > nums[r_idx - 1] {
+                if nums[r_idx - 1] == target {
+                    return r_idx as i32 - 1;
                 }
                 r_idx -= 1;
             } else {
                 let m_idx = (l_idx + r_idx) / 2;
-                if target > nums[m_idx as usize] {
+                if target > nums[m_idx] {
                     l_idx = m_idx + 1;
-                } else if target < nums[m_idx as usize] {
-                    r_idx = m_idx - 1;
+                } else if target < nums[m_idx] {
+                    r_idx = m_idx;
                 } else {
-                    return m_idx;
+                    return m_idx as i32;
                 }
             }
         }
