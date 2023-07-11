@@ -49,7 +49,7 @@ pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
-    pub fn solve_sudoku(board: &mut Vec<Vec<char>>) {
+    pub fn solve_sudoku(_board: &mut Vec<Vec<char>>) {
         // todo!
     }
 }
