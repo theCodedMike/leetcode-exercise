@@ -55,7 +55,7 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn combination_sum(_candidates: Vec<i32>, _target: i32) -> Vec<Vec<i32>> {
-        let mut res = vec![];
+        let res = vec![];
         // todo!
         res
     }
