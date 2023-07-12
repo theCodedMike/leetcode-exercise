@@ -32,6 +32,7 @@ pub mod _37_sudoku_solver;
 pub mod _38_count_and_say;
 pub mod _39_combination_sum;
 pub mod _3_longest_substring_without_repeating_characters;
+pub mod _40_combination_sum_i_i;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _58_length_of_last_word;
 pub mod _5_longest_palindromic_substring;
