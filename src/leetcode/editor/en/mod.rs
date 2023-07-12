@@ -30,6 +30,7 @@ pub mod _35_search_insert_position;
 pub mod _36_valid_sudoku;
 pub mod _37_sudoku_solver;
 pub mod _38_count_and_say;
+pub mod _39_combination_sum;
 pub mod _3_longest_substring_without_repeating_characters;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _58_length_of_last_word;
