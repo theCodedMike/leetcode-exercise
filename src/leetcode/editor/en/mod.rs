@@ -35,6 +35,7 @@ pub mod _3_longest_substring_without_repeating_characters;
 pub mod _40_combination_sum_i_i;
 pub mod _41_first_missing_positive;
 pub mod _42_trapping_rain_water;
+pub mod _43_multiply_strings;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _58_length_of_last_word;
 pub mod _5_longest_palindromic_substring;

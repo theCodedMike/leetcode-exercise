@@ -76,17 +76,20 @@ impl Solution {
                 if c == prev {
                     count += 1;
                 } else {
-                    digit_str.push_str(count.to_string().as_str());
-                    digit_str.push(prev);
+                    Solution::push_str(&mut digit_str, count, prev);
                     prev = c;
                     count = 1;
                 }
             }
         }
-        digit_str.push_str(count.to_string().as_str());
-        digit_str.push(prev);
+        Solution::push_str(&mut digit_str, count, prev);
 
         digit_str
+    }
+
+    fn push_str(digit_str: &mut String, count: i32, prev: char) {
+        digit_str.push_str(count.to_string().as_str());
+        digit_str.push(prev);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
