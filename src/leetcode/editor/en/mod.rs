@@ -40,6 +40,7 @@ pub mod _44_wildcard_matching;
 pub mod _45_jump_game_i_i;
 pub mod _46_permutations;
 pub mod _47_permutations_i_i;
+pub mod _48_rotate_image;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _58_length_of_last_word;
 pub mod _5_longest_palindromic_substring;
