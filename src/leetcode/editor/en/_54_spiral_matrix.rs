@@ -34,62 +34,65 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
-        let mut rows = matrix.len();
-        let mut cols = matrix[0].len();
+        let row_len = matrix.len();
+        let col_len = matrix[0].len();
+        let mut res = Vec::with_capacity(row_len * col_len);
 
-        let mut res = Vec::with_capacity(rows * cols);
-
-        let iter_count = (std::cmp::min(rows, cols) as f64 / 2.0).ceil() as usize;
+        let iter_count = (std::cmp::min(row_len, col_len) as f64 / 2.0).ceil() as usize;
+        let mut rows = row_len;
+        let mut cols = col_len;
         for i in 0..iter_count {
             Solution::outer_iter(&matrix, rows, cols, i, i, &mut res);
             if rows <= 2 || cols <= 2 {
+                if rows == 1 && cols == 1 {
+                    res.push(matrix[i][i]);
+                }
                 break;
             }
             rows -= 2;
             cols -= 2;
         }
 
+        // 之所以resize，是因为对于下面这种类型，push顺序为 7->9->6->9, 9被push了2次，所以需要resize
+        // [[7]
+        // ,[9]
+        // ,[6]]
+        res.resize(row_len * col_len, 0);
+
         res
     }
 
+    /// 遍历最外层
     fn outer_iter(
         matrix: &Vec<Vec<i32>>,
         rows: usize,
         cols: usize,
-        mut begin_x: usize,
-        mut begin_y: usize,
+        mut x: usize,
+        mut y: usize,
         res: &mut Vec<i32>,
     ) {
         // 左 -> 右
-        for y in 0..cols {
-            res.push(matrix[begin_x][begin_y + y]);
+        for _ in 1..cols {
+            res.push(matrix[x][y]);
+            y += 1;
         }
-        begin_y += cols - 1;
 
         // 上 -> 下
-        begin_x += 1;
-        if rows < 2 {
-            return;
+        for _ in 1..rows {
+            res.push(matrix[x][y]);
+            x += 1;
         }
-        for x in 0..(rows - 2) {
-            res.push(matrix[begin_x + x][begin_y]);
-        }
-        begin_x += rows - 3;
 
         // 右 -> 左
-        begin_x += 1;
-        for y in 0..cols {
-            res.push(matrix[begin_x][begin_y - y]);
+        for _ in 1..cols {
+            res.push(matrix[x][y]);
+            y -= 1;
         }
-        begin_y -= cols - 1;
 
         // 下 -> 上
-        begin_x -= 1;
-        if cols <= 1 {
-            return;
-        }
-        for x in 0..(rows - 2) {
-            res.push(matrix[begin_x - x][begin_y]);
+        for _ in 1..rows {
+            res.push(matrix[x][y]);
+            x -= 1;
         }
     }
 }
