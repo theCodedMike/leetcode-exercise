@@ -45,6 +45,7 @@ pub mod _49_group_anagrams;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _50_pow_x_n;
 pub mod _53_maximum_subarray;
+pub mod _54_spiral_matrix;
 pub mod _58_length_of_last_word;
 pub mod _5_longest_palindromic_substring;
 pub mod _66_plus_one;
