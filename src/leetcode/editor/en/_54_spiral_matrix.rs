@@ -45,6 +45,7 @@ impl Solution {
             Solution::outer_iter(&matrix, rows, cols, i, i, &mut res);
             if rows <= 2 || cols <= 2 {
                 if rows == 1 && cols == 1 {
+                    // 对于 1 x 1 的矩阵(即1个元素)，outer_iter无法处理，所以直接push
                     res.push(matrix[i][i]);
                 }
                 break;
