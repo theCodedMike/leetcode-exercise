@@ -42,22 +42,28 @@ impl Solution {
     pub fn merge(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         intervals.sort_unstable();
 
-        let mut min = intervals[0][0];
-        let mut max = intervals[0][1];
+        let mut min = i32::MAX;
+        let mut max = i32::MIN;
         let mut res = vec![];
 
-        for i in 1..intervals.len() {
-            if intervals[i][0] > max {
-                // 没有交集
-                res.push(vec![min, max]);
-                min = intervals[i][0];
-                max = intervals[i][1];
-            } else {
-                // 有交集，则更新max
-                max = std::cmp::max(max, intervals[i][1]);
+        let mut iter = intervals.iter().peekable();
+        while let Some(curr) = iter.next() {
+            min = std::cmp::min(min, curr[0]);
+            max = std::cmp::max(max, curr[1]);
+            match iter.peek() {
+                None => {
+                    res.push(vec![min, max]);
+                }
+                Some(next) => {
+                    if next[0] > max {
+                        // 无交集
+                        res.push(vec![min, max]);
+                        min = i32::MAX;
+                        max = i32::MIN;
+                    }
+                }
             }
         }
-        res.push(vec![min, max]);
 
         res
     }
