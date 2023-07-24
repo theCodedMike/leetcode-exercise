@@ -48,6 +48,7 @@ pub mod _53_maximum_subarray;
 pub mod _54_spiral_matrix;
 pub mod _55_jump_game;
 pub mod _56_merge_intervals;
+pub mod _57_insert_interval;
 pub mod _58_length_of_last_word;
 pub mod _5_longest_palindromic_substring;
 pub mod _66_plus_one;
