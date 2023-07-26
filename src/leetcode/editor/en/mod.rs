@@ -52,6 +52,7 @@ pub mod _57_insert_interval;
 pub mod _58_length_of_last_word;
 pub mod _59_spiral_matrix_i_i;
 pub mod _5_longest_palindromic_substring;
+pub mod _60_permutation_sequence;
 pub mod _66_plus_one;
 pub mod _67_add_binary;
 pub mod _69_sqrt_x;
