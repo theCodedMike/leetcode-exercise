@@ -48,11 +48,11 @@ impl Solution {
         let mut ori = (1..=n).map(|i| i.to_string()).collect::<Vec<_>>();
 
         for i in (1..=n).rev() {
-            let sub = (1..i).product::<i32>();
+            let fact = (1..i).product::<i32>();
             for j in 1..=i {
-                if j * sub >= k {
+                if j * fact >= k {
                     res.push_str(&ori.remove(j as usize - 1));
-                    k -= (j - 1) * sub;
+                    k -= (j - 1) * fact;
                     break;
                 }
             }
