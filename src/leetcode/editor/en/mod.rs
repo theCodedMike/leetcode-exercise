@@ -56,6 +56,7 @@ pub mod _60_permutation_sequence;
 pub mod _61_rotate_list;
 pub mod _62_unique_paths;
 pub mod _64_minimum_path_sum;
+pub mod _65_valid_number;
 pub mod _66_plus_one;
 pub mod _67_add_binary;
 pub mod _69_sqrt_x;
