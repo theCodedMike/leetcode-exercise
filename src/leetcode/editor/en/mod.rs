@@ -59,6 +59,7 @@ pub mod _64_minimum_path_sum;
 pub mod _65_valid_number;
 pub mod _66_plus_one;
 pub mod _67_add_binary;
+pub mod _68_text_justification;
 pub mod _69_sqrt_x;
 pub mod _6_zigzag_conversion;
 pub mod _70_climbing_stairs;
