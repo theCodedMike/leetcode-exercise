@@ -64,6 +64,7 @@ pub mod _69_sqrt_x;
 pub mod _6_zigzag_conversion;
 pub mod _70_climbing_stairs;
 pub mod _71_simplify_path;
+pub mod _72_edit_distance;
 pub mod _7_reverse_integer;
 pub mod _83_remove_duplicates_from_sorted_list;
 pub mod _88_merge_sorted_array;
