@@ -40,6 +40,7 @@
 // Related Topics Array Binary Search Matrix 👍 13179 👎 364
 
 #![allow(dead_code)]
+#![allow(unused_assignments)]
 
 pub struct Solution;
 
