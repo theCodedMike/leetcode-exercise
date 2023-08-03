@@ -68,6 +68,7 @@ pub mod _72_edit_distance;
 pub mod _73_set_matrix_zeroes;
 pub mod _74_search_a_2_d_matrix;
 pub mod _75_sort_colors;
+pub mod _76_minimum_window_substring;
 pub mod _7_reverse_integer;
 pub mod _83_remove_duplicates_from_sorted_list;
 pub mod _88_merge_sorted_array;
