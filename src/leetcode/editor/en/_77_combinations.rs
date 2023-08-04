@@ -39,6 +39,7 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn combine(n: i32, k: i32) -> Vec<Vec<i32>> {
+        // todo!
         vec![vec![n; 0]; k as usize]
     }
 }
