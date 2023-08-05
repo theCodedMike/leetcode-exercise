@@ -74,6 +74,7 @@ pub mod _78_subsets;
 pub mod _79_word_search;
 pub mod _7_reverse_integer;
 pub mod _80_remove_duplicates_from_sorted_array_i_i;
+pub mod _81_search_in_rotated_sorted_array_i_i;
 pub mod _83_remove_duplicates_from_sorted_list;
 pub mod _88_merge_sorted_array;
 pub mod _8_string_to_integer_atoi;
