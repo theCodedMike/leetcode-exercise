@@ -49,12 +49,11 @@ impl ListNode {
 //leetcode submit region begin(Prohibit modification and deletion)
 
 impl Solution {
-    pub fn delete_duplicates(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+    pub fn delete_duplicates(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         let mut dummy = ListNode::new(0);
         let mut p = &mut dummy;
 
         let mut duplicate = false;
-        let mut head = head.as_ref();
         while let Some(curr) = head {
             if let Some(next) = curr.next.as_ref() {
                 if curr.val == next.val {
@@ -72,7 +71,7 @@ impl Solution {
                     p.next = Some(Box::new(ListNode::new(curr.val)));
                 }
             }
-            head = curr.next.as_ref();
+            head = curr.next;
         }
 
         dummy.next
