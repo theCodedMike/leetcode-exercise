@@ -82,6 +82,7 @@ pub mod _85_maximal_rectangle;
 pub mod _86_partition_list;
 pub mod _87_scramble_string;
 pub mod _88_merge_sorted_array;
+pub mod _89_gray_code;
 pub mod _8_string_to_integer_atoi;
 pub mod _94_binary_tree_inorder_traversal;
 pub mod _9_palindrome_number;
