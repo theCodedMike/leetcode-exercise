@@ -67,18 +67,18 @@ use std::rc::Rc;
 impl Solution {
     pub fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut res = vec![];
-        Solution::helper(&root, &mut res);
+        Solution::recursive_helper(&root, &mut res);
         res
     }
 
-    fn helper(node: &Option<Rc<RefCell<TreeNode>>>, vec: &mut Vec<i32>) {
+    fn recursive_helper(node: &Option<Rc<RefCell<TreeNode>>>, vec: &mut Vec<i32>) {
         match node {
             None => {}
             Some(curr) => {
                 let x = curr.borrow();
-                Solution::helper(&x.left, vec);
+                Solution::recursive_helper(&x.left, vec);
                 vec.push(x.val);
-                Solution::helper(&x.right, vec);
+                Solution::recursive_helper(&x.right, vec);
             }
         }
     }
