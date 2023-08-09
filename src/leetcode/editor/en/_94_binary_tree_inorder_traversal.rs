@@ -67,20 +67,22 @@ use std::rc::Rc;
 impl Solution {
     pub fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut res = vec![];
-        Solution::recursive_helper(&root, &mut res);
-        res
-    }
+        let mut stack = vec![];
+        let mut curr = root;
 
-    fn recursive_helper(node: &Option<Rc<RefCell<TreeNode>>>, vec: &mut Vec<i32>) {
-        match node {
-            None => {}
-            Some(curr) => {
-                let x = curr.borrow();
-                Solution::recursive_helper(&x.left, vec);
-                vec.push(x.val);
-                Solution::recursive_helper(&x.right, vec);
+        while curr.is_some() || !stack.is_empty() {
+            while let Some(node) = curr {
+                curr = node.borrow_mut().left.take();
+                stack.push(node);
+            }
+
+            if let Some(node) = stack.pop() {
+                res.push(node.borrow_mut().val);
+                curr = node.borrow_mut().right.take();
             }
         }
+
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
