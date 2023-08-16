@@ -66,6 +66,43 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn recover_tree(root: &mut Option<Rc<RefCell<TreeNode>>>) {
+        let use_recursive = true;
+        if use_recursive {
+            let mut prev = None;
+            let mut two = (None, None);
+            Self::recursive_helper(&root, &mut two, &mut prev);
+            if let (Some(left), Some(right)) = two {
+                std::mem::swap(&mut left.borrow_mut().val, &mut right.borrow_mut().val);
+            }
+        } else {
+            Self::loop_helper(root);
+        }
+    }
+
+    fn recursive_helper(
+        root: &Option<Rc<RefCell<TreeNode>>>,
+        two: &mut (Option<Rc<RefCell<TreeNode>>>, Option<Rc<RefCell<TreeNode>>>),
+        prev: &mut Option<Rc<RefCell<TreeNode>>>,
+    ) {
+        if let Some(curr) = root {
+            let node = curr.borrow();
+            Self::recursive_helper(&node.left, two, prev);
+
+            if let Some(p) = prev {
+                if p.borrow().val > node.val {
+                    if two.0.is_none() {
+                        two.0 = prev.clone();
+                    }
+                    two.1 = root.clone();
+                }
+            }
+            *prev = root.clone();
+
+            Self::recursive_helper(&node.right, two, prev);
+        }
+    }
+
+    fn loop_helper(root: &mut Option<Rc<RefCell<TreeNode>>>) {
         let mut stack = vec![];
         let mut cur = root.clone();
         let mut left = None;
