@@ -62,6 +62,7 @@ pub mod _67_add_binary;
 pub mod _68_text_justification;
 pub mod _69_sqrt_x;
 pub mod _6_zigzag_conversion;
+pub mod _704_binary_search;
 pub mod _70_climbing_stairs;
 pub mod _71_simplify_path;
 pub mod _72_edit_distance;
