@@ -64,12 +64,118 @@ impl TreeNode {
 //leetcode submit region begin(Prohibit modification and deletion)
 
 use std::cell::RefCell;
+use std::collections::VecDeque;
 use std::rc::Rc;
 impl Solution {
     pub fn is_same_tree(
         p: Option<Rc<RefCell<TreeNode>>>,
         q: Option<Rc<RefCell<TreeNode>>>,
     ) -> bool {
+        let use_recursion = false;
+        if use_recursion {
+            Self::recursion_preorder_helper(p, q)
+        } else {
+            //Self::iteration_preorder_helper(p, q)
+            Self::iteration_level_order_helper(p, q)
+        }
+    }
+
+    fn recursion_preorder_helper(
+        p_node: Option<Rc<RefCell<TreeNode>>>,
+        q_node: Option<Rc<RefCell<TreeNode>>>,
+    ) -> bool {
+        match (p_node, q_node) {
+            (Some(p), Some(q)) => {
+                let p_val = p.borrow().val;
+                let q_val = q.borrow().val;
+                if p_val != q_val {
+                    return false;
+                }
+
+                Self::recursion_preorder_helper(p.borrow().left.clone(), q.borrow().left.clone())
+                    && Self::recursion_preorder_helper(
+                        p.borrow().right.clone(),
+                        q.borrow().right.clone(),
+                    )
+            }
+            (None, None) => true,
+            _ => false,
+        }
+    }
+
+    fn iteration_preorder_helper(
+        mut p_node: Option<Rc<RefCell<TreeNode>>>,
+        mut q_node: Option<Rc<RefCell<TreeNode>>>,
+    ) -> bool {
+        let mut stack = vec![];
+
+        while (p_node.is_some() && q_node.is_some()) || !stack.is_empty() {
+            loop {
+                match (p_node.clone(), q_node.clone()) {
+                    (Some(p), Some(q)) => {
+                        let p_val = p.borrow().val;
+                        let q_val = q.borrow().val;
+                        if p_val != q_val {
+                            return false;
+                        }
+                        stack.push((p.clone(), q.clone()));
+                        p_node = p.borrow().left.clone();
+                        q_node = q.borrow().left.clone();
+                    }
+                    (None, None) => break,
+                    _ => return false,
+                }
+            }
+
+            if let Some((p, q)) = stack.pop() {
+                p_node = p.borrow().right.clone();
+                q_node = q.borrow().right.clone();
+            }
+        }
+
+        p_node.is_none() && q_node.is_none()
+    }
+
+    fn iteration_level_order_helper(
+        p_node: Option<Rc<RefCell<TreeNode>>>,
+        q_node: Option<Rc<RefCell<TreeNode>>>,
+    ) -> bool {
+        let mut queue = VecDeque::new();
+
+        match (p_node, q_node) {
+            (Some(p), Some(q)) => {
+                queue.push_back((p, q));
+            }
+            (None, None) => return true,
+            _ => return false,
+        }
+
+        while !queue.is_empty() {
+            if let Some((p, q)) = queue.pop_front() {
+                let p_val = p.borrow().val;
+                let q_val = q.borrow().val;
+                if p_val != q_val {
+                    return false;
+                }
+
+                match (p.borrow().left.clone(), q.borrow().left.clone()) {
+                    (Some(p_left), Some(q_left)) => {
+                        queue.push_back((p_left, q_left));
+                    }
+                    (None, None) => {}
+                    _ => return false,
+                }
+
+                match (p.borrow().right.clone(), q.borrow().right.clone()) {
+                    (Some(p_right), Some(q_right)) => {
+                        queue.push_back((p_right, q_right));
+                    }
+                    (None, None) => {}
+                    _ => return false,
+                }
+            }
+        }
+
         true
     }
 }
