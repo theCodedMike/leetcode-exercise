@@ -65,7 +65,8 @@ use std::rc::Rc;
 impl Solution {
     pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
         //Self::recursion_helper(&preorder, &inorder)
-        Self::iteration_helper(preorder, inorder)
+        //Self::iteration_helper(preorder, inorder)
+        Self::iteration_helper2(preorder, inorder)
     }
 
     fn recursion_helper(preorder: &[i32], inorder: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
@@ -133,6 +134,39 @@ impl Solution {
             curr.borrow_mut().right = Some(right.clone());
             stack.push(right.clone());
             curr = right;
+        }
+
+        Some(root)
+    }
+
+    fn iteration_helper2(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+        let root = Rc::new(RefCell::new(TreeNode::new(preorder[0])));
+        let mut curr = root.clone();
+        let mut stack = vec![root.clone()];
+        let mut in_idx = 0;
+
+        for pre_idx in 1..preorder.len() {
+            let preorder_val = preorder[pre_idx];
+
+            if curr.borrow().val != inorder[in_idx] {
+                let left = Rc::new(RefCell::new(TreeNode::new(preorder_val)));
+                curr.borrow_mut().left = Some(left.clone());
+                stack.push(left.clone());
+                curr = left;
+            } else {
+                while let Some(last) = stack.last() {
+                    if last.borrow().val == inorder[in_idx] {
+                        curr = stack.pop().unwrap();
+                        in_idx += 1;
+                    } else {
+                        break;
+                    }
+                }
+                let right = Rc::new(RefCell::new(TreeNode::new(preorder_val)));
+                curr.borrow_mut().right = Some(right.clone());
+                stack.push(right.clone());
+                curr = right;
+            }
         }
 
         Some(root)
