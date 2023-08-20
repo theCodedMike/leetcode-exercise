@@ -3,6 +3,7 @@ pub mod _101_symmetric_tree;
 pub mod _102_binary_tree_level_order_traversal;
 pub mod _103_binary_tree_zigzag_level_order_traversal;
 pub mod _104_maximum_depth_of_binary_tree;
+pub mod _105_construct_binary_tree_from_preorder_and_inorder_traversal;
 pub mod _10_regular_expression_matching;
 pub mod _11_container_with_most_water;
 pub mod _12_integer_to_roman;
