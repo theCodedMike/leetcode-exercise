@@ -10,6 +10,8 @@ pub mod _108_convert_sorted_array_to_binary_search_tree;
 pub mod _109_convert_sorted_list_to_binary_search_tree;
 pub mod _10_regular_expression_matching;
 pub mod _110_balanced_binary_tree;
+pub mod _111_minimum_depth_of_binary_tree;
+pub mod _112_path_sum;
 pub mod _11_container_with_most_water;
 pub mod _12_integer_to_roman;
 pub mod _13_roman_to_integer;
