@@ -18,6 +18,7 @@ pub mod _115_distinct_subsequences;
 pub mod _116_populating_next_right_pointers_in_each_node;
 pub mod _117_populating_next_right_pointers_in_each_node_i_i;
 pub mod _118_pascal_triangle;
+pub mod _119_pascals_triangle_i_i;
 pub mod _11_container_with_most_water;
 pub mod _12_integer_to_roman;
 pub mod _13_roman_to_integer;
