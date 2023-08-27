@@ -21,6 +21,7 @@ pub mod _118_pascal_triangle;
 pub mod _119_pascals_triangle_i_i;
 pub mod _11_container_with_most_water;
 pub mod _120_triangle;
+pub mod _124_binary_tree_maximum_path_sum;
 pub mod _12_integer_to_roman;
 pub mod _13_roman_to_integer;
 pub mod _14_longest_common_prefix;
