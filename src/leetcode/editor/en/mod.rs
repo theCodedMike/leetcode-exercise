@@ -30,6 +30,7 @@ pub mod _12_integer_to_roman;
 pub mod _130_surrounded_regions;
 pub mod _131_palindrome_partitioning;
 pub mod _133_clone_graph;
+pub mod _136_single_number;
 pub mod _13_roman_to_integer;
 pub mod _14_longest_common_prefix;
 pub mod _15_3_sum;
