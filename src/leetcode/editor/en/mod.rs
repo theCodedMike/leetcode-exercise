@@ -27,6 +27,7 @@ pub mod _127_word_ladder;
 pub mod _128_longest_consecutive_sequence;
 pub mod _129_sum_root_to_leaf_numbers;
 pub mod _12_integer_to_roman;
+pub mod _130_surrounded_regions;
 pub mod _13_roman_to_integer;
 pub mod _14_longest_common_prefix;
 pub mod _15_3_sum;
