@@ -34,6 +34,7 @@ pub mod _136_single_number;
 pub mod _137_single_number_i_i;
 pub mod _138_copy_list_with_random_pointer;
 pub mod _13_roman_to_integer;
+pub mod _141_linked_list_cycle;
 pub mod _14_longest_common_prefix;
 pub mod _15_3_sum;
 pub mod _16_3_sum_closest;
