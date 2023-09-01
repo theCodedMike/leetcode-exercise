@@ -59,10 +59,10 @@ impl ListNode {
 
 impl Solution {
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        Self::iteration_helper(head)
+        //Self::iteration_helper(head)
         //Self::recursion_helper1(head)
         //Self::recursion_helper2(head).0
-        //Self::recursion_helper3(head).0
+        Self::recursion_helper3(head, None)
     }
 
     pub fn iteration_helper(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
@@ -125,34 +125,18 @@ impl Solution {
         }
     }
 
-    /*
-    /// 编译无法通过
     pub fn recursion_helper3(
-        head: Option<Box<ListNode>>,
-    ) -> (Option<Box<ListNode>>, Option<&'static mut Box<ListNode>>) {
-        match head {
-            None => (None, None),
+        curr: Option<Box<ListNode>>,
+        prev: Option<Box<ListNode>>,
+    ) -> Option<Box<ListNode>> {
+        match curr {
+            None => prev,
             Some(mut curr) => {
-                let (new_head, new_tail) = Self::recursion_helper3(curr.next.take());
-                match new_head {
-                    None => (Some(curr), None),
-                    Some(mut new_head) => match new_tail {
-                        None => {
-                            let mut new_tail_node = Some(curr);
-                            let p = new_tail_node.as_mut();
-                            new_head.next = new_tail_node;
-                            (Some(new_head), p)
-                        }
-                        Some(new_tail) => {
-                            let mut new_tail_node = Some(curr);
-                            let p = new_tail_node.as_mut();
-                            new_tail.next = new_tail_node;
-                            (Some(new_head), p)
-                        }
-                    },
-                }
+                let next = curr.next.take();
+                curr.next = prev;
+                Self::recursion_helper3(next, Some(curr))
             }
         }
-    }*/
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
