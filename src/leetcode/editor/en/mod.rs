@@ -41,6 +41,7 @@ pub mod _144_binary_tree_preorder_traversal;
 pub mod _145_binary_tree_postorder_traversal;
 pub mod _146_l_r_u_cache;
 pub mod _147_insertion_sort_list;
+pub mod _148_sort_list;
 pub mod _14_longest_common_prefix;
 pub mod _15_3_sum;
 pub mod _16_3_sum_closest;
