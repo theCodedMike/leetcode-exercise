@@ -82,7 +82,7 @@ impl Solution {
             }
         }
 
-        let x3 = map.iter().filter(|(k, v)| v.len() >= 6).collect::<Vec<_>>();
+        let x3 = map.iter().filter(|(_k, v)| v.len() >= 6).collect::<Vec<_>>();
         x3.len() as i32
     }
 
