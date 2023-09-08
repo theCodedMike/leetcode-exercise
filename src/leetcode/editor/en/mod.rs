@@ -46,6 +46,7 @@ pub mod _149_max_points_on_a_line;
 pub mod _14_longest_common_prefix;
 pub mod _150_evaluate_reverse_polish_notation;
 pub mod _151_reverse_words_in_a_string;
+pub mod _152_maximum_product_subarray;
 pub mod _15_3_sum;
 pub mod _16_3_sum_closest;
 pub mod _17_letter_combinations_of_a_phone_number;
