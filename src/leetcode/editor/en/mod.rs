@@ -53,6 +53,7 @@ pub mod _155_min_stack;
 pub mod _15_3_sum;
 pub mod _160_intersection_of_two_linked_lists;
 pub mod _162_find_peak_element;
+pub mod _164_maximum_gap;
 pub mod _16_3_sum_closest;
 pub mod _17_letter_combinations_of_a_phone_number;
 pub mod _18_4_sum;
