@@ -45,6 +45,17 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn search(nums: Vec<i32>, target: i32) -> i32 {
+        //Self::linear_search_then_binary(nums, target)
+        Self::binary_search(nums, target)
+    }
+
+    ///
+    /// 先线性搜索再二分搜索
+    ///
+    /// 执行耗时:1 ms,击败了74.12% 的Rust用户
+    /// 内存消耗:2.1 MB,击败了78.52% 的Rust用户
+    ///
+    fn linear_search_then_binary(nums: Vec<i32>, target: i32) -> i32 {
         let mut l_idx = 0;
         let mut r_idx = nums.len();
 
@@ -62,6 +73,40 @@ impl Solution {
                     r_idx = m_idx;
                 } else {
                     return m_idx as i32;
+                }
+            }
+        }
+
+        -1
+    }
+
+    ///
+    /// 二分搜索
+    ///
+    /// 执行耗时:1 ms,击败了74.12% 的Rust用户
+    /// 内存消耗:2.1 MB,击败了78.52% 的Rust用户
+    ///
+    fn binary_search(nums: Vec<i32>, target: i32) -> i32 {
+        let len = nums.len();
+        let (mut left, mut right) = (0, len);
+
+        while left < right {
+            let mid = (left + right) >> 1;
+            if nums[mid] == target {
+                return mid as i32;
+            }
+
+            if nums[left] < nums[mid] {
+                if nums[left] <= target && target <= nums[mid] {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            } else {
+                if nums[mid] <= target && target <= nums[len - 1] {
+                    left = mid + 1;
+                } else {
+                    right = mid;
                 }
             }
         }

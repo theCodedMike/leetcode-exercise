@@ -16,4 +16,9 @@ fn search_in_rotated_sorted_array() {
     let target = 0;
     let res = Solution::search(array, target);
     assert_eq!(res, -1);
+
+    let array = vec![1, 3];
+    let target = 2;
+    let res = Solution::search(array, target);
+    assert_eq!(res, -1);
 }
