@@ -41,9 +41,11 @@
 //
 //
 //Follow-up: Can you come up with an algorithm that is less than
-//O(n²) time complexity?
+//O(n²)
+// time complexity?
 //
-// Related Topics Array Hash Table 👍 46982 👎 1522
+// Related Topics Array Hash Table 👍 51486 👎 1670
+
 #![allow(dead_code)]
 
 pub struct Solution;
@@ -53,21 +55,21 @@ use std::collections::HashMap;
 
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let mut res = vec![-1, -1];
         let mut map = HashMap::new();
-        let mut result = Vec::new();
 
-        for (idx, val) in nums.iter().enumerate() {
+        for (idx, val) in nums.into_iter().enumerate() {
             let diff = target - val;
             if map.contains_key(&diff) {
-                result.push(*map.get(&diff).unwrap() as i32);
-                result.push(idx as i32);
+                res[0] = map[&diff] as i32;
+                res[1] = idx as i32;
                 break;
             } else {
                 map.insert(val, idx);
             }
         }
 
-        result
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
