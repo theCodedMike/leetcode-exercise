@@ -56,6 +56,7 @@ pub mod _162_find_peak_element;
 pub mod _164_maximum_gap;
 pub mod _165_compare_version_numbers;
 pub mod _166_fraction_to_recurring_decimal;
+pub mod _167_two_sum_i_i_input_array_is_sorted;
 pub mod _16_3_sum_closest;
 pub mod _17_letter_combinations_of_a_phone_number;
 pub mod _18_4_sum;
