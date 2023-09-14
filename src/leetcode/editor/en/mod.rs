@@ -61,6 +61,7 @@ pub mod _17_letter_combinations_of_a_phone_number;
 pub mod _18_4_sum;
 pub mod _19_remove_nth_node_from_end_of_list;
 pub mod _1_two_sum;
+pub mod _200_number_of_islands;
 pub mod _206_reverse_linked_list;
 pub mod _20_valid_parentheses;
 pub mod _21_merge_two_sorted_lists;
