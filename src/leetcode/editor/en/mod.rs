@@ -60,6 +60,7 @@ pub mod _167_two_sum_i_i_input_array_is_sorted;
 pub mod _168_excel_sheet_column_title;
 pub mod _169_majority_element;
 pub mod _16_3_sum_closest;
+pub mod _171_excel_sheet_column_number;
 pub mod _17_letter_combinations_of_a_phone_number;
 pub mod _18_4_sum;
 pub mod _19_remove_nth_node_from_end_of_list;
