@@ -52,19 +52,14 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::collections::HashMap;
-
 impl Solution {
     pub fn title_to_number(column_title: String) -> i32 {
-        let map = ('A'..='Z').zip(1..=26).collect::<HashMap<char, i32>>();
         let len = column_title.len() - 1;
-        let mut num = 0;
-
-        for (idx, c) in column_title.chars().enumerate() {
-            num += 26_i32.pow((len - idx) as u32) * map[&c];
-        }
-
-        num
+        let a = b'A';
+        column_title.chars().enumerate().fold(0, |acc, (idx, c)| {
+            let curr = 26_i32.pow((len - idx) as u32) * (c as u8 - a + 1) as i32;
+            acc + curr
+        })
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
