@@ -118,25 +118,26 @@ impl BSTIterator {
     /// 中序遍历，将二叉树转换为链表
     ///
     fn convert(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
-        let mut nodes = vec![];
-        Self::recursive_traversal(&mut nodes, root);
-        for i in 1..nodes.len() {
-            nodes[i - 1].borrow_mut().right = Some(nodes[i].clone());
-        }
-        Some(nodes[0].clone())
+        let mut dummy = Some(Rc::new(RefCell::new(TreeNode::new(0))));
+        Self::recursive_traversal(dummy.clone(), root);
+        dummy
+            .take()
+            .map(|root| root.borrow_mut().right.take())
+            .unwrap_or_default()
     }
     fn recursive_traversal(
-        nodes: &mut Vec<Rc<RefCell<TreeNode>>>,
+        mut tail: Option<Rc<RefCell<TreeNode>>>,
         root: Option<Rc<RefCell<TreeNode>>>,
-    ) {
+    ) -> Option<Rc<RefCell<TreeNode>>> {
         match root {
-            None => {}
+            None => tail,
             Some(node) => {
                 let left = node.borrow_mut().left.take();
                 let right = node.borrow_mut().right.take();
-                Self::recursive_traversal(nodes, left);
-                nodes.push(node);
-                Self::recursive_traversal(nodes, right);
+                let l_tail = Self::recursive_traversal(tail, left).unwrap();
+                l_tail.borrow_mut().right = Some(node);
+                tail = l_tail.borrow().right.clone();
+                Self::recursive_traversal(tail, right)
             }
         }
     }
