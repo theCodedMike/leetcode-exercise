@@ -67,6 +67,7 @@ pub mod _174_dungeon_game;
 pub mod _17_letter_combinations_of_a_phone_number;
 pub mod _187_repeated_d_n_a_sequences;
 pub mod _188_best_time_to_buy_and_sell_stock_i_v;
+pub mod _189_rotate_array;
 pub mod _18_4_sum;
 pub mod _19_remove_nth_node_from_end_of_list;
 pub mod _1_two_sum;
