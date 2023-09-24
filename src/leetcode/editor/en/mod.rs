@@ -71,6 +71,7 @@ pub mod _189_rotate_array;
 pub mod _18_4_sum;
 pub mod _190_reverse_bits;
 pub mod _191_number_of_1_bits;
+pub mod _198_house_robber;
 pub mod _19_remove_nth_node_from_end_of_list;
 pub mod _1_two_sum;
 pub mod _200_number_of_islands;

@@ -60,7 +60,7 @@ pub struct Solution;
 use std::ops::Index;
 
 impl Solution {
-    pub fn hammingWeight(n: u32) -> i32 {
+    pub fn hamming_weight(n: u32) -> i32 {
         //Self::iter_helper(n)
         Self::divide_and_conquer(n)
     }
