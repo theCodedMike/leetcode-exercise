@@ -45,16 +45,37 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {
-        let mut left: i32 = 0;
-        let mut right: i32 = (nums.len() - 1) as i32;
+        //Self::binary_search_1(nums, target)
+        Self::binary_search_2(nums, target)
+    }
+    pub fn binary_search_1(nums: Vec<i32>, target: i32) -> i32 {
+        let mut left = 0;
+        let mut right = nums.len();
+
+        while left < right {
+            let mid = left + (right - left) / 2;
+            if target < nums[mid] {
+                right = mid;
+            } else if nums[mid] < target {
+                left = mid + 1;
+            } else {
+                return mid as i32;
+            }
+        }
+
+        left as i32
+    }
+
+    pub fn binary_search_2(nums: Vec<i32>, target: i32) -> i32 {
+        let mut left = 0_i32;
+        let mut right = nums.len() as i32 - 1;
 
         while left <= right {
-            let mid = (left + right) >> 1;
-
-            if target > nums[mid as usize] {
-                left = mid + 1;
-            } else if target < nums[mid as usize] {
+            let mid = left + (right - left) / 2;
+            if target < nums[mid as usize] {
                 right = mid - 1;
+            } else if nums[mid as usize] < target {
+                left = mid + 1;
             } else {
                 return mid;
             }
