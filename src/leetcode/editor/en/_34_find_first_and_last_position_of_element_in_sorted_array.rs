@@ -47,33 +47,39 @@ impl Solution {
     pub fn search_range(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let mut res = vec![-1, -1];
         let len = nums.len();
-        let mut l_idx = 0;
-        let mut r_idx = len;
+        let mut left = 0;
+        let mut right = len;
 
-        while l_idx < r_idx {
-            let m_idx = (l_idx + r_idx) / 2;
-            if target < nums[m_idx] {
-                r_idx = m_idx;
-            } else if target > nums[m_idx] {
-                l_idx = m_idx + 1;
+        while left < right {
+            let mid = left + (right - left) / 2;
+            if target < nums[mid] {
+                right = mid;
+            } else if nums[mid] < target {
+                left = mid + 1;
             } else {
-                l_idx = m_idx;
-                r_idx = m_idx;
+                // num[mid]肯定等于target，往左右两边遍历
+                let mut prev = mid;
+                let mut next = mid;
+                let mut move_prev = false;
+                let mut move_next = false;
                 loop {
-                    if l_idx > 0 && nums[l_idx - 1] == target {
-                        l_idx -= 1;
+                    move_prev = false;
+                    if prev != 0 && nums[prev - 1] == target {
+                        move_prev = true;
+                        prev -= 1;
                     }
-                    if r_idx < len - 1 && nums[r_idx + 1] == target {
-                        r_idx += 1;
+                    move_next = false;
+                    if next != len - 1 && nums[next + 1] == target {
+                        move_next = true;
+                        next += 1;
                     }
-                    if (l_idx <= 0 || nums[l_idx - 1] != target)
-                        && (r_idx >= len - 1 || nums[r_idx + 1] != target)
-                    {
+
+                    if !move_prev && !move_next {
                         break;
                     }
                 }
-                res[0] = l_idx as i32;
-                res[1] = r_idx as i32;
+                res[0] = prev as i32;
+                res[1] = next as i32;
                 break;
             }
         }
