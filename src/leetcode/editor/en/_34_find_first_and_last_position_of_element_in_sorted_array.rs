@@ -31,6 +31,7 @@
 // Related Topics Array Binary Search 👍 17543 👎 429
 
 #![allow(dead_code)]
+#![allow(unused_assignments)]
 
 pub struct Solution;
 // 测试用例: [1]       target: 0
