@@ -73,20 +73,41 @@ pub struct Solution;
 
 impl Solution {
     pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
-        let mut count = 1; // 非重复数字的个数
-        let len = nums.len();
+        //Self::brute_force(nums)
+        Self::double_pointer(nums)
+    }
 
-        for i in 1..len {
-            if nums[i] != nums[i - 1] {
-                count += 1;
-                if i != count - 1 {
-                    // 这里表明当前值之前肯定有重复的元素，向前移位
-                    nums[count - 1] = nums[i];
+    pub fn brute_force(nums: &mut Vec<i32>) -> i32 {
+        let mut len = nums.len();
+        let mut target = nums[0];
+        let mut i = 1;
+
+        while i < len {
+            if nums[i] == target {
+                for j in i..len {
+                    nums[j - 1] = nums[j];
                 }
+                len -= 1;
+            } else {
+                target = nums[i];
+                i += 1;
             }
         }
 
-        count as i32
+        len as i32
+    }
+
+    pub fn double_pointer(nums: &mut Vec<i32>) -> i32 {
+        let mut slow = 0;
+
+        for fast in 1..nums.len() {
+            if nums[fast] != nums[slow] {
+                slow += 1;
+                nums[slow] = nums[fast];
+            }
+        }
+
+        slow as i32 + 1
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
