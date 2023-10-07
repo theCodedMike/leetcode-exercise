@@ -85,6 +85,7 @@ pub mod _24_swap_nodes_in_pairs;
 pub mod _25_reverse_nodes_in_k_group;
 pub mod _26_remove_duplicates_from_sorted_array;
 pub mod _27_remove_element;
+pub mod _283_move_zeroes;
 pub mod _28_find_the_index_of_the_first_occurrence_in_a_string;
 pub mod _29_divide_two_integers;
 pub mod _2_add_two_numbers;
