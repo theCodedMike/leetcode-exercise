@@ -31,7 +31,7 @@
 // nums is sorted in ascending order.
 //
 //
-// Related Topics Array Binary Search 👍 10479 👎 210
+// Related Topics Array Binary Search 👍 10916 👎 217
 
 #![allow(dead_code)]
 
@@ -46,27 +46,22 @@ macro_rules! mid_idx {
 
 impl Solution {
     pub fn search(nums: Vec<i32>, target: i32) -> i32 {
-        let use_helper1 = true;
-        if use_helper1 {
-            Self::helper1(nums, target)
-        } else {
-            Self::helper2(nums, target)
-        }
+        //Self::find_the_exact_value(nums, target)
+        //Self::find_upper_bound(nums, target)
+        //Self::find_lower_bound(nums, target)
+        Self::use_built_in_tools(nums, target)
     }
 
-    ///
-    /// [left, right)
-    ///
-    fn helper1(nums: Vec<i32>, target: i32) -> i32 {
+    pub fn find_the_exact_value(nums: Vec<i32>, target: i32) -> i32 {
         let mut left = 0;
         let mut right = nums.len();
 
         while left < right {
             let mid = mid_idx!(left, right);
-            if target > nums[mid] {
-                left = mid + 1;
-            } else if target < nums[mid] {
+            if target < nums[mid] {
                 right = mid;
+            } else if nums[mid] < target {
+                left = mid + 1;
             } else {
                 return mid as i32;
             }
@@ -75,25 +70,51 @@ impl Solution {
         -1
     }
 
-    ///
-    /// [left, right]
-    ///
-    fn helper2(nums: Vec<i32>, target: i32) -> i32 {
+    pub fn find_upper_bound(nums: Vec<i32>, target: i32) -> i32 {
         let mut left = 0;
-        let mut right = nums.len() as i32 - 1;
+        let mut right = nums.len();
 
-        while left <= right {
+        while left < right {
             let mid = mid_idx!(left, right);
-            if target > nums[mid as usize] {
+            if nums[mid] <= target {
                 left = mid + 1;
-            } else if target < nums[mid as usize] {
-                right = mid - 1;
             } else {
-                return mid;
+                right = mid;
             }
         }
 
-        -1
+        if left > 0 && nums[left - 1] == target {
+            left as i32 - 1
+        } else {
+            -1
+        }
+    }
+
+    pub fn find_lower_bound(nums: Vec<i32>, target: i32) -> i32 {
+        let mut left = 0;
+        let mut right = nums.len();
+
+        while left < right {
+            let mid = mid_idx!(left, right);
+            if target <= nums[mid] {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        if left < nums.len() && nums[left] == target {
+            left as i32
+        } else {
+            -1
+        }
+    }
+
+    pub fn use_built_in_tools(nums: Vec<i32>, target: i32) -> i32 {
+        match nums.binary_search(&target) {
+            Ok(idx) => idx as i32,
+            Err(_) => -1,
+        }
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
