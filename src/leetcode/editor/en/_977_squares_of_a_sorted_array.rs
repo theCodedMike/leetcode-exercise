@@ -42,7 +42,8 @@ pub struct Solution;
 impl Solution {
     pub fn sorted_squares(nums: Vec<i32>) -> Vec<i32> {
         //Self::brute_force(nums)
-        Self::two_pointers(nums)
+        //Self::two_pointers_1(nums)
+        Self::two_pointers_2(nums)
     }
     pub fn brute_force(nums: Vec<i32>) -> Vec<i32> {
         let mut res = nums.into_iter().map(|v| v * v).collect::<Vec<_>>();
@@ -50,7 +51,7 @@ impl Solution {
         res
     }
 
-    pub fn two_pointers(nums: Vec<i32>) -> Vec<i32> {
+    pub fn two_pointers_1(nums: Vec<i32>) -> Vec<i32> {
         let len = nums.len();
         let mut left = 0;
         let mut right = len - 1;
@@ -82,6 +83,30 @@ impl Solution {
                 right -= 1;
                 left += 1;
             }
+        }
+
+        res
+    }
+
+    pub fn two_pointers_2(nums: Vec<i32>) -> Vec<i32> {
+        let mut left = 0;
+        let mut right = nums.len() as i32 - 1;
+        let mut idx = nums.len() as i32 - 1;
+        let mut res = vec![0; nums.len()];
+
+        while left <= right {
+            let square_of_left = nums[left as usize].pow(2);
+            let square_of_right = nums[right as usize].pow(2);
+
+            res[idx as usize] = if square_of_left > square_of_right {
+                left += 1;
+                square_of_left
+            } else {
+                right -= 1;
+                square_of_right
+            };
+
+            idx -= 1;
         }
 
         res
