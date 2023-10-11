@@ -49,7 +49,7 @@
 //
 //
 //Input: nums = [0,1,2,2,3,0,4,2], val = 2
-//Output: 5, nums = [0,1,4,0,3,_,_,_]
+//Output: 5, nums = [0,1,3,0,4,_,_,_]
 //Explanation: Your function should return k = 5, with the first five elements
 //of nums containing 0, 0, 1, 3, and 4.
 //Note that the five elements can be returned in any order.
@@ -75,19 +75,38 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-        let mut count = 0; // 不等于val的元素个数
-        let len = nums.len();
+        //Self::two_pointers_1(nums, val)
+        Self::two_pointers_2(nums, val)
+    }
 
-        for i in 0..len {
+    pub fn two_pointers_1(nums: &mut Vec<i32>, val: i32) -> i32 {
+        let mut idx = 0;
+
+        for i in 0..nums.len() {
             if nums[i] != val {
-                count += 1;
-                if i != count - 1 {
-                    nums[count - 1] = nums[i];
-                }
+                nums[idx] = nums[i];
+                idx += 1;
             }
         }
 
-        count as i32
+        idx as i32
+    }
+
+    /// where the array contains few elements to remove
+    pub fn two_pointers_2(nums: &mut Vec<i32>, val: i32) -> i32 {
+        let mut idx = 0;
+        let mut len = nums.len();
+
+        while idx < len {
+            if nums[idx] == val {
+                nums[idx] = nums[len - 1];
+                len -= 1;
+            } else {
+                idx += 1;
+            }
+        }
+
+        len as i32
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
