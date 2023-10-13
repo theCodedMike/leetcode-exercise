@@ -156,6 +156,7 @@ pub mod _87_scramble_string;
 pub mod _88_merge_sorted_array;
 pub mod _89_gray_code;
 pub mod _8_string_to_integer_atoi;
+pub mod _904_fruit_into_baskets;
 pub mod _90_subsets_i_i;
 pub mod _91_decode_ways;
 pub mod _92_reverse_linked_list_i_i;
