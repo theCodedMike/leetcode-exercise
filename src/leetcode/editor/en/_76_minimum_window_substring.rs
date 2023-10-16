@@ -53,52 +53,46 @@ pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 use std::collections::HashMap;
+use std::ops::Index;
 
 impl Solution {
     pub fn min_window(s: String, t: String) -> String {
-        let m = s.len();
-        let n = t.len();
+        let mut w_len = usize::MAX;
+        let mut left = 0;
+        let mut left_when_min = 0;
+        let map2 = t.chars().fold(HashMap::new(), |mut map, c| {
+            map.entry(c).and_modify(|v| *v += 1).or_insert(1);
+            map
+        });
+        let mut map1 = HashMap::new();
 
-        let res = "".to_string();
-        if m < n {
-            return res;
-        }
-
-        // Time Limit Exceeded, 需要优化 todo!
-        let s_bytes = s.as_bytes();
-        let t_map = Solution::slice_to_map(t.as_bytes());
-
-        for size in n..=m {
-            for window in s_bytes.windows(size) {
-                let map = Solution::slice_to_map(window);
-                if Solution::contains_map(&map, &t_map) {
-                    return String::from_utf8_lossy(window).to_string();
+        let chars = s.chars().collect::<Vec<_>>();
+        for (right, &c) in chars.iter().enumerate() {
+            map1.entry(c).and_modify(|v| *v += 1).or_insert(1);
+            while Self::map1_contains_map2(&map1, &map2) {
+                w_len = if w_len <= (right - left + 1) {
+                    w_len
+                } else {
+                    left_when_min = left;
+                    right - left + 1
+                };
+                if let Some(v) = map1.get_mut(&chars[left]) {
+                    *v -= 1;
                 }
+                left += 1;
             }
         }
 
-        res
+        if w_len == usize::MAX {
+            "".to_string()
+        } else {
+            s.index(left_when_min..left_when_min + w_len).to_string()
+        }
     }
 
-    fn slice_to_map(arr: &[u8]) -> HashMap<&u8, u16> {
-        let mut map = HashMap::new();
-        for elem in arr {
-            map.entry(elem).and_modify(|v| *v += 1).or_insert(1);
-        }
-        map
-    }
-
-    fn contains_map(first: &HashMap<&u8, u16>, second: &HashMap<&u8, u16>) -> bool {
-        for (&key, val) in second {
-            if !first.contains_key(key) {
-                return false;
-            }
-            if first[key] < *val {
-                return false;
-            }
-        }
-
-        true
+    fn map1_contains_map2(map1: &HashMap<char, i32>, map2: &HashMap<char, i32>) -> bool {
+        map2.into_iter()
+            .all(|(k2, &v2)| map1.get(k2).map_or(false, |&v1| v1 >= v2))
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
