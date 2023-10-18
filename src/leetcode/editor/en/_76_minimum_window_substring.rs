@@ -70,11 +70,9 @@ impl Solution {
         for (right, &c) in chars.iter().enumerate() {
             map1.entry(c).and_modify(|v| *v += 1).or_insert(1);
             while Self::map1_contains_map2(&map1, &map2) {
-                w_len = if w_len <= (right - left + 1) {
-                    w_len
-                } else {
+                if w_len > (right - left + 1) {
                     left_when_min = left;
-                    right - left + 1
+                    w_len = right - left + 1
                 };
                 if let Some(v) = map1.get_mut(&chars[left]) {
                     *v -= 1;

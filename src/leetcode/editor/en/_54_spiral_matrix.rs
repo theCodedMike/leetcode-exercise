@@ -34,67 +34,90 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn spiral_order(matrix: Vec<Vec<i32>>) -> Vec<i32> {
-        let row_len = matrix.len();
-        let col_len = matrix[0].len();
-        let mut res = Vec::with_capacity(row_len * col_len);
+        //Self::simulate(matrix)
+        Self::simulate_by_layer(matrix)
+    }
 
-        let iter_count = (std::cmp::min(row_len, col_len) as f64 / 2.0).ceil() as usize;
-        let mut rows = row_len;
-        let mut cols = col_len;
-        for i in 0..iter_count {
-            Solution::outer_iter(&matrix, rows, cols, i, i, &mut res);
-            if rows <= 2 || cols <= 2 {
-                if rows == 1 && cols == 1 {
-                    // 对于 1 x 1 的矩阵(即1个元素)，outer_iter无法处理，所以直接push
-                    res.push(matrix[i][i]);
-                }
-                break;
+    /// 时间复杂度：O(row * col)
+    ///
+    /// 空间复杂度：O(1)
+    fn simulate(mut matrix: Vec<Vec<i32>>) -> Vec<i32> {
+        let row = matrix.len() as i32;
+        let col = matrix[0].len() as i32;
+        let total_len = (row * col) as usize;
+
+        let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)];
+        let mut dir_idx = 0;
+        let mut i = 0_i32;
+        let mut j = 0_i32;
+        let mut res = Vec::with_capacity(total_len);
+        for _ in 1..=total_len {
+            res.push(matrix[i as usize][j as usize]);
+            matrix[i as usize][j as usize] = i32::MIN;
+
+            let next_i = i + directions[dir_idx].0;
+            let next_j = j + directions[dir_idx].1;
+            if next_i < 0
+                || next_i >= row
+                || next_j < 0
+                || next_j >= col
+                || matrix[next_i as usize][next_j as usize] == i32::MIN
+            {
+                dir_idx = (dir_idx + 1) % 4;
             }
-            rows -= 2;
-            cols -= 2;
-        }
 
-        // 之所以resize，是因为对于下面这种类型，push顺序为 7->9->6->9, 9被push了2次，所以需要resize
-        // [[7]
-        // ,[9]
-        // ,[6]]
-        res.resize(row_len * col_len, 0);
+            i += directions[dir_idx].0;
+            j += directions[dir_idx].1;
+        }
 
         res
     }
 
-    /// 遍历最外层
-    fn outer_iter(
-        matrix: &Vec<Vec<i32>>,
-        rows: usize,
-        cols: usize,
-        mut x: usize,
-        mut y: usize,
-        res: &mut Vec<i32>,
-    ) {
-        // 左 -> 右
-        for _ in 1..cols {
-            res.push(matrix[x][y]);
-            y += 1;
+    /// 时间复杂度：O(row * col)
+    ///
+    /// 空间复杂度：O(1)
+    fn simulate_by_layer(matrix: Vec<Vec<i32>>) -> Vec<i32> {
+        let row = matrix.len();
+        let col = matrix[0].len();
+        let total_len = row * col;
+
+        let mut left = 0_i32;
+        let mut right = (col - 1) as i32;
+        let mut top = 0_i32;
+        let mut bottom = (row - 1) as i32;
+        let mut res = Vec::with_capacity(total_len);
+        while left <= right && top <= bottom {
+            // left(top) -> right(top)
+            for j in left..=right {
+                res.push(matrix[top as usize][j as usize]);
+            }
+            // right(top)
+            //   ↓
+            // right(bottom)
+            for i in top + 1..=bottom {
+                res.push(matrix[i as usize][right as usize]);
+            }
+
+            if left < right && top < bottom {
+                // left(bottom) <- right(bottom)
+                for j in (left + 1..=right - 1).rev() {
+                    res.push(matrix[bottom as usize][j as usize]);
+                }
+                // left(top)
+                //   ↑
+                // left(bottom)
+                for i in (top + 1..=bottom).rev() {
+                    res.push(matrix[i as usize][left as usize]);
+                }
+            }
+
+            left += 1;
+            right -= 1;
+            top += 1;
+            bottom -= 1;
         }
 
-        // 上 -> 下
-        for _ in 1..rows {
-            res.push(matrix[x][y]);
-            x += 1;
-        }
-
-        // 右 -> 左
-        for _ in 1..cols {
-            res.push(matrix[x][y]);
-            y -= 1;
-        }
-
-        // 下 -> 上
-        for _ in 1..rows {
-            res.push(matrix[x][y]);
-            x -= 1;
-        }
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
