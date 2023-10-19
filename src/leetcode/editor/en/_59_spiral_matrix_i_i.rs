@@ -32,60 +32,80 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn generate_matrix(n: i32) -> Vec<Vec<i32>> {
-        let mut len = n as usize;
-        let mut matrix = vec![vec![0; len]; len];
-
-        let iter_count = (len as f64 / 2.0).ceil() as usize;
-        let mut val = 1;
-        for i in 0..iter_count {
-            Solution::process_outer(i, i, &mut matrix, &mut val, len);
-            if len <= 2 {
-                if len == 1 {
-                    matrix[i][i] = val;
-                }
-                break;
-            }
-            len -= 2;
-        }
-
-        matrix
+        //Self::simulate(n)
+        Self::simulate_by_layer(n)
     }
 
-    fn process_outer(
-        mut x: usize,
-        mut y: usize,
-        matrix: &mut Vec<Vec<i32>>,
-        val: &mut i32,
-        outer_len: usize,
-    ) {
-        // left -> right
-        for _ in 1..outer_len {
-            matrix[x][y] = *val;
-            y += 1;
-            *val += 1;
+    fn simulate(n: i32) -> Vec<Vec<i32>> {
+        let total_len = n * n;
+        let mut res = vec![vec![0; n as usize]; n as usize];
+        let directions = [(0, 1), (1, 0), (0, -1), (-1, 0)];
+        let mut dir_idx = 0;
+        let mut col = 0_i32;
+        let mut row = 0_i32;
+
+        for i in 1..=total_len {
+            res[row as usize][col as usize] = i;
+            let next_row = row + directions[dir_idx].0;
+            let next_col = col + directions[dir_idx].1;
+            if next_row < 0
+                || next_row >= n
+                || next_col < 0
+                || next_col >= n
+                || res[next_row as usize][next_col as usize] != 0
+            {
+                dir_idx = (dir_idx + 1) % 4;
+            }
+
+            row += directions[dir_idx].0;
+            col += directions[dir_idx].1;
         }
-        // top
-        //  ↓
-        // bottom
-        for _ in 1..outer_len {
-            matrix[x][y] = *val;
-            x += 1;
-            *val += 1;
+
+        res
+    }
+
+    fn simulate_by_layer(n: i32) -> Vec<Vec<i32>> {
+        let mut left = 0;
+        let mut right = n - 1;
+        let mut top = 0;
+        let mut bottom = n - 1;
+        let mut res = vec![vec![0; n as usize]; n as usize];
+        let mut val = 1;
+
+        while left <= right && top <= bottom {
+            // left(top) -> right(top)
+            for col in left..=right {
+                res[top as usize][col as usize] = val;
+                val += 1;
+            }
+            // right(top)
+            //     ↓
+            // right(bottom)
+            for row in top + 1..=bottom {
+                res[row as usize][right as usize] = val;
+                val += 1;
+            }
+            if left < right && top < bottom {
+                // left(bottom) <- right(bottom)
+                for col in (left + 1..=right - 1).rev() {
+                    res[bottom as usize][col as usize] = val;
+                    val += 1;
+                }
+                // left(top)
+                //     ↑
+                // left(bottom)
+                for row in (top + 1..=bottom).rev() {
+                    res[row as usize][left as usize] = val;
+                    val += 1;
+                }
+            }
+            left += 1;
+            right -= 1;
+            top += 1;
+            bottom -= 1;
         }
-        // left <- right
-        for _ in 1..outer_len {
-            matrix[x][y] = *val;
-            y -= 1;
-            *val += 1;
-        }
-        // top
-        //  ↑
-        // bottom
-        for _ in 1..outer_len {
-            matrix[x][y] = *val;
-            x -= 1;
-            *val += 1;
-        }
+
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
