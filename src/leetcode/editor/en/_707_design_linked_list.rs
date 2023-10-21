@@ -62,10 +62,9 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::cell::RefCell;
-use std::rc::Rc;
+use std::ptr::null_mut;
 
-type NLink = Option<Rc<RefCell<Node>>>;
+type NLink = *mut Node;
 
 struct Node {
     elem: i32,
@@ -74,8 +73,8 @@ struct Node {
 }
 
 impl Node {
-    fn new(elem: i32, prev: NLink, next: NLink) -> Rc<RefCell<Self>> {
-        Rc::new(RefCell::new(Node { elem, prev, next }))
+    fn new(elem: i32, prev: NLink, next: NLink) -> *mut Node {
+        Box::into_raw(Box::new(Node { elem, prev, next }))
     }
 }
 
@@ -89,8 +88,8 @@ impl MyLinkedList {
     pub fn new() -> Self {
         MyLinkedList {
             len: 0,
-            head: None,
-            tail: None,
+            head: null_mut(),
+            tail: null_mut(),
         }
     }
 
@@ -99,46 +98,42 @@ impl MyLinkedList {
             return -1;
         }
 
-        let mut p = self.head.as_ref().unwrap();
+        let mut p = self.head;
         for _ in 0..index {
             unsafe {
-                p = (*p.as_ptr()).next.as_ref().unwrap();
+                p = (*p).next;
             }
         }
 
-        p.borrow().elem
+        unsafe { (*p).elem }
     }
 
     pub fn add_at_head(&mut self, val: i32) {
-        let new_node = Node::new(val, None, None);
-        match self.head.take() {
-            None => {
-                // list is empty
-                self.tail = Some(new_node.clone());
-                self.head = Some(new_node);
+        let new_node = Node::new(val, null_mut(), null_mut());
+        if self.len == 0 {
+            self.tail = new_node;
+            self.head = new_node;
+        } else {
+            unsafe {
+                (*self.head).prev = new_node;
+                (*new_node).next = self.head;
             }
-            Some(old_head) => {
-                old_head.borrow_mut().prev = Some(new_node.clone());
-                new_node.borrow_mut().next = Some(old_head);
-                self.head = Some(new_node);
-            }
+            self.head = new_node;
         }
         self.len += 1;
     }
 
     pub fn add_at_tail(&mut self, val: i32) {
-        let new_node = Node::new(val, None, None);
-        match self.tail.take() {
-            None => {
-                // list is empty
-                self.head = Some(new_node.clone());
-                self.tail = Some(new_node);
+        let new_node = Node::new(val, null_mut(), null_mut());
+        if self.len == 0 {
+            self.head = new_node;
+            self.tail = new_node;
+        } else {
+            unsafe {
+                (*new_node).prev = self.tail;
+                (*self.tail).next = new_node;
             }
-            Some(old_tail) => {
-                old_tail.borrow_mut().next = Some(new_node.clone());
-                new_node.borrow_mut().prev = Some(old_tail);
-                self.tail = Some(new_node);
-            }
+            self.tail = new_node;
         }
         self.len += 1;
     }
@@ -148,88 +143,86 @@ impl MyLinkedList {
             return;
         }
         match index as usize {
-            0 => {
-                // insert at head
-                self.add_at_head(val);
-            }
-            idx if idx == self.len => {
-                // insert at tail
-                self.add_at_tail(val);
-            }
+            0 => self.add_at_head(val),
+            idx if idx == self.len => self.add_at_tail(val),
             _ => {
-                // insert at middle
-                let new_node = Node::new(val, None, None);
-                let mut prev = self.head.as_mut().unwrap();
+                let new_node = Node::new(val, null_mut(), null_mut());
+                let mut prev = self.head;
                 // Move p to the previous element of the element to be deleted
                 for _ in 0..index - 1 {
                     unsafe {
-                        prev = (*prev.as_ptr()).next.as_mut().unwrap();
+                        prev = (*prev).next;
                     }
                 }
-
-                if let Some(next) = prev.borrow_mut().next.take() {
-                    next.borrow_mut().prev = Some(new_node.clone());
-                    new_node.borrow_mut().next = Some(next);
+                unsafe {
+                    let next = (*prev).next;
+                    (*next).prev = new_node;
+                    (*new_node).next = next;
+                    (*new_node).prev = prev;
+                    (*prev).next = new_node;
                 }
-                new_node.borrow_mut().prev = Some(prev.clone());
-                prev.borrow_mut().next = Some(new_node);
                 self.len += 1;
             }
         }
     }
 
-    pub fn delete_at_index(&mut self, index: i32) {
+    pub fn delete_at_head(&mut self) -> i32 {
+        if self.len == 0 {
+            return -1;
+        }
+        let head = self.head;
+        self.len -= 1;
+        if self.len == 0 {
+            self.tail = null_mut();
+        }
+        unsafe {
+            self.head = (*self.head).next;
+            Box::from_raw(head).elem
+        }
+    }
+
+    pub fn delete_at_tail(&mut self) -> i32 {
+        if self.len == 0 {
+            return -1;
+        }
+        let tail = self.tail;
+        self.len -= 1;
+        if self.len == 0 {
+            self.head = null_mut();
+        }
+        unsafe {
+            self.tail = (*self.tail).prev;
+            Box::from_raw(tail).elem
+        }
+    }
+
+    pub fn delete_at_index(&mut self, index: i32) -> i32 {
         if self.len == 0 || index < 0 || index >= self.len as i32 {
-            return;
+            return -1;
         }
 
         match index as usize {
-            0 => {
-                self.head
-                    .take()
-                    .map(|old_head| match old_head.borrow_mut().next.take() {
-                        None => {
-                            self.tail = None;
-                        }
-                        Some(next) => {
-                            next.borrow_mut().prev = None;
-                            self.head = Some(next);
-                        }
-                    });
-            }
-            idx if idx == (self.len - 1) => {
-                self.tail
-                    .take()
-                    .map(|old_tail| match old_tail.borrow_mut().prev.take() {
-                        None => {
-                            self.head = None;
-                        }
-                        Some(prev) => {
-                            prev.borrow_mut().next = None;
-                            self.tail = Some(prev);
-                        }
-                    });
-            }
+            0 => self.delete_at_head(),
+            idx if idx == (self.len - 1) => self.delete_at_tail(),
             _ => {
-                let mut del = self.head.as_mut().unwrap();
+                let mut del = self.head;
                 // Move p to the element to be deleted
                 for _ in 0..index {
                     unsafe {
-                        del = (*del.as_ptr()).next.as_mut().unwrap();
+                        del = (*del).next;
                     }
                 }
-                let mut del = del.borrow_mut();
-                del.prev.take().map(|prev| {
-                    del.next.take().map(|next| {
-                        next.borrow_mut().prev = Some(prev.clone());
-                        prev.borrow_mut().next = Some(next);
-                    });
-                });
+
+                unsafe {
+                    let prev = (*del).prev;
+                    let next = (*del).next;
+                    (*next).prev = prev;
+                    (*prev).next = next;
+                    self.len -= 1;
+                    Box::from_raw(del).elem
+                }
             }
         }
-
-        self.len -= 1;
     }
 }
-
 //leetcode submit region end(Prohibit modification and deletion)
