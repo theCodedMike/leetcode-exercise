@@ -60,81 +60,31 @@ impl ListNode {
 impl Solution {
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         //Self::iteration_helper(head)
-        //Self::recursion_helper1(head)
-        //Self::recursion_helper2(head).0
-        Self::recursion_helper3(head, None)
+        Self::recursion_helper(None, head)
     }
 
     pub fn iteration_helper(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         let mut new_head = None;
 
-        while let Some(mut curr) = head {
-            head = curr.next.take();
-
-            if new_head.is_none() {
-                new_head = Some(curr);
-            } else {
-                curr.next = new_head;
-                new_head = Some(curr);
-            }
+        while let Some(mut node) = head {
+            head = node.next.take();
+            node.next = new_head;
+            new_head = Some(node);
         }
 
         new_head
     }
 
-    pub fn recursion_helper1(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        match head {
-            None => None,
-            Some(mut curr) => {
-                let mut new_head = Self::recursion_helper1(curr.next.take());
-                if new_head.is_none() {
-                    Some(curr)
-                } else {
-                    let mut p = new_head.as_mut();
-                    while let Some(p_curr) = p {
-                        if p_curr.next.is_none() {
-                            p_curr.next = Some(curr);
-                            break;
-                        }
-                        p = p_curr.next.as_mut();
-                    }
-
-                    new_head
-                }
-            }
-        }
-    }
-
-    pub fn recursion_helper2(head: Option<Box<ListNode>>) -> (Option<Box<ListNode>>, usize) {
-        match head {
-            None => (None, 0),
-            Some(mut curr) => {
-                let (new_head, level) = Self::recursion_helper2(curr.next.take());
-                match new_head {
-                    None => (Some(curr), level + 1),
-                    Some(mut new_head) => {
-                        let mut p = &mut new_head;
-                        for _ in 1..level {
-                            p = p.next.as_mut().unwrap();
-                        }
-                        p.next = Some(curr);
-                        (Some(new_head), level + 1)
-                    }
-                }
-            }
-        }
-    }
-
-    pub fn recursion_helper3(
-        curr: Option<Box<ListNode>>,
+    pub fn recursion_helper(
         prev: Option<Box<ListNode>>,
+        curr: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
         match curr {
             None => prev,
             Some(mut curr) => {
                 let next = curr.next.take();
                 curr.next = prev;
-                Self::recursion_helper3(next, Some(curr))
+                Self::recursion_helper(Some(curr), next)
             }
         }
     }
