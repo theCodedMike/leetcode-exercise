@@ -56,30 +56,66 @@ impl ListNode {
 
 impl Solution {
     pub fn swap_pairs(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut dummy = ListNode::new(0);
+        //Self::iteration_helper(head)
+        Self::recursion_helper(head)
+    }
+
+    fn iteration_helper(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut dummy = ListNode::new(-1);
         dummy.next = head;
         let mut p = &mut dummy;
-        loop {
-            if p.next.is_none() {
-                break;
+
+        while let Some(mut curr) = p.next.take() {
+            match curr.next.take() {
+                None => {
+                    p.next = Some(curr);
+                    break;
+                }
+                Some(mut next) => {
+                    curr.next = next.next.take();
+                    next.next = Some(curr);
+                    p.next = Some(next);
+                    p = p.next.as_mut().unwrap().next.as_mut().unwrap();
+                }
             }
-
-            if p.next.as_ref().unwrap().next.is_none() {
-                break;
-            }
-
-            p.next.take().map(|mut cur| {
-                cur.next.take().map(|mut cur_next| {
-                    cur.next = cur_next.next;
-                    cur_next.next = Some(cur);
-                    p.next = Some(cur_next);
-                })
-            });
-
-            p = p.next.as_mut().unwrap().next.as_mut().unwrap();
         }
 
         dummy.next
+    }
+
+    fn iteration_helper2(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        let mut p = &mut head;
+
+        while let Some(mut curr) = p.take() {
+            match curr.next.take() {
+                None => {
+                    *p = Some(curr);
+                    break;
+                }
+                Some(mut next) => {
+                    curr.next = next.next.take();
+                    next.next = Some(curr);
+                    *p = Some(next);
+                    p = &mut p.as_mut().unwrap().next.as_mut().unwrap().next;
+                }
+            }
+        }
+
+        head
+    }
+
+    fn recursion_helper(curr: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        match curr {
+            None => None,
+            Some(mut curr) => match curr.next.take() {
+                None => Some(curr),
+                Some(mut next) => {
+                    curr.next = Self::recursion_helper(next.next.take());
+                    next.next = Some(curr);
+                    Some(next)
+                }
+            },
+        }
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
