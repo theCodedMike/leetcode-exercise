@@ -36,6 +36,7 @@ pub mod _138_copy_list_with_random_pointer;
 pub mod _139_word_break;
 pub mod _13_roman_to_integer;
 pub mod _141_linked_list_cycle;
+pub mod _142_linked_list_cycle_i_i;
 pub mod _143_reorder_list;
 pub mod _144_binary_tree_preorder_traversal;
 pub mod _145_binary_tree_postorder_traversal;
