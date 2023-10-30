@@ -84,6 +84,7 @@ pub mod _20_valid_parentheses;
 pub mod _21_merge_two_sorted_lists;
 pub mod _22_generate_parentheses;
 pub mod _23_merge_k_sorted_lists;
+pub mod _242_valid_anagram;
 pub mod _24_swap_nodes_in_pairs;
 pub mod _25_reverse_nodes_in_k_group;
 pub mod _26_remove_duplicates_from_sorted_array;
