@@ -33,20 +33,53 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::collections::BTreeMap;
-
+use std::collections::HashMap;
 impl Solution {
     pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {
-        let mut map = BTreeMap::new();
+        Self::sorting(strs)
+        //Self::counting(strs)
+    }
+
+    fn sorting(strs: Vec<String>) -> Vec<Vec<String>> {
+        let mut map = HashMap::with_capacity(strs.len());
         for str in strs {
-            let mut bytes = str.as_bytes().iter().map(|b| *b).collect::<Vec<_>>();
-            bytes.sort_unstable();
-            let sorted_str = String::from_utf8(bytes).unwrap();
-            match map.get_mut(&sorted_str) {
+            let mut key = str.clone().into_bytes();
+            key.sort_unstable();
+            match map.get_mut(&key) {
                 None => {
-                    map.insert(sorted_str, vec![str]);
+                    map.insert(key, vec![str]);
                 }
-                Some(v) => v.push(str),
+                Some(v) => {
+                    v.push(str);
+                }
+            }
+        }
+        map.into_values().collect()
+    }
+
+    fn counting(strs: Vec<String>) -> Vec<Vec<String>> {
+        let mut map = HashMap::with_capacity(strs.len());
+        let a_u8 = b'a';
+        let mut counter = [0; 26];
+
+        for str in strs {
+            for c in str.chars() {
+                counter[(c as u8 - a_u8) as usize] += 1;
+            }
+            let mut key = String::with_capacity(str.len());
+            for i in 0..26 {
+                if counter[i] != 0 {
+                    key.push_str(i.to_string().as_str());
+                    counter[i] = 0;
+                }
+            }
+            match map.get_mut(&key) {
+                None => {
+                    map.insert(key, vec![str]);
+                }
+                Some(v) => {
+                    v.push(str);
+                }
             }
         }
 
