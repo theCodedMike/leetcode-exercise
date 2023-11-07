@@ -40,7 +40,6 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::ops::Index;
 impl Solution {
     pub fn find_anagrams(s: String, p: String) -> Vec<i32> {
         //Self::sliding_window(s, p)
