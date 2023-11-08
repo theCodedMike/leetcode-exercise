@@ -99,6 +99,7 @@ pub mod _32_longest_valid_parentheses;
 pub mod _33_search_in_rotated_sorted_array;
 pub mod _349_intersection_of_two_arrays;
 pub mod _34_find_first_and_last_position_of_element_in_sorted_array;
+pub mod _350_intersection_of_two_arrays_i_i;
 pub mod _35_search_insert_position;
 pub mod _367_valid_perfect_square;
 pub mod _36_valid_sudoku;
