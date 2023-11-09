@@ -33,7 +33,6 @@
 
 pub struct Solution;
 
-use std::cmp::Ordering;
 //leetcode submit region begin(Prohibit modification and deletion)
 use std::collections::{HashMap, HashSet};
 impl Solution {

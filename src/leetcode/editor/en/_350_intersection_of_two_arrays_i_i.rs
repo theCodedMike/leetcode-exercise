@@ -46,7 +46,7 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 impl Solution {
     pub fn intersect(nums1: Vec<i32>, nums2: Vec<i32>) -> Vec<i32> {
         //Self::brute_force(nums1, nums2)

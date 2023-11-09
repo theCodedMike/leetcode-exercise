@@ -77,6 +77,7 @@ pub mod _199_binary_tree_right_side_view;
 pub mod _19_remove_nth_node_from_end_of_list;
 pub mod _1_two_sum;
 pub mod _200_number_of_islands;
+pub mod _202_happy_number;
 pub mod _203_remove_linked_list_elements;
 pub mod _206_reverse_linked_list;
 pub mod _209_minimum_size_subarray_sum;
