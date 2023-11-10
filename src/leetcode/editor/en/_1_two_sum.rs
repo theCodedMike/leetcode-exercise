@@ -55,17 +55,43 @@ use std::collections::HashMap;
 
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        let mut res = vec![-1, -1];
-        let mut map = HashMap::new();
+        Self::brute_force(nums, target)
+        //Self::use_hash(nums, target)
+    }
 
-        for (idx, val) in nums.into_iter().enumerate() {
-            let diff = target - val;
-            if map.contains_key(&diff) {
-                res[0] = map[&diff] as i32;
-                res[1] = idx as i32;
-                break;
-            } else {
-                map.insert(val, idx);
+    fn brute_force(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let len = nums.len();
+        let mut res = Vec::with_capacity(2);
+
+        'outer: for i in 0..len {
+            for j in i + 1..len {
+                if nums[i] + nums[j] == target {
+                    res.push(i as i32);
+                    res.push(j as i32);
+                    break 'outer;
+                }
+            }
+        }
+
+        res
+    }
+
+    fn use_hash(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let len = nums.len();
+        let mut map = HashMap::with_capacity(len);
+        let mut res = Vec::with_capacity(2);
+
+        for i in 0..len {
+            let diff = target - nums[i];
+            match map.get(&diff) {
+                None => {
+                    map.insert(nums[i], i);
+                }
+                Some(idx) => {
+                    res.push(*idx as i32);
+                    res.push(i as i32);
+                    break;
+                }
             }
         }
 
