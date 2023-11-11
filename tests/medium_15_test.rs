@@ -20,3 +20,10 @@ fn three_sum_3() {
     let res = Solution::three_sum(nums);
     assert_eq!(res, [[-1, -1, 2], [-1, 0, 1]]);
 }
+
+#[test]
+fn three_sum_4() {
+    let nums = vec![-2, 0, 0, 2, 2];
+    let res = Solution::three_sum(nums);
+    assert_eq!(res, [[-2, 0, 2]]);
+}

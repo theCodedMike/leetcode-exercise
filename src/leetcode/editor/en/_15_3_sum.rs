@@ -52,29 +52,66 @@ pub struct Solution;
 use std::collections::HashSet;
 
 impl Solution {
-    pub fn three_sum(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
+    pub fn three_sum(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        //Self::brute_force(nums)
+        Self::sort_then_2_pointers(nums)
+    }
+
+    fn brute_force(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
+        let len = nums.len();
         let mut res = HashSet::new();
         nums.sort_unstable();
 
-        let len = nums.len();
         for i in 0..len {
-            let mut j = i + 1;
-            let mut r = len - 1;
-            while j < r {
-                let temp = nums[i] + nums[j] + nums[r];
-                if temp > 0 {
-                    r -= 1;
-                } else if temp < 0 {
-                    j += 1;
-                } else {
-                    res.insert(vec![nums[i], nums[j], nums[r]]);
-                    j += 1;
-                    r -= 1;
+            if i > 0 && nums[i] == nums[i - 1] {
+                continue;
+            }
+            for j in i + 1..len {
+                if let Ok(k) = &nums[j + 1..].binary_search(&(0 - (nums[i] + nums[j]))) {
+                    res.insert(vec![nums[i], nums[j], nums[*k + j + 1]]);
                 }
             }
         }
 
-        res.into_iter().collect::<Vec<_>>()
+        res.into_iter().collect()
+    }
+
+    fn sort_then_2_pointers(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
+        let len = nums.len();
+        let mut res = vec![];
+        nums.sort_unstable();
+
+        for i in 0..len {
+            if i > 0 && nums[i] == nums[i - 1] {
+                continue;
+            }
+            let mut left = i + 1;
+            let mut right = len - 1;
+            while left < right {
+                let sum = nums[i] + nums[left] + nums[right];
+                if sum > 0 {
+                    right -= 1;
+                } else if sum < 0 {
+                    left += 1;
+                } else {
+                    res.push(vec![nums[i], nums[left], nums[right]]);
+                    loop {
+                        left += 1;
+                        if nums[left] != nums[left - 1] || left >= right {
+                            break;
+                        }
+                    }
+                    loop {
+                        right -= 1;
+                        if nums[right] != nums[right + 1] || right <= left {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
