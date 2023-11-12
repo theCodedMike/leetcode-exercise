@@ -40,39 +40,78 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn three_sum_closest(nums: Vec<i32>, target: i32) -> i32 {
-        let len = nums.len();
-        let mut sums = Vec::new();
+        //Self::brute_force(nums, target)
+        Self::sorting_then_2_pointers(nums, target)
+    }
 
+    fn brute_force(mut nums: Vec<i32>, target: i32) -> i32 {
+        let len = nums.len();
+        nums.sort_unstable();
+
+        let mut best = i32::MAX / 2;
         for i in 0..len {
-            for j in i + 1..len {
-                for k in j + 1..len {
-                    sums.push(nums[i] + nums[j] + nums[k]);
+            if i > 0 && nums[i] == nums[i - 1] {
+                continue;
+            }
+            for j in i + 1..len - 1 {
+                let sub_nums = &nums[j + 1..];
+                let third = target - nums[i] - nums[j];
+                let (find, k) = match sub_nums.binary_search(&third) {
+                    Ok(k) => (true, k + j + 1),
+                    Err(mut k) => {
+                        match k {
+                            0 => {}
+                            _ if k == sub_nums.len() => {
+                                k -= 1;
+                            }
+                            _ => {
+                                if third - sub_nums[k - 1] < sub_nums[k] - third {
+                                    k -= 1;
+                                }
+                            }
+                        }
+                        (false, k + j + 1)
+                    }
+                };
+
+                let sum = nums[i] + nums[j] + nums[k];
+                if find {
+                    return sum;
+                }
+                if (sum - target).abs() < (best - target).abs() {
+                    best = sum;
                 }
             }
         }
 
-        sums.sort_unstable();
-        let idx = match sums.binary_search(&target) {
-            Ok(idx) => idx,
-            Err(mut idx) => {
-                if idx == sums.len() {
-                    idx -= 1;
-                } else if idx == 0 {
-                    idx = 0;
-                } else {
-                    let diff_left = target - sums[idx - 1];
-                    let diff_right = sums[idx] - target;
+        best
+    }
 
-                    if diff_left <= diff_right {
-                        idx -= 1;
-                    }
+    fn sorting_then_2_pointers(mut nums: Vec<i32>, target: i32) -> i32 {
+        let len = nums.len();
+        nums.sort_unstable();
+
+        let mut best = i32::MAX / 2;
+        for i in 0..len {
+            let mut left = i + 1;
+            let mut right = len - 1;
+            while left < right {
+                let sum = nums[i] + nums[left] + nums[right];
+                if sum == target {
+                    return sum;
                 }
-
-                idx
+                if (sum - target).abs() < (best - target).abs() {
+                    best = sum;
+                }
+                if sum < target {
+                    left += 1;
+                } else {
+                    right -= 1;
+                }
             }
-        };
+        }
 
-        sums[idx]
+        best
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
