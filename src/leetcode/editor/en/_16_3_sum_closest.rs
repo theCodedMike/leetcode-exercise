@@ -93,20 +93,22 @@ impl Solution {
 
         let mut best = i32::MAX / 2;
         for i in 0..len {
+            if i > 0 && nums[i] == nums[i - 1] {
+                continue;
+            }
             let mut left = i + 1;
             let mut right = len - 1;
             while left < right {
                 let sum = nums[i] + nums[left] + nums[right];
-                if sum == target {
-                    return sum;
-                }
                 if (sum - target).abs() < (best - target).abs() {
                     best = sum;
                 }
                 if sum < target {
                     left += 1;
-                } else {
+                } else if sum > target {
                     right -= 1;
+                } else {
+                    return best;
                 }
             }
         }

@@ -40,18 +40,73 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::collections::BTreeSet;
 
 impl Solution {
-    pub fn four_sum(mut nums: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+    pub fn four_sum(nums: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+        //Self::sorting_then_2_pointers(nums, target as i64)
+        Self::sorting_then_4_pointers(nums, target as i64)
+    }
+
+    /// Time Complexity: O(n^3)
+    ///
+    /// Space Complexity: O(n)
+    fn sorting_then_2_pointers(mut nums: Vec<i32>, target: i64) -> Vec<Vec<i32>> {
+        let len = nums.len();
+        let mut res = vec![];
+        if len < 4 {
+            return res;
+        }
+        nums.sort_unstable();
+
+        for i in 0..len - 3 {
+            if i > 0 && nums[i] == nums[i - 1] {
+                continue;
+            }
+            for j in i + 1..len - 2 {
+                if j > i + 1 && nums[j] == nums[j - 1] {
+                    continue;
+                }
+
+                let mut m = j + 1;
+                let mut n = len - 1;
+                while m < n {
+                    let sum = nums[i] as i64 + nums[j] as i64 + nums[m] as i64 + nums[n] as i64;
+                    if sum > target {
+                        n -= 1;
+                    } else if sum < target {
+                        m += 1;
+                    } else {
+                        res.push(vec![nums[i], nums[j], nums[m], nums[n]]);
+                        loop {
+                            m += 1;
+                            if nums[m] != nums[m - 1] || m >= n {
+                                break;
+                            }
+                        }
+                        loop {
+                            n -= 1;
+                            if nums[n] != nums[n + 1] || m >= n {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        res
+    }
+
+    /// Time Complexity: O(n^2)
+    ///
+    /// Space Complexity: O(n)
+    fn sorting_then_4_pointers(mut nums: Vec<i32>, target: i64) -> Vec<Vec<i32>> {
         let len = nums.len();
         if len < 4 {
             return vec![];
         }
-
-        let target = target as i64;
-        let mut res = BTreeSet::new();
         nums.sort_unstable();
+        let mut res = vec![];
 
         let mut i = 0;
         let mut j = len - 1;
@@ -59,29 +114,47 @@ impl Solution {
             let mut m = i + 1;
             let mut n = j - 1;
             while m < n {
-                let mut sum = 0_i64;
-                sum += (nums[i] + nums[j]) as i64;
-                sum += (nums[m] + nums[n]) as i64;
-                if sum < target {
-                    m += 1;
-                } else if sum > target {
+                let sum = nums[i] as i64 + nums[j] as i64 + nums[m] as i64 + nums[n] as i64;
+                if sum > target {
                     n -= 1;
+                } else if sum < target {
+                    m += 1;
                 } else {
-                    res.insert(vec![nums[i], nums[m], nums[n], nums[j]]);
-                    m += 1;
-                    n -= 1;
+                    res.push(vec![nums[i], nums[m], nums[n], nums[j]]);
+                    loop {
+                        m += 1;
+                        if nums[m] != nums[m - 1] || m >= n {
+                            break;
+                        }
+                    }
+                    loop {
+                        n -= 1;
+                        if nums[n] != nums[n + 1] || m >= n {
+                            break;
+                        }
+                    }
                 }
             }
 
             if i + 3 <= j {
-                j -= 1;
+                loop {
+                    j -= 1;
+                    if nums[j] != nums[j + 1] || i + 3 > j {
+                        break;
+                    }
+                }
             } else {
-                i += 1;
                 j = len - 1;
+                loop {
+                    i += 1;
+                    if nums[i] != nums[i - 1] || i + 3 > j {
+                        break;
+                    }
+                }
             }
         }
 
-        res.into_iter().collect()
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
