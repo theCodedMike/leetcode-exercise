@@ -102,11 +102,11 @@ impl Solution {
     /// Space Complexity: O(n)
     fn sorting_then_4_pointers(mut nums: Vec<i32>, target: i64) -> Vec<Vec<i32>> {
         let len = nums.len();
+        let mut res = vec![];
         if len < 4 {
-            return vec![];
+            return res;
         }
         nums.sort_unstable();
-        let mut res = vec![];
 
         let mut i = 0;
         let mut j = len - 1;
