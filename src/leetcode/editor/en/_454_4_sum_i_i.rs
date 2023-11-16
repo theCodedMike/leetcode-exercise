@@ -57,6 +57,9 @@ impl Solution {
         Self::use_hash(nums1, nums2, nums3, nums4)
     }
 
+    /// Time Complexity: O(n^2)
+    ///
+    /// Space Complexity: O(n^2)
     fn use_hash(nums1: Vec<i32>, nums2: Vec<i32>, nums3: Vec<i32>, nums4: Vec<i32>) -> i32 {
         let len = nums1.len();
         let mut map = HashMap::with_capacity(len * len);
