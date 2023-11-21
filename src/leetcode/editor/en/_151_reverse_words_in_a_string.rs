@@ -57,40 +57,97 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::ops::Index;
+use std::ops::{Index, IndexMut};
 
 impl Solution {
     pub fn reverse_words(s: String) -> String {
-        Self::std_split(s)
-        //Self::custom_split(s)
+        //Self::use_std_split(s)
+        //Self::use_custom_split(s)
+        Self::use_stack(s)
     }
 
-    fn std_split(s: String) -> String {
+    fn use_std_split(s: String) -> String {
         s.split_whitespace().rev().collect::<Vec<_>>().join(" ")
     }
 
-    fn custom_split(s: String) -> String {
-        let s = s.as_str();
-        let len = s.len();
-        let mut first_p = 0;
-        let mut second_p = 0;
-        let mut words = vec![];
-        while second_p < len {
-            while first_p < len && s.index(first_p..first_p + 1) == " " {
-                first_p += 1;
+    fn use_custom_split(mut s: String) -> String {
+        let reverse = |p: &mut [u8]| {
+            let mut begin = 0;
+            let mut end = p.len() - 1;
+
+            while begin < end {
+                p.swap(begin, end);
+                begin += 1;
+                end -= 1;
             }
-            second_p = first_p;
-            while second_p < len && s.index(second_p..second_p + 1) != " " {
-                second_p += 1;
-            }
-            if first_p == second_p {
-                break;
-            }
-            words.push(s.index(first_p..second_p));
-            first_p = second_p;
+        };
+
+        let p = unsafe { s.as_bytes_mut() };
+        reverse(p);
+
+        let p = unsafe { s.as_mut_vec() };
+        // Remove header spaces
+        while p[0].is_ascii_whitespace() {
+            p.remove(0);
+        }
+        // Remove trailing spaces
+        while p[p.len() - 1].is_ascii_whitespace() {
+            p.remove(p.len() - 1);
         }
 
-        words.into_iter().rev().collect::<Vec<_>>().join(" ")
+        // Reverse the mid by word
+        let mut space = 0;
+        let mut slow = 0;
+        let mut fast = 0;
+        while fast < p.len() {
+            if p[fast].is_ascii_whitespace() {
+                space += 1;
+                if space == 1 {
+                    reverse(p.index_mut(slow..fast));
+                    slow = fast + 1;
+                    fast += 1;
+                } else {
+                    p.remove(fast);
+                }
+            } else {
+                space = 0;
+                fast += 1;
+                if fast == p.len() {
+                    reverse(p.index_mut(slow..fast));
+                }
+            }
+        }
+
+        s
+    }
+
+    fn use_stack(s: String) -> String {
+        let len = s.len();
+        let p = s.as_bytes();
+        let mut stack = vec![];
+        let mut begin = 0;
+        let mut end = 0;
+        for i in 0..len {
+            if !p[i].is_ascii_whitespace() {
+                if i == 0 || p[i - 1].is_ascii_whitespace() {
+                    begin = i;
+                }
+                if i + 1 == len || p[i + 1].is_ascii_whitespace() {
+                    end = i + 1;
+                    stack.push((begin, end));
+                }
+            }
+        }
+
+        let mut res = String::with_capacity(len);
+        let len = stack.len();
+        for i in (0..len).rev() {
+            res.push_str(s.index(stack[i].0..stack[i].1));
+            if i != 0 {
+                res.push(' ');
+            }
+        }
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
