@@ -53,6 +53,7 @@
 // Related Topics Two Pointers String 👍 7224 👎 4864
 
 #![allow(dead_code)]
+#![allow(unused)]
 
 pub struct Solution;
 
@@ -66,10 +67,16 @@ impl Solution {
         Self::use_stack(s)
     }
 
+    /// Time Complexity: O(n)
+    ///
+    /// Space Complexity: O(n)
     fn use_std_split(s: String) -> String {
         s.split_whitespace().rev().collect::<Vec<_>>().join(" ")
     }
 
+    /// Time Complexity: O(n)
+    ///
+    /// Space Complexity: O(1)
     fn use_custom_split(mut s: String) -> String {
         let reverse = |p: &mut [u8]| {
             let mut begin = 0;
@@ -86,7 +93,7 @@ impl Solution {
         reverse(p);
 
         let p = unsafe { s.as_mut_vec() };
-        // Remove header spaces
+        // Remove leading spaces
         while p[0].is_ascii_whitespace() {
             p.remove(0);
         }
@@ -121,6 +128,9 @@ impl Solution {
         s
     }
 
+    /// Time Complexity: O(n)
+    ///
+    /// Space Complexity: O(n)
     fn use_stack(s: String) -> String {
         let len = s.len();
         let p = s.as_bytes();
@@ -140,13 +150,13 @@ impl Solution {
         }
 
         let mut res = String::with_capacity(len);
-        let len = stack.len();
-        for i in (0..len).rev() {
-            res.push_str(s.index(stack[i].0..stack[i].1));
-            if i != 0 {
+        while let Some(idx) = stack.pop() {
+            res.push_str(s.index(idx.0..idx.1));
+            if !stack.is_empty() {
                 res.push(' ');
             }
         }
+
         res
     }
 }

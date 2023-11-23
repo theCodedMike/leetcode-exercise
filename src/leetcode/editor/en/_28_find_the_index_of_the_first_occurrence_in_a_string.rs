@@ -34,11 +34,66 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
+use std::ops::Index;
 impl Solution {
     pub fn str_str(haystack: String, needle: String) -> i32 {
-        for (idx, val) in haystack.as_bytes().windows(needle.len()).enumerate() {
-            if needle.as_bytes().eq(val) {
-                return idx as i32;
+        //Self::brute_force(haystack, needle)
+        Self::kmp(haystack, needle)
+    }
+
+    fn brute_force(haystack: String, needle: String) -> i32 {
+        let m = needle.len();
+        let n = haystack.len();
+        let mut start = 0;
+        let mut end = m;
+        let needle = needle.as_bytes();
+
+        while end <= n {
+            let sub = haystack.index(start..end).as_bytes();
+            let mut all_equal = true;
+            for i in 0..m {
+                if needle[i] != sub[i] {
+                    all_equal = false;
+                    break;
+                }
+            }
+            if all_equal {
+                return start as i32;
+            }
+            start += 1;
+            end = start + m;
+        }
+
+        -1
+    }
+
+    fn kmp(haystack: String, needle: String) -> i32 {
+        let m = needle.len();
+        let mut pi = vec![0; m];
+        let mut j = 0;
+        let needle = needle.as_bytes();
+        for i in 1..m {
+            while j > 0 && needle[i] != needle[j] {
+                j = pi[j - 1];
+            }
+            if needle[i] == needle[j] {
+                j += 1;
+            }
+            pi[i] = j;
+        }
+
+        let n = haystack.len();
+        let haystack = haystack.as_bytes();
+        j = 0;
+        for i in 0..n {
+            while j > 0 && haystack[i] != needle[j] {
+                j = pi[j - 1];
+            }
+            if haystack[i] == needle[j] {
+                j += 1;
+            }
+            if j == m {
+                return i as i32 - m as i32 + 1;
             }
         }
 
