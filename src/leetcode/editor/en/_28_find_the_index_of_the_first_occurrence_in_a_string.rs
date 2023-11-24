@@ -34,60 +34,66 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::ops::Index;
 impl Solution {
     pub fn str_str(haystack: String, needle: String) -> i32 {
-        //Self::brute_force(haystack, needle)
-        Self::kmp(haystack, needle)
+        Self::brute_force(haystack, needle)
+        //Self::kmp(haystack, needle)
     }
 
+    /// Time Complexity: O(m * n)
+    ///
+    /// Space Complexity: O(1)
     fn brute_force(haystack: String, needle: String) -> i32 {
         let m = needle.len();
         let n = haystack.len();
-        let mut start = 0;
-        let mut end = m;
         let needle = needle.as_bytes();
+        let haystack = haystack.as_bytes();
 
-        while end <= n {
-            let sub = haystack.index(start..end).as_bytes();
+        for end in m..=n {
             let mut all_equal = true;
-            for i in 0..m {
-                if needle[i] != sub[i] {
+            for i in end - m..end {
+                if haystack[i] != needle[i - end + m] {
                     all_equal = false;
                     break;
                 }
             }
             if all_equal {
-                return start as i32;
+                return (end - m) as i32;
             }
-            start += 1;
-            end = start + m;
         }
 
         -1
     }
 
+    /// Time Complexity: O(m + n)
+    ///
+    /// Space Complexity: O(m)
     fn kmp(haystack: String, needle: String) -> i32 {
-        let m = needle.len();
-        let mut pi = vec![0; m];
-        let mut j = 0;
-        let needle = needle.as_bytes();
-        for i in 1..m {
-            while j > 0 && needle[i] != needle[j] {
-                j = pi[j - 1];
+        let get_next = |needle: &[u8]| -> Vec<usize> {
+            let m = needle.len();
+            let mut next = vec![0; m];
+            let mut j = 0;
+            for i in 1..m {
+                while j > 0 && needle[i] != needle[j] {
+                    j = next[j - 1];
+                }
+                if needle[i] == needle[j] {
+                    j += 1;
+                }
+                next[i] = j;
             }
-            if needle[i] == needle[j] {
-                j += 1;
-            }
-            pi[i] = j;
-        }
+            next
+        };
 
+        let needle = needle.as_bytes();
+        let next = get_next(needle);
+        let m = needle.len();
         let n = haystack.len();
         let haystack = haystack.as_bytes();
-        j = 0;
+        let mut j = 0;
         for i in 0..n {
             while j > 0 && haystack[i] != needle[j] {
-                j = pi[j - 1];
+                j = next[j - 1];
             }
             if haystack[i] == needle[j] {
                 j += 1;
