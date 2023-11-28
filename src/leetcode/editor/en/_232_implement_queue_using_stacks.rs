@@ -117,13 +117,6 @@ impl MyQueue {
  * If you need a mutable reference, change it to `&mut self` instead.
  */
 impl MyQueue {
-    fn new2() -> Self {
-        MyQueue {
-            s1: vec![],
-            s2: vec![],
-        }
-    }
-
     /// Time Complexity: O(n)
     ///
     /// Space Complexity: O(n)
