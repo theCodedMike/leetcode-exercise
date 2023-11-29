@@ -59,14 +59,14 @@
 #![allow(dead_code)]
 
 //leetcode submit region begin(Prohibit modification and deletion)
-struct MyQueue {
+pub struct MyQueue {
     s1: Vec<i32>,
     s2: Vec<i32>,
 }
 
 /// 这种解法带有优化，性能更好
 impl MyQueue {
-    fn new() -> Self {
+    pub fn new() -> Self {
         MyQueue {
             s1: vec![],
             s2: vec![],
@@ -76,14 +76,14 @@ impl MyQueue {
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(n)
-    fn push(&mut self, x: i32) {
+    pub fn push(&mut self, x: i32) {
         self.s1.push(x);
     }
 
     /// Time Complexity: Amortized O(1), Worst-case O(n)
     ///
     /// Space Complexity: O(1)
-    fn pop(&mut self) -> i32 {
+    pub fn pop(&mut self) -> i32 {
         if self.s2.is_empty() {
             while let Some(val) = self.s1.pop() {
                 self.s2.push(val);
@@ -96,7 +96,7 @@ impl MyQueue {
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn peek(&mut self) -> i32 {
+    pub fn peek(&mut self) -> i32 {
         if self.s2.is_empty() {
             *self.s1.first().unwrap()
         } else {
@@ -107,7 +107,7 @@ impl MyQueue {
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn empty(&self) -> bool {
+    pub fn empty(&self) -> bool {
         self.s1.is_empty() && self.s2.is_empty()
     }
 }
@@ -120,7 +120,7 @@ impl MyQueue {
     /// Time Complexity: O(n)
     ///
     /// Space Complexity: O(n)
-    fn push2(&mut self, x: i32) {
+    pub fn push2(&mut self, x: i32) {
         while let Some(val) = self.s1.pop() {
             self.s2.push(val);
         }
@@ -133,21 +133,21 @@ impl MyQueue {
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn pop2(&mut self) -> i32 {
+    pub fn pop2(&mut self) -> i32 {
         self.s1.pop().unwrap()
     }
 
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn peek2(&mut self) -> i32 {
+    pub fn peek2(&mut self) -> i32 {
         *self.s1.last().unwrap()
     }
 
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn empty2(&self) -> bool {
+    pub fn empty2(&self) -> bool {
         self.s1.is_empty()
     }
 }

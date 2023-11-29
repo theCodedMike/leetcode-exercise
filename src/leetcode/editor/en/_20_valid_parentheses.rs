@@ -46,38 +46,63 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
+use std::collections::HashMap;
 impl Solution {
     pub fn is_valid(s: String) -> bool {
-        let mut brackets = vec![];
-        let mut is_valid = true;
+        //Self::use_stack(s)
+        Self::optimize_use_stack(s)
+    }
 
-        for char in s.chars() {
-            match char {
+    fn use_stack(s: String) -> bool {
+        let mut stack = vec![];
+        let is_match = |l_char: char, r_char: char| -> bool {
+            match (l_char, r_char) {
+                ('(', ')') | ('{', '}') | ('[', ']') => true,
+                _ => false,
+            }
+        };
+
+        for ch in s.chars() {
+            match ch {
                 '(' | '{' | '[' => {
-                    brackets.push(char);
+                    stack.push(ch);
                 }
-                _ => {
-                    if brackets.is_empty() {
-                        is_valid = false;
-                        break;
+                ')' | '}' | ']' => match stack.pop() {
+                    None => return false,
+                    Some(l_ch) => {
+                        if !is_match(l_ch, ch) {
+                            return false;
+                        }
                     }
-                    let pop = brackets.pop().unwrap();
-                    if !is_two_brackets_match(pop, char) {
-                        is_valid = false;
-                        break;
-                    }
-                }
+                },
+                _ => panic!("Unsupported char: {}", ch),
             }
         }
 
-        is_valid && brackets.is_empty()
+        stack.is_empty()
     }
-}
 
-fn is_two_brackets_match(left: char, right: char) -> bool {
-    match (left, right) {
-        ('(', ')') | ('{', '}') | ('[', ']') => true,
-        _ => false,
+    fn optimize_use_stack(s: String) -> bool {
+        let mut stack = vec![];
+        let map = HashMap::from([(')', '('), ('}', '{'), (']', '[')]);
+
+        for ch in s.chars() {
+            match map.get(&ch) {
+                None => {
+                    stack.push(ch);
+                }
+                Some(&map_l_ch) => match stack.pop() {
+                    None => return false,
+                    Some(stack_l_ch) => {
+                        if map_l_ch != stack_l_ch {
+                            return false;
+                        }
+                    }
+                },
+            }
+        }
+
+        stack.is_empty()
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

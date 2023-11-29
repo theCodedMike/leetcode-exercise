@@ -60,7 +60,7 @@ pub struct MyStack2 {
     q2: VecDeque<i32>,
 }
 impl MyStack2 {
-    fn new() -> Self {
+    pub fn new() -> Self {
         MyStack2 {
             q1: VecDeque::new(),
             q2: VecDeque::new(),
@@ -70,7 +70,7 @@ impl MyStack2 {
     /// Time Complexity: O(n)
     ///
     /// Space Complexity: O(n)
-    fn push(&mut self, x: i32) {
+    pub fn push(&mut self, x: i32) {
         self.q2.push_back(x);
         while let Some(val) = self.q1.pop_front() {
             self.q2.push_back(val);
@@ -81,21 +81,21 @@ impl MyStack2 {
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn pop(&mut self) -> i32 {
+    pub fn pop(&mut self) -> i32 {
         self.q1.pop_front().unwrap()
     }
 
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn top(&mut self) -> i32 {
+    pub fn top(&mut self) -> i32 {
         *self.q1.front().unwrap()
     }
 
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn empty(&self) -> bool {
+    pub fn empty(&self) -> bool {
         self.q1.is_empty()
     }
 }
@@ -111,7 +111,7 @@ pub struct MyStack {
  * If you need a mutable reference, change it to `&mut self` instead.
  */
 impl MyStack {
-    fn new() -> Self {
+    pub fn new() -> Self {
         MyStack {
             q1: VecDeque::new(),
         }
@@ -120,7 +120,7 @@ impl MyStack {
     /// Time Complexity: O(n)
     ///
     /// Space Complexity: O(n)
-    fn push(&mut self, x: i32) {
+    pub fn push(&mut self, x: i32) {
         let mut len = self.q1.len();
         self.q1.push_back(x);
         while len != 0 {
@@ -134,21 +134,21 @@ impl MyStack {
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn pop(&mut self) -> i32 {
+    pub fn pop(&mut self) -> i32 {
         self.q1.pop_front().unwrap()
     }
 
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn top(&mut self) -> i32 {
+    pub fn top(&mut self) -> i32 {
         *self.q1.front().unwrap()
     }
 
     /// Time Complexity: O(1)
     ///
     /// Space Complexity: O(1)
-    fn empty(&self) -> bool {
+    pub fn empty(&self) -> bool {
         self.q1.is_empty()
     }
 }
