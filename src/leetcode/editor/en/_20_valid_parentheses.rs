@@ -53,6 +53,9 @@ impl Solution {
         Self::optimize_use_stack(s)
     }
 
+    /// Time Complexity: O(n)
+    ///
+    /// Space Complexity: O(n)
     fn use_stack(s: String) -> bool {
         let mut stack = vec![];
         let is_match = |l_char: char, r_char: char| -> bool {
@@ -82,6 +85,9 @@ impl Solution {
         stack.is_empty()
     }
 
+    /// Time Complexity: O(n)
+    ///
+    /// Space Complexity: O(n + ∣Σ∣)
     fn optimize_use_stack(s: String) -> bool {
         let mut stack = vec![];
         let map = HashMap::from([(')', '('), ('}', '{'), (']', '[')]);

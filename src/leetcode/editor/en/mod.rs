@@ -2,6 +2,7 @@ pub mod _100_same_tree;
 pub mod _101_symmetric_tree;
 pub mod _102_binary_tree_level_order_traversal;
 pub mod _103_binary_tree_zigzag_level_order_traversal;
+pub mod _1047_remove_all_adjacent_duplicates_in_string;
 pub mod _104_maximum_depth_of_binary_tree;
 pub mod _105_construct_binary_tree_from_preorder_and_inorder_traversal;
 pub mod _106_construct_binary_tree_from_inorder_and_postorder_traversal;
