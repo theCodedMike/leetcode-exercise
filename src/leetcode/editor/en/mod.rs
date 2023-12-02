@@ -87,6 +87,7 @@ pub mod _21_merge_two_sorted_lists;
 pub mod _225_implement_stack_using_queues;
 pub mod _22_generate_parentheses;
 pub mod _232_implement_queue_using_stacks;
+pub mod _239_sliding_window_maximum;
 pub mod _23_merge_k_sorted_lists;
 pub mod _242_valid_anagram;
 pub mod _24_swap_nodes_in_pairs;
