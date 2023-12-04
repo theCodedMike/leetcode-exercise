@@ -103,6 +103,7 @@ pub mod _31_next_permutation;
 pub mod _32_longest_valid_parentheses;
 pub mod _33_search_in_rotated_sorted_array;
 pub mod _344_reverse_string;
+pub mod _347_top_k_frequent_elements;
 pub mod _349_intersection_of_two_arrays;
 pub mod _34_find_first_and_last_position_of_element_in_sorted_array;
 pub mod _350_intersection_of_two_arrays_i_i;

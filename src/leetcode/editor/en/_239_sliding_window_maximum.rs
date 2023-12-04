@@ -51,6 +51,7 @@ impl Solution {
     pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {
         //Self::priority_queue(nums, k as usize)
         Self::monotonic_queue(nums, k as usize)
+        //Self::split_block(nums, k as usize)
     }
 
     /// Time Complexity: O(n*log(n))
@@ -68,14 +69,14 @@ impl Solution {
 
         for i in k..len {
             heap.push((nums[i], i));
-            while let Some((_, idx)) = heap.peek() {
+            while let Some((max, idx)) = heap.peek() {
                 if *idx <= i - k {
                     heap.pop();
                 } else {
+                    res.push(*max);
                     break;
                 }
             }
-            res.push((*heap.peek().unwrap()).0);
         }
 
         res
@@ -125,7 +126,27 @@ impl Solution {
     /// Space Complexity: O(n)
     fn split_block(nums: Vec<i32>, k: usize) -> Vec<i32> {
         let len = nums.len();
+        let mut prefix_max = vec![0; len];
+        let mut suffix_max = vec![0; len];
+
+        for mut i in 0..len {
+            if i % k == 0 {
+                prefix_max[i] = nums[i];
+            } else {
+                prefix_max[i] = std::cmp::max(prefix_max[i - 1], nums[i]);
+            }
+            i = len - 1 - i;
+            if i == len - 1 || (i + 1) % k == 0 {
+                suffix_max[i] = nums[i];
+            } else {
+                suffix_max[i] = std::cmp::max(suffix_max[i + 1], nums[i]);
+            }
+        }
+
         let mut res = Vec::with_capacity(len - k + 1);
+        for i in 0..=len - k {
+            res.push(std::cmp::max(suffix_max[i], prefix_max[i + k - 1]));
+        }
 
         res
     }
