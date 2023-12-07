@@ -66,38 +66,115 @@ use std::rc::Rc;
 impl Solution {
     pub fn preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         //let mut res = vec![];
-        //Self::recursion_helper(root, &mut res);
+        //Self::recursion_impl(root, &mut res);
         //res
-        Self::iteration_helper(root)
+
+        Self::iteration_impl_1(root)
+        //Self::iteration_impl_2(root)
+        //Self::iteration_impl_3(root)
+        //Self::iteration_impl_4(root)
     }
-    pub fn recursion_helper(root: Option<Rc<RefCell<TreeNode>>>, res: &mut Vec<i32>) {
+
+    /// Time Complexity: O(n)
+    ///
+    /// Space Complexity: O(n), the space is taken up by the recursive call stack.
+    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>, res: &mut Vec<i32>) {
         match root {
             None => {}
-            Some(curr) => {
-                let val = curr.borrow().val;
-                res.push(val);
-                let left = curr.borrow_mut().left.take();
-                let right = curr.borrow_mut().right.take();
-                Self::recursion_helper(left, res);
-                Self::recursion_helper(right, res);
+            Some(node) => {
+                res.push(node.borrow().val);
+                Self::recursion_impl(node.borrow_mut().left.take(), res);
+                Self::recursion_impl(node.borrow_mut().right.take(), res);
             }
         }
     }
 
-    pub fn iteration_helper(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+    fn iteration_impl_1(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut res = vec![];
-        let mut stack = vec![];
 
+        if let Some(node) = root {
+            let mut stack = vec![node];
+            while !stack.is_empty() {
+                if let Some(curr) = stack.pop() {
+                    res.push(curr.borrow().val);
+
+                    if let Some(right) = curr.borrow_mut().right.take() {
+                        stack.push(right);
+                    }
+                    if let Some(left) = curr.borrow_mut().left.take() {
+                        stack.push(left);
+                    }
+                }
+            }
+        }
+
+        res
+    }
+
+    fn iteration_impl_2(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        let mut stack = vec![];
         while root.is_some() || !stack.is_empty() {
             while let Some(curr) = root {
-                let val = curr.borrow().val;
-                res.push(val);
+                res.push(curr.borrow().val);
                 root = curr.borrow_mut().left.take();
                 stack.push(curr);
             }
 
             if let Some(curr) = stack.pop() {
                 root = curr.borrow_mut().right.take();
+            }
+        }
+
+        res
+    }
+
+    fn iteration_impl_3(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        let mut stack = vec![];
+        while root.is_some() || !stack.is_empty() {
+            match root {
+                Some(curr) => {
+                    res.push(curr.borrow().val);
+                    root = curr.borrow_mut().left.take();
+                    stack.push(curr);
+                }
+                None => {
+                    if let Some(curr) = stack.pop() {
+                        root = curr.borrow_mut().right.take();
+                    }
+                }
+            }
+        }
+
+        res
+    }
+
+    fn iteration_impl_4(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        if root.is_some() {
+            let mut stack = vec![root];
+            while !stack.is_empty() {
+                match stack.pop().unwrap() {
+                    Some(curr) => {
+                        if let Some(right) = curr.borrow_mut().right.take() {
+                            stack.push(Some(right)); // right
+                        }
+                        if let Some(left) = curr.borrow_mut().left.take() {
+                            stack.push(Some(left)); // left
+                        }
+                        stack.push(Some(curr)); // root
+                        stack.push(None);
+                    }
+                    None => {
+                        if let Some(curr) = stack.pop().unwrap() {
+                            res.push(curr.borrow().val);
+                        }
+                    }
+                }
             }
         }
 
