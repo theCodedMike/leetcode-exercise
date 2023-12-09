@@ -58,6 +58,14 @@ impl TreeNode {
             right: None,
         }
     }
+    #[inline]
+    pub fn new2(
+        val: i32,
+        left: Option<Rc<RefCell<TreeNode>>>,
+        right: Option<Rc<RefCell<TreeNode>>>,
+    ) -> Option<Rc<RefCell<TreeNode>>> {
+        Some(Rc::new(RefCell::new(TreeNode { val, left, right })))
+    }
 }
 
 //leetcode submit region begin(Prohibit modification and deletion)
@@ -66,19 +74,93 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        //let mut res = vec![];
+        //Self::recursion_impl(root, &mut res);
+        //return res;
+
+        //Self::iteration_impl_1(root)
+        //Self::iteration_impl_2(root)
+        Self::iteration_impl_3(root)
+    }
+
+    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>, res: &mut Vec<i32>) {
+        match root {
+            None => {}
+            Some(root) => {
+                Self::recursion_impl(root.borrow_mut().left.take(), res);
+                res.push(root.borrow().val);
+                Self::recursion_impl(root.borrow_mut().right.take(), res);
+            }
+        }
+    }
+
+    fn iteration_impl_1(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut res = vec![];
         let mut stack = vec![];
-        let mut curr = root;
 
-        while curr.is_some() || !stack.is_empty() {
-            while let Some(node) = curr {
-                curr = node.borrow_mut().left.take();
-                stack.push(node);
+        while root.is_some() || !stack.is_empty() {
+            while let Some(curr) = root {
+                root = curr.borrow_mut().left.take();
+                stack.push(curr);
             }
 
-            if let Some(node) = stack.pop() {
-                res.push(node.borrow_mut().val);
-                curr = node.borrow_mut().right.take();
+            if let Some(curr) = stack.pop() {
+                res.push(curr.borrow().val);
+                root = curr.borrow_mut().right.take();
+            }
+        }
+
+        res
+    }
+
+    fn iteration_impl_2(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+        let mut stack = vec![];
+
+        while root.is_some() || !stack.is_empty() {
+            match root {
+                Some(curr) => {
+                    root = curr.borrow_mut().left.take();
+                    stack.push(curr);
+                }
+                None => {
+                    if let Some(curr) = stack.pop() {
+                        res.push(curr.borrow().val);
+                        root = curr.borrow_mut().right.take();
+                    }
+                }
+            }
+        }
+
+        res
+    }
+
+    fn iteration_impl_3(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        if root.is_some() {
+            let mut stack = vec![root];
+            while !stack.is_empty() {
+                match stack.pop().unwrap() {
+                    Some(curr) => {
+                        let left = curr.borrow_mut().left.take();
+                        let right = curr.borrow_mut().right.take();
+
+                        if right.is_some() {
+                            stack.push(right); // right
+                        }
+                        stack.push(Some(curr)); // root
+                        stack.push(None);
+                        if left.is_some() {
+                            stack.push(left); // left
+                        }
+                    }
+                    None => {
+                        if let Some(curr) = stack.pop().unwrap() {
+                            res.push(curr.borrow().val);
+                        }
+                    }
+                }
             }
         }
 

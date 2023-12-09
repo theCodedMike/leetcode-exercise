@@ -160,11 +160,14 @@ impl Solution {
             while !stack.is_empty() {
                 match stack.pop().unwrap() {
                     Some(curr) => {
-                        if let Some(right) = curr.borrow_mut().right.take() {
-                            stack.push(Some(right)); // right
+                        let left = curr.borrow_mut().left.take();
+                        let right = curr.borrow_mut().right.take();
+
+                        if right.is_some() {
+                            stack.push(right); // right
                         }
-                        if let Some(left) = curr.borrow_mut().left.take() {
-                            stack.push(Some(left)); // left
+                        if left.is_some() {
+                            stack.push(left); // left
                         }
                         stack.push(Some(curr)); // root
                         stack.push(None);
