@@ -73,31 +73,54 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn postorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        Self::iteration_helper(root)
-        // let mut vals = vec![];
-        // Self::recursion_helper(root, &mut vals);
-        // vals
+        //let mut res = vec![];
+        //Self::recursion_impl(root, &mut res);
+        //res
+
+        //Self::iteration_impl_1(root)
+        //Self::iteration_impl_2(root)
+        //Self::iteration_impl_3(root)
+        Self::iteration_impl_4(root)
     }
 
-    pub fn recursion_helper(root: Option<Rc<RefCell<TreeNode>>>, vals: &mut Vec<i32>) {
+    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>, res: &mut Vec<i32>) {
         match root {
             None => {}
             Some(curr) => {
-                let val = curr.borrow().val;
-                let left = curr.borrow_mut().left.take();
-                let right = curr.borrow_mut().right.take();
-                Self::recursion_helper(left, vals);
-                Self::recursion_helper(right, vals);
-                vals.push(val);
+                Self::recursion_impl(curr.borrow_mut().left.take(), res);
+                Self::recursion_impl(curr.borrow_mut().right.take(), res);
+                res.push(curr.borrow().val);
             }
         }
     }
 
-    pub fn iteration_helper(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        let mut vals = vec![];
-        let mut stack = vec![];
+    /// 这种写法可以作为前序遍历或后序遍历的通用写法
+    fn iteration_impl_1(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
 
-        let mut prev = None;
+        if let Some(root) = root {
+            let mut stack = vec![root];
+
+            while let Some(curr) = stack.pop() {
+                res.push(curr.borrow().val); // Root
+                if let Some(left) = curr.borrow_mut().left.take() {
+                    stack.push(left); // Left
+                }
+                if let Some(right) = curr.borrow_mut().right.take() {
+                    stack.push(right); // Right
+                }
+            }
+        }
+
+        res.reverse(); // NRL -> LRN
+        res
+    }
+
+    fn iteration_impl_2(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        let mut stack = vec![];
+        let mut last_visited = None;
         while root.is_some() || !stack.is_empty() {
             while let Some(curr) = root {
                 root = curr.borrow_mut().left.take();
@@ -105,18 +128,75 @@ impl Solution {
             }
 
             if let Some(curr) = stack.pop() {
-                if curr.borrow().right.is_none() || curr.borrow().right.eq(&prev) {
-                    vals.push(curr.borrow().val);
-                    prev = Some(curr);
-                    root = None;
-                } else {
-                    root = curr.borrow_mut().right.take();
+                let right = curr.borrow_mut().right.take();
+                if right.is_some() && !right.eq(&last_visited) {
+                    root = right;
                     stack.push(curr);
+                } else {
+                    res.push(curr.borrow().val);
+                    last_visited = right;
                 }
             }
         }
 
-        vals
+        res
+    }
+
+    fn iteration_impl_3(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        let mut stack = vec![];
+        let mut last_visited = None;
+        while root.is_some() || !stack.is_empty() {
+            match root {
+                Some(curr) => {
+                    root = curr.borrow_mut().left.take();
+                    stack.push(curr);
+                }
+                None => {
+                    if let Some(curr) = stack.pop() {
+                        let right = curr.borrow_mut().right.take();
+                        if right.is_some() && !right.eq(&last_visited) {
+                            root = right;
+                            stack.push(curr);
+                        } else {
+                            res.push(curr.borrow().val);
+                            last_visited = right;
+                        }
+                    }
+                }
+            }
+        }
+
+        res
+    }
+
+    /// 这种写法可以作为通用写法
+    fn iteration_impl_4(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        if let Some(root) = root {
+            let mut stack = vec![Ok(root)];
+
+            while let Some(curr) = stack.pop() {
+                match curr {
+                    Ok(node) => {
+                        stack.push(Err(node.borrow().val));
+                        if let Some(right) = node.borrow_mut().right.take() {
+                            stack.push(Ok(right));
+                        }
+                        if let Some(left) = node.borrow_mut().left.take() {
+                            stack.push(Ok(left));
+                        }
+                    }
+                    Err(val) => {
+                        res.push(val);
+                    }
+                }
+            }
+        }
+
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

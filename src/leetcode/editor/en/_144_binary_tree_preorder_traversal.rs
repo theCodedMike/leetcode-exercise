@@ -69,10 +69,10 @@ impl Solution {
         //Self::recursion_impl(root, &mut res);
         //res
 
-        Self::iteration_impl_1(root)
+        //Self::iteration_impl_1(root)
         //Self::iteration_impl_2(root)
         //Self::iteration_impl_3(root)
-        //Self::iteration_impl_4(root)
+        Self::iteration_impl_4(root)
     }
 
     /// Time Complexity: O(n)
@@ -89,21 +89,21 @@ impl Solution {
         }
     }
 
+    /// 这种写法可以作为前序遍历或后序遍历的通用写法
     fn iteration_impl_1(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut res = vec![];
 
         if let Some(node) = root {
             let mut stack = vec![node];
-            while !stack.is_empty() {
-                if let Some(curr) = stack.pop() {
-                    res.push(curr.borrow().val);
 
-                    if let Some(right) = curr.borrow_mut().right.take() {
-                        stack.push(right);
-                    }
-                    if let Some(left) = curr.borrow_mut().left.take() {
-                        stack.push(left);
-                    }
+            while let Some(curr) = stack.pop() {
+                res.push(curr.borrow().val);
+
+                if let Some(right) = curr.borrow_mut().right.take() {
+                    stack.push(right);
+                }
+                if let Some(left) = curr.borrow_mut().left.take() {
+                    stack.push(left);
                 }
             }
         }
@@ -152,31 +152,25 @@ impl Solution {
         res
     }
 
+    /// 这种写法可以作为通用写法
     fn iteration_impl_4(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
         let mut res = vec![];
 
-        if root.is_some() {
-            let mut stack = vec![root];
-            while !stack.is_empty() {
-                match stack.pop().unwrap() {
-                    Some(curr) => {
-                        let left = curr.borrow_mut().left.take();
-                        let right = curr.borrow_mut().right.take();
+        if let Some(root) = root {
+            let mut stack = vec![Ok(root)];
 
-                        if right.is_some() {
-                            stack.push(right); // right
+            while let Some(curr) = stack.pop() {
+                match curr {
+                    Ok(node) => {
+                        if let Some(right) = node.borrow_mut().right.take() {
+                            stack.push(Ok(right));
                         }
-                        if left.is_some() {
-                            stack.push(left); // left
+                        if let Some(left) = node.borrow_mut().left.take() {
+                            stack.push(Ok(left));
                         }
-                        stack.push(Some(curr)); // root
-                        stack.push(None);
+                        stack.push(Err(node.borrow().val));
                     }
-                    None => {
-                        if let Some(curr) = stack.pop().unwrap() {
-                            res.push(curr.borrow().val);
-                        }
-                    }
+                    Err(val) => res.push(val),
                 }
             }
         }
