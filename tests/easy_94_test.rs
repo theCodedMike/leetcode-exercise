@@ -1,6 +1,5 @@
-use leetcode_exercise::leetcode::editor::en::_94_binary_tree_inorder_traversal::{
-    Solution, TreeNode,
-};
+use leetcode_exercise::leetcode::editor::en::_94_binary_tree_inorder_traversal::Solution;
+use leetcode_exercise::TreeNode;
 
 #[test]
 fn binary_tree_inorder_traversal_1() {

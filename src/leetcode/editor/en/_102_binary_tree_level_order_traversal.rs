@@ -36,61 +36,92 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
+use crate::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
+
 impl Solution {
     pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
-        let mut res = vec![];
-        match root {
-            None => return res,
-            Some(curr) => {
-                let mut queue = VecDeque::new();
-                queue.push_back((curr, 0));
+        //Self::recursion_impl(root)
+        //Self::iteration_impl_1(root)
+        Self::iteration_impl_2(root)
+    }
 
-                while !queue.is_empty() {
-                    if let Some((curr, level)) = queue.pop_front() {
-                        let val = curr.borrow().val;
-                        match res.get_mut(level) {
-                            None => {
-                                res.push(vec![val]);
-                            }
-                            Some(vec) => {
-                                vec.push(val);
-                            }
-                        }
+    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
+        let mut res = vec![];
+        const RECURSION_IMPL: fn(Option<Rc<RefCell<TreeNode>>>, usize, &mut Vec<Vec<i32>>) =
+            |root, level, res| match root {
+                None => {}
+                Some(curr) => {
+                    if level == res.len() {
+                        res.push(vec![]);
+                    }
+                    res[level].push(curr.borrow().val);
+
+                    if let Some(left) = curr.borrow_mut().left.take() {
+                        RECURSION_IMPL(Some(left), level + 1, res);
+                    }
+                    if let Some(right) = curr.borrow_mut().right.take() {
+                        RECURSION_IMPL(Some(right), level + 1, res);
+                    }
+                }
+            };
+
+        RECURSION_IMPL(root, 0, &mut res);
+
+        res
+    }
+
+    fn iteration_impl_1(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
+        let mut res = vec![];
+
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([(0, root)]);
+
+            while let Some((level, curr)) = queue.pop_front() {
+                if level == res.len() {
+                    res.push(vec![]);
+                }
+                res[level].push(curr.borrow().val);
+
+                if let Some(left) = curr.borrow_mut().left.take() {
+                    queue.push_back((level + 1, left));
+                }
+                if let Some(right) = curr.borrow_mut().right.take() {
+                    queue.push_back((level + 1, right));
+                }
+            }
+        }
+
+        res
+    }
+
+    fn iteration_impl_2(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
+        let mut res = vec![];
+
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([root]);
+
+            while !queue.is_empty() {
+                let level_len = queue.len();
+
+                let mut level_vec = vec![];
+                for _ in 0..level_len {
+                    if let Some(curr) = queue.pop_front() {
+                        level_vec.push(curr.borrow().val);
 
                         if let Some(left) = curr.borrow_mut().left.take() {
-                            queue.push_back((left, level + 1));
+                            queue.push_back(left);
                         }
-
                         if let Some(right) = curr.borrow_mut().right.take() {
-                            queue.push_back((right, level + 1));
+                            queue.push_back(right);
                         }
                     }
                 }
+                res.push(level_vec);
             }
         }
 
