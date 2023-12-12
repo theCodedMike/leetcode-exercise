@@ -37,131 +37,96 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
+use crate::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
-use std::collections::{BTreeMap, VecDeque};
+use std::collections::VecDeque;
 use std::rc::Rc;
 impl Solution {
     pub fn level_order_bottom(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
-        //Self::level_order1(root)
-        Self::level_order2(root)
-        //Self::level_order3(root)
+        //Self::recursion_impl(root)
+        //Self::iteration_impl_1(root)
+        Self::iteration_impl_2(root)
     }
 
-    fn level_order1(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
+    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
+        let mut res = vec![];
+        const RECUR_IMPL: fn(Option<Rc<RefCell<TreeNode>>>, usize, &mut Vec<Vec<i32>>) =
+            |root, level, res| match root {
+                None => {}
+                Some(curr) => {
+                    if level == res.len() {
+                        res.push(vec![]);
+                    }
+                    res[level].push(curr.borrow().val);
+
+                    RECUR_IMPL(curr.borrow_mut().left.take(), level + 1, res);
+                    RECUR_IMPL(curr.borrow_mut().right.take(), level + 1, res);
+                }
+            };
+
+        RECUR_IMPL(root, 0, &mut res);
+        res.reverse();
+
+        res
+    }
+
+    fn iteration_impl_1(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
         let mut res = vec![];
 
-        match root {
-            None => {}
-            Some(curr) => {
-                let mut queue = VecDeque::new();
-                queue.push_back((curr, 0));
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([(root, 0)]);
 
-                while let Some((curr, level)) = queue.pop_front() {
-                    let val = curr.borrow().val;
-                    match res.get_mut(level) {
-                        None => {
-                            res.push(vec![val]);
-                        }
-                        Some(vec) => {
-                            vec.push(val);
-                        }
-                    }
-
-                    if let Some(left) = curr.borrow_mut().left.take() {
-                        queue.push_back((left, level + 1));
-                    }
-                    if let Some(right) = curr.borrow_mut().right.take() {
-                        queue.push_back((right, level + 1));
-                    }
+            while let Some((curr, level)) = queue.pop_front() {
+                if res.len() == level {
+                    res.push(vec![]);
                 }
+                res[level].push(curr.borrow().val);
 
-                res.reverse()
+                if let Some(left) = curr.borrow_mut().left.take() {
+                    queue.push_back((left, level + 1));
+                }
+                if let Some(right) = curr.borrow_mut().right.take() {
+                    queue.push_back((right, level + 1));
+                }
             }
+
+            res.reverse();
         }
 
         res
     }
 
-    fn level_order2(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
+    fn iteration_impl_2(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
         let mut res = vec![];
 
-        match root {
-            None => {}
-            Some(curr) => {
-                let mut queue = VecDeque::new();
-                queue.push_back((curr, 0));
-                let mut prev_leval = -1;
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([root]);
 
-                while let Some((curr, level)) = queue.pop_front() {
-                    let val = curr.borrow().val;
-                    if prev_leval != level {
-                        res.insert(0, vec![val]);
-                    } else {
-                        res[0].push(val);
-                    }
+            while !queue.is_empty() {
+                let level_len = queue.len();
 
-                    prev_leval = level;
-                    if let Some(left) = curr.borrow_mut().left.take() {
-                        queue.push_back((left, level + 1));
-                    }
-                    if let Some(right) = curr.borrow_mut().right.take() {
-                        queue.push_back((right, level + 1));
+                let mut level_vec = Vec::with_capacity(level_len);
+                for _ in 0..level_len {
+                    if let Some(curr) = queue.pop_front() {
+                        level_vec.push(curr.borrow().val);
+
+                        if let Some(left) = curr.borrow_mut().left.take() {
+                            queue.push_back(left);
+                        }
+                        if let Some(right) = curr.borrow_mut().right.take() {
+                            queue.push_back(right);
+                        }
                     }
                 }
+                res.push(level_vec);
             }
+
+            res.reverse();
         }
 
         res
-    }
-
-    fn level_order3(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {
-        let mut res = BTreeMap::new();
-
-        match root {
-            None => {}
-            Some(curr) => {
-                let mut queue = VecDeque::new();
-                queue.push_back((curr, 0));
-
-                while let Some((curr, level)) = queue.pop_front() {
-                    let val = curr.borrow().val;
-                    res.entry(level)
-                        .and_modify(|vec: &mut Vec<i32>| vec.push(val))
-                        .or_insert(vec![val]);
-
-                    if let Some(left) = curr.borrow_mut().left.take() {
-                        queue.push_back((left, level + 1));
-                    }
-                    if let Some(right) = curr.borrow_mut().right.take() {
-                        queue.push_back((right, level + 1));
-                    }
-                }
-            }
-        }
-
-        res.values().rev().cloned().collect::<Vec<_>>()
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
