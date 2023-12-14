@@ -142,6 +142,7 @@ pub mod _5_longest_palindromic_substring;
 pub mod _60_permutation_sequence;
 pub mod _61_rotate_list;
 pub mod _62_unique_paths;
+pub mod _637_average_of_levels_in_binary_tree;
 pub mod _64_minimum_path_sum;
 pub mod _65_valid_number;
 pub mod _66_plus_one;

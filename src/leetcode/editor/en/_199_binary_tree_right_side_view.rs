@@ -131,12 +131,15 @@ impl Solution {
             while let Some(root) = stack.pop() {
                 match root {
                     Ok((curr, curr_level)) => {
+                        // Left
                         if let Some(left) = curr.borrow_mut().left.take() {
                             stack.push(Ok((left, curr_level + 1)));
                         }
+                        // Right
                         if let Some(right) = curr.borrow_mut().right.take() {
                             stack.push(Ok((right, curr_level + 1)));
                         }
+                        // Root
                         stack.push(Err((curr.borrow().val, curr_level)));
                     }
                     Err((val, curr_level)) => {
