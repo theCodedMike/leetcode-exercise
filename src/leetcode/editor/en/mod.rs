@@ -117,6 +117,7 @@ pub mod _39_combination_sum;
 pub mod _3_longest_substring_without_repeating_characters;
 pub mod _40_combination_sum_i_i;
 pub mod _41_first_missing_positive;
+pub mod _429_n_ary_tree_level_order_traversal;
 pub mod _42_trapping_rain_water;
 pub mod _438_find_all_anagrams_in_a_string;
 pub mod _43_multiply_strings;
