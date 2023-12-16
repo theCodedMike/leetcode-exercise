@@ -8,10 +8,10 @@ fn binary_tree_right_side_view_1() {
     // 2   3
     //  \   \
     //   5   4
-    let root = TreeNode::new2(
+    let root = TreeNode::new_with_children(
         1,
-        TreeNode::new2(2, None, TreeNode::new2(5, None, None)),
-        TreeNode::new2(3, None, TreeNode::new2(4, None, None)),
+        TreeNode::new_with_right(2, TreeNode::new(5)),
+        TreeNode::new_with_right(3, TreeNode::new(4)),
     );
     let res = Solution::right_side_view(root);
     assert_eq!(res, [1, 3, 4]);
@@ -22,7 +22,7 @@ fn binary_tree_right_side_view_2() {
     //   1
     //    \
     //     3
-    let root = TreeNode::new2(1, None, TreeNode::new2(3, None, None));
+    let root = TreeNode::new_with_right(1, TreeNode::new(3));
     let res = Solution::right_side_view(root);
     assert_eq!(res, [1, 3]);
 }
@@ -32,7 +32,7 @@ fn binary_tree_right_side_view_3() {
     //   1
     //  /
     // 2
-    let root = TreeNode::new2(1, TreeNode::new2(2, None, None), None);
+    let root = TreeNode::new_with_left(1, TreeNode::new(2));
     let res = Solution::right_side_view(root);
     assert_eq!(res, [1, 2]);
 }
@@ -44,10 +44,10 @@ fn binary_tree_right_side_view_4() {
     //   2   3
     //  /
     // 4
-    let root = TreeNode::new2(
+    let root = TreeNode::new_with_children(
         1,
-        TreeNode::new2(2, TreeNode::new2(4, None, None), None),
-        TreeNode::new2(3, None, None),
+        TreeNode::new_with_left(2, TreeNode::new(4)),
+        TreeNode::new(3),
     );
     let res = Solution::right_side_view(root);
     assert_eq!(res, [1, 3, 4]);
@@ -64,18 +64,16 @@ fn binary_tree_right_side_view_5() {
     // 2   5
     //      \
     //       4
-    let root = TreeNode::new2(
+    let root = TreeNode::new_with_left(
         6,
-        TreeNode::new2(
+        TreeNode::new_with_right(
             1,
-            None,
-            TreeNode::new2(
+            TreeNode::new_with_children(
                 3,
-                TreeNode::new2(2, None, None),
-                TreeNode::new2(5, None, TreeNode::new2(4, None, None)),
+                TreeNode::new(2),
+                TreeNode::new_with_right(5, TreeNode::new(4)),
             ),
         ),
-        None,
     );
     let res = Solution::right_side_view(root);
     assert_eq!(res, [6, 1, 3, 5, 4]);

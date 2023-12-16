@@ -11,15 +11,37 @@ pub struct TreeNode {
 }
 
 impl TreeNode {
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
+    ///
+    /// Node with no children
+    ///
+    pub fn new(val: i32) -> Option<Rc<RefCell<TreeNode>>> {
+        Self::new_with_children(val, None, None)
     }
 
-    pub fn new2(
+    ///
+    /// Node with left child
+    ///
+    pub fn new_with_left(
+        val: i32,
+        left: Option<Rc<RefCell<TreeNode>>>,
+    ) -> Option<Rc<RefCell<TreeNode>>> {
+        Self::new_with_children(val, left, None)
+    }
+
+    ///
+    /// Node with right child
+    ///
+    pub fn new_with_right(
+        val: i32,
+        right: Option<Rc<RefCell<TreeNode>>>,
+    ) -> Option<Rc<RefCell<TreeNode>>> {
+        Self::new_with_children(val, None, right)
+    }
+
+    ///
+    /// Node with children
+    ///
+    pub fn new_with_children(
         val: i32,
         left: Option<Rc<RefCell<TreeNode>>>,
         right: Option<Rc<RefCell<TreeNode>>>,
@@ -47,7 +69,10 @@ impl Node {
     ///
     /// Node with children
     ///
-    pub fn new2(val: i32, children: Vec<Option<Rc<RefCell<Node>>>>) -> Option<Rc<RefCell<Node>>> {
+    pub fn new_with_children(
+        val: i32,
+        children: Vec<Option<Rc<RefCell<Node>>>>,
+    ) -> Option<Rc<RefCell<Node>>> {
         Some(Rc::new(RefCell::new(Node {
             val,
             children: if children.is_empty() {

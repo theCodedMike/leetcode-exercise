@@ -8,10 +8,10 @@ fn n_ary_tree_level_order_traversal_1() {
     //    3   2   4
     //   / \
     //  5   6
-    let root = Node::new2(
+    let root = Node::new_with_children(
         1,
         vec![
-            Node::new2(3, vec![Node::new(5), Node::new(6)]),
+            Node::new_with_children(3, vec![Node::new(5), Node::new(6)]),
             Node::new(2),
             Node::new(4),
         ],
@@ -31,19 +31,28 @@ fn n_ary_tree_level_order_traversal_2() {
     //      11 12 13
     //      |
     //      14
-    let root = Node::new2(
+    let root = Node::new_with_children(
         1,
         vec![
             Node::new(2),
-            Node::new2(
+            Node::new_with_children(
                 3,
                 vec![
                     Node::new(6),
-                    Node::new2(7, vec![Node::new2(11, vec![Node::new(14)])]),
+                    Node::new_with_children(
+                        7,
+                        vec![Node::new_with_children(11, vec![Node::new(14)])],
+                    ),
                 ],
             ),
-            Node::new2(4, vec![Node::new2(8, vec![Node::new(12)])]),
-            Node::new2(5, vec![Node::new2(9, vec![Node::new(13)]), Node::new(10)]),
+            Node::new_with_children(4, vec![Node::new_with_children(8, vec![Node::new(12)])]),
+            Node::new_with_children(
+                5,
+                vec![
+                    Node::new_with_children(9, vec![Node::new(13)]),
+                    Node::new(10),
+                ],
+            ),
         ],
     );
     let res = Solution::level_order(root);
