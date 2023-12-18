@@ -98,7 +98,8 @@ pub mod safe {
         pub fn connect(root: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {
             //Self::bfs_iter_1(root)
             //Self::bfs_iter_2(root)
-            Self::use_next_pointer(root)
+            //Self::use_next_pointer_iter(root)
+            Self::use_next_pointer_recur(root)
         }
 
         fn bfs_iter_1(root: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {
@@ -157,7 +158,7 @@ pub mod safe {
             root
         }
 
-        fn use_next_pointer(root: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {
+        fn use_next_pointer_iter(root: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {
             let mut leftmost = root.clone();
 
             while let Some(level_first) = leftmost {
@@ -180,12 +181,34 @@ pub mod safe {
 
             root
         }
+
+        fn use_next_pointer_recur(root: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {
+            const PRE_ORDER: fn(Option<Rc<RefCell<Node>>>) = |root| {
+                if let Some(curr) = root {
+                    match (curr.borrow().left.clone(), curr.borrow().right.clone()) {
+                        (Some(left), Some(right)) => {
+                            left.borrow_mut().next = Some(right.clone());
+                            if let Some(next) = curr.borrow().next.clone() {
+                                right.borrow_mut().next = next.borrow().left.clone();
+                            }
+                        }
+                        (_, _) => return,
+                    }
+
+                    PRE_ORDER(curr.borrow().left.clone());
+                    PRE_ORDER(curr.borrow().right.clone());
+                }
+            };
+            PRE_ORDER(root.clone());
+            root
+        }
     }
 }
 pub mod raw_ptr {
     use std::collections::VecDeque;
     use std::ptr::null_mut;
 
+    #[derive(Debug, PartialEq, Eq)]
     pub struct Node {
         pub val: i32,
         pub left: *mut Node,
@@ -217,7 +240,8 @@ pub mod raw_ptr {
         pub fn connect(root: *mut Node) -> *mut Node {
             //Self::bfs_iter_1(root)
             //Self::bfs_iter_2(root)
-            Self::use_next_pointer(root)
+            //Self::use_next_pointer_iter(root)
+            Self::use_next_pointer_recur(root)
         }
         fn bfs_iter_1(root: *mut Node) -> *mut Node {
             if !root.is_null() {
@@ -277,10 +301,11 @@ pub mod raw_ptr {
             root
         }
 
-        fn use_next_pointer(root: *mut Node) -> *mut Node {
+        fn use_next_pointer_iter(root: *mut Node) -> *mut Node {
             let mut leftmost = root;
-            unsafe {
-                while !leftmost.is_null() {
+
+            while !leftmost.is_null() {
+                unsafe {
                     let mut curr = leftmost;
                     while !curr.is_null() {
                         if !(*curr).left.is_null() {
@@ -299,6 +324,24 @@ pub mod raw_ptr {
 
             root
         }
+
+        fn use_next_pointer_recur(root: *mut Node) -> *mut Node {
+            const PRE_ORDER: fn(*mut Node) = |root| unsafe {
+                if root.is_null() || (*root).left.is_null() {
+                    return;
+                }
+
+                (*(*root).left).next = (*root).right;
+                if !(*root).next.is_null() {
+                    (*(*root).right).next = (*(*root).next).left;
+                }
+
+                PRE_ORDER((*root).left);
+                PRE_ORDER((*root).right);
+            };
+            PRE_ORDER(root);
+            root
+        }
     }
 }
 
@@ -306,6 +349,7 @@ pub mod nonnull {
     use std::collections::VecDeque;
     use std::ptr::NonNull;
 
+    #[derive(Debug, PartialEq, Eq)]
     pub struct Node {
         pub val: i32,
         pub left: Option<NonNull<Node>>,
@@ -340,7 +384,8 @@ pub mod nonnull {
         pub fn connect(root: Option<NonNull<Node>>) -> Option<NonNull<Node>> {
             //Self::bfs_iter_1(root)
             //Self::bfs_iter_2(root)
-            Self::use_next_pointer(root)
+            //Self::use_next_pointer_iter(root)
+            Self::use_next_pointer_recur(root)
         }
 
         fn bfs_iter_1(root: Option<NonNull<Node>>) -> Option<NonNull<Node>> {
@@ -399,7 +444,7 @@ pub mod nonnull {
             root
         }
 
-        fn use_next_pointer(root: Option<NonNull<Node>>) -> Option<NonNull<Node>> {
+        fn use_next_pointer_iter(root: Option<NonNull<Node>>) -> Option<NonNull<Node>> {
             let mut leftmost = root.clone();
             while let Some(level_first) = leftmost {
                 unsafe {
@@ -423,6 +468,27 @@ pub mod nonnull {
                 }
             }
 
+            root
+        }
+
+        fn use_next_pointer_recur(root: Option<NonNull<Node>>) -> Option<NonNull<Node>> {
+            const PRE_ORDER: fn(Option<NonNull<Node>>) = |root| unsafe {
+                if let Some(curr) = root {
+                    match (curr.as_ref().left, curr.as_ref().right) {
+                        (Some(left), Some(right)) => {
+                            (*left.as_ptr()).next = Some(right);
+                            if let Some(next) = curr.as_ref().next {
+                                (*right.as_ptr()).next = next.as_ref().left;
+                            }
+                        }
+                        (_, _) => return,
+                    }
+
+                    PRE_ORDER(curr.as_ref().left);
+                    PRE_ORDER(curr.as_ref().right);
+                }
+            };
+            PRE_ORDER(root);
             root
         }
     }
