@@ -1,9 +1,15 @@
-mod safe {
+pub mod safe {
     use std::cell::RefCell;
     use std::rc::Rc;
-    use leetcode_exercise::leetcode::editor::en::_116_populating_next_right_pointers_in_each_node::safe::{Solution, Node};
+    use leetcode_exercise::leetcode::editor::en::_116_populating_next_right_pointers_in_each_node::safe::Solution;
+    use leetcode_exercise::binary_tree_with_next::safe::Node;
+    use crate::utils::binary_tree_traversal::safe::{
+        pre_order_recur as pre_order_traversal,
+        in_order_recur as in_order_traversal,
+        post_order_recur as post_order_traversal
+    };
 
-    fn level_vec_util(mut root: Option<Rc<RefCell<Node>>>) -> Vec<Vec<i32>> {
+    fn level_vec_traversal(mut root: Option<Rc<RefCell<Node>>>) -> Vec<Vec<i32>> {
         let mut res = vec![];
 
         while let Some(left) = root {
@@ -22,45 +28,6 @@ mod safe {
         res
     }
 
-    fn pre_order_traversal(root: Option<Rc<RefCell<Node>>>) -> Vec<i32> {
-        let mut res = vec![];
-        const PRE_ORDER: fn(Option<Rc<RefCell<Node>>>, &mut Vec<i32>) = |root, res| {
-            if let Some(curr) = root {
-                res.push(curr.borrow().val);
-                PRE_ORDER(curr.borrow_mut().left.clone(), res);
-                PRE_ORDER(curr.borrow_mut().right.clone(), res);
-            }
-        };
-        PRE_ORDER(root, &mut res);
-        res
-    }
-
-    fn in_order_traversal(root: Option<Rc<RefCell<Node>>>) -> Vec<i32> {
-        let mut res = vec![];
-        const IN_ORDER: fn(Option<Rc<RefCell<Node>>>, &mut Vec<i32>) = |root, res| {
-            if let Some(curr) = root {
-                IN_ORDER(curr.borrow_mut().left.clone(), res);
-                res.push(curr.borrow().val);
-                IN_ORDER(curr.borrow_mut().right.clone(), res);
-            }
-        };
-        IN_ORDER(root, &mut res);
-        res
-    }
-
-    fn post_order_traversal(root: Option<Rc<RefCell<Node>>>) -> Vec<i32> {
-        let mut res = vec![];
-        const POST_ORDER: fn(Option<Rc<RefCell<Node>>>, &mut Vec<i32>) = |root, res| {
-            if let Some(curr) = root {
-                POST_ORDER(curr.borrow_mut().left.clone(), res);
-                POST_ORDER(curr.borrow_mut().right.clone(), res);
-                res.push(curr.borrow().val);
-            }
-        };
-        POST_ORDER(root, &mut res);
-        res
-    }
-
     #[test]
     fn populating_next_right_pointers_in_each_node_1() {
         let root = None;
@@ -68,7 +35,7 @@ mod safe {
         assert_eq!(pre_order_traversal(res.clone()).is_empty(), true);
         assert_eq!(in_order_traversal(res.clone()).is_empty(), true);
         assert_eq!(post_order_traversal(res.clone()).is_empty(), true);
-        assert_eq!(level_vec_util(res).is_empty(), true);
+        assert_eq!(level_vec_traversal(res).is_empty(), true);
     }
 
     #[test]
@@ -79,7 +46,7 @@ mod safe {
         assert_eq!(pre_order_traversal(res.clone()), [1]);
         assert_eq!(in_order_traversal(res.clone()), [1]);
         assert_eq!(post_order_traversal(res.clone()), [1]);
-        assert_eq!(level_vec_util(res), [[1]]);
+        assert_eq!(level_vec_traversal(res), [[1]]);
     }
 
     #[test]
@@ -92,7 +59,7 @@ mod safe {
         assert_eq!(pre_order_traversal(res.clone()), [1, 2, 3]);
         assert_eq!(in_order_traversal(res.clone()), [2, 1, 3]);
         assert_eq!(post_order_traversal(res.clone()), [2, 3, 1]);
-        assert_eq!(level_vec_util(res), vec![vec![1], vec![2, 3]]);
+        assert_eq!(level_vec_traversal(res), vec![vec![1], vec![2, 3]]);
     }
 
     #[test]
@@ -112,7 +79,7 @@ mod safe {
         assert_eq!(in_order_traversal(res.clone()), [4, 2, 5, 1, 6, 3, 7]);
         assert_eq!(post_order_traversal(res.clone()), [4, 5, 2, 6, 7, 3, 1]);
         assert_eq!(
-            level_vec_util(res),
+            level_vec_traversal(res),
             vec![vec![1], vec![2, 3], vec![4, 5, 6, 7]]
         );
     }
@@ -153,7 +120,7 @@ mod safe {
             [8, 9, 4, 10, 11, 5, 2, 12, 13, 6, 14, 15, 7, 3, 1]
         );
         assert_eq!(
-            level_vec_util(res),
+            level_vec_traversal(res),
             vec![
                 vec![1],
                 vec![2, 3],
@@ -204,7 +171,7 @@ mod safe {
             ),
         );
         let res = Solution::connect(root);
-        let res = level_vec_util(res);
+        let res = level_vec_traversal(res);
         assert_eq!(
             res,
             vec![
@@ -218,9 +185,15 @@ mod safe {
     }
 }
 
-mod raw_ptr {
+pub mod raw_ptr {
     use std::ptr::null_mut;
-    use leetcode_exercise::leetcode::editor::en::_116_populating_next_right_pointers_in_each_node::raw_ptr::{Solution, Node};
+    use leetcode_exercise::leetcode::editor::en::_116_populating_next_right_pointers_in_each_node::raw_ptr::Solution;
+    use leetcode_exercise::binary_tree_with_next::raw_ptr::Node;
+    use crate::utils::binary_tree_traversal::raw_ptr::{
+        pre_order_recur as pre_order_traversal,
+        in_order_recur as in_order_traversal,
+        post_order_recur as post_order_traversal
+    };
 
     fn level_vec_util(mut root: *mut Node) -> Vec<Vec<i32>> {
         let mut res = vec![];
@@ -240,50 +213,6 @@ mod raw_ptr {
             }
         }
 
-        res
-    }
-    fn pre_order_traversal(root: *mut Node) -> Vec<i32> {
-        let mut res = vec![];
-        const PRE_ORDER: fn(*mut Node, &mut Vec<i32>) = |root, res| {
-            if !root.is_null() {
-                unsafe {
-                    res.push((*root).val);
-                    PRE_ORDER((*root).left, res);
-                    PRE_ORDER((*root).right, res);
-                }
-            }
-        };
-        PRE_ORDER(root, &mut res);
-        res
-    }
-
-    fn in_order_traversal(root: *mut Node) -> Vec<i32> {
-        let mut res = vec![];
-        const IN_ORDER: fn(*mut Node, &mut Vec<i32>) = |root, res| {
-            if !root.is_null() {
-                unsafe {
-                    IN_ORDER((*root).left, res);
-                    res.push((*root).val);
-                    IN_ORDER((*root).right, res);
-                }
-            }
-        };
-        IN_ORDER(root, &mut res);
-        res
-    }
-
-    fn post_order_traversal(root: *mut Node) -> Vec<i32> {
-        let mut res = vec![];
-        const POST_ORDER: fn(*mut Node, &mut Vec<i32>) = |root, res| {
-            if !root.is_null() {
-                unsafe {
-                    POST_ORDER((*root).left, res);
-                    POST_ORDER((*root).right, res);
-                    res.push((*root).val);
-                }
-            }
-        };
-        POST_ORDER(root, &mut res);
         res
     }
 
@@ -444,9 +373,15 @@ mod raw_ptr {
     }
 }
 
-mod nonnull {
+pub mod nonnull {
     use std::ptr::NonNull;
-    use leetcode_exercise::leetcode::editor::en::_116_populating_next_right_pointers_in_each_node::nonnull::{Solution, Node};
+    use leetcode_exercise::leetcode::editor::en::_116_populating_next_right_pointers_in_each_node::nonnull::Solution;
+    use leetcode_exercise::binary_tree_with_next::nonnull::Node;
+    use crate::utils::binary_tree_traversal::nonnull::{
+        pre_order_recur as pre_order_traversal,
+        in_order_recur as in_order_traversal,
+        post_order_recur as post_order_traversal
+    };
 
     fn level_vec_util(mut root: Option<NonNull<Node>>) -> Vec<Vec<i32>> {
         let mut res = vec![];
@@ -466,51 +401,6 @@ mod nonnull {
             }
         }
 
-        res
-    }
-
-    fn pre_order_traversal(root: Option<NonNull<Node>>) -> Vec<i32> {
-        let mut res = vec![];
-        const PRE_ORDER: fn(Option<NonNull<Node>>, &mut Vec<i32>) = |root, res| {
-            if let Some(curr) = root {
-                unsafe {
-                    res.push(curr.as_ref().val);
-                    PRE_ORDER(curr.as_ref().left, res);
-                    PRE_ORDER(curr.as_ref().right, res);
-                }
-            }
-        };
-        PRE_ORDER(root, &mut res);
-        res
-    }
-
-    fn in_order_traversal(root: Option<NonNull<Node>>) -> Vec<i32> {
-        let mut res = vec![];
-        const IN_ORDER: fn(Option<NonNull<Node>>, &mut Vec<i32>) = |root, res| {
-            if let Some(curr) = root {
-                unsafe {
-                    IN_ORDER(curr.as_ref().left, res);
-                    res.push(curr.as_ref().val);
-                    IN_ORDER(curr.as_ref().right, res);
-                }
-            }
-        };
-        IN_ORDER(root, &mut res);
-        res
-    }
-
-    fn post_order_traversal(root: Option<NonNull<Node>>) -> Vec<i32> {
-        let mut res = vec![];
-        const POST_ORDER: fn(Option<NonNull<Node>>, &mut Vec<i32>) = |root, res| {
-            if let Some(curr) = root {
-                unsafe {
-                    POST_ORDER(curr.as_ref().left, res);
-                    POST_ORDER(curr.as_ref().right, res);
-                    res.push(curr.as_ref().val);
-                }
-            }
-        };
-        POST_ORDER(root, &mut res);
         res
     }
 

@@ -40,7 +40,7 @@
 #![allow(unused_variables)]
 
 pub struct Solution;
-use crate::TreeNode;
+use crate::binary_tree::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 use std::cell::RefCell;

@@ -36,7 +36,7 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-use crate::Node;
+use crate::n_ary_tree::Node;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 use std::cell::RefCell;

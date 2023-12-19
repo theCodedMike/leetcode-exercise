@@ -58,40 +58,10 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 pub mod safe {
+    use crate::binary_tree_with_next::safe::Node;
     use std::cell::RefCell;
     use std::collections::VecDeque;
     use std::rc::Rc;
-
-    #[derive(Debug, PartialEq, Eq)]
-    pub struct Node {
-        pub val: i32,
-        pub left: Option<Rc<RefCell<Node>>>,
-        pub right: Option<Rc<RefCell<Node>>>,
-        pub next: Option<Rc<RefCell<Node>>>,
-    }
-    impl Node {
-        pub fn new(val: i32) -> Option<Rc<RefCell<Node>>> {
-            Some(Rc::new(RefCell::new(Node {
-                val,
-                left: None,
-                right: None,
-                next: None,
-            })))
-        }
-
-        pub fn new_with_children(
-            val: i32,
-            left: Option<Rc<RefCell<Node>>>,
-            right: Option<Rc<RefCell<Node>>>,
-        ) -> Option<Rc<RefCell<Node>>> {
-            Some(Rc::new(RefCell::new(Node {
-                val,
-                left,
-                right,
-                next: None,
-            })))
-        }
-    }
 
     pub struct Solution;
     impl Solution {
@@ -205,35 +175,9 @@ pub mod safe {
     }
 }
 pub mod raw_ptr {
+    use crate::binary_tree_with_next::raw_ptr::Node;
     use std::collections::VecDeque;
     use std::ptr::null_mut;
-
-    #[derive(Debug, PartialEq, Eq)]
-    pub struct Node {
-        pub val: i32,
-        pub left: *mut Node,
-        pub right: *mut Node,
-        pub next: *mut Node,
-    }
-
-    impl Node {
-        pub fn new(val: i32) -> *mut Node {
-            Box::into_raw(Box::new(Node {
-                val,
-                left: null_mut(),
-                right: null_mut(),
-                next: null_mut(),
-            }))
-        }
-        pub fn new_with_children(val: i32, left: *mut Node, right: *mut Node) -> *mut Node {
-            Box::into_raw(Box::new(Node {
-                val,
-                left,
-                right,
-                next: null_mut(),
-            }))
-        }
-    }
 
     pub struct Solution;
     impl Solution {
@@ -346,38 +290,9 @@ pub mod raw_ptr {
 }
 
 pub mod nonnull {
+    use crate::binary_tree_with_next::nonnull::Node;
     use std::collections::VecDeque;
     use std::ptr::NonNull;
-
-    #[derive(Debug, PartialEq, Eq)]
-    pub struct Node {
-        pub val: i32,
-        pub left: Option<NonNull<Node>>,
-        pub right: Option<NonNull<Node>>,
-        pub next: Option<NonNull<Node>>,
-    }
-    impl Node {
-        pub fn new(val: i32) -> Option<NonNull<Node>> {
-            NonNull::new(Box::into_raw(Box::new(Node {
-                val,
-                left: None,
-                right: None,
-                next: None,
-            })))
-        }
-        pub fn new_with_children(
-            val: i32,
-            left: Option<NonNull<Node>>,
-            right: Option<NonNull<Node>>,
-        ) -> Option<NonNull<Node>> {
-            NonNull::new(Box::into_raw(Box::new(Node {
-                val,
-                left,
-                right,
-                next: None,
-            })))
-        }
-    }
 
     pub struct Solution;
     impl Solution {
