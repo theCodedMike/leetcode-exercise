@@ -33,143 +33,107 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
+use crate::binary_tree::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
+
 impl Solution {
     pub fn is_symmetric(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        //Self::recursion_helper(root.clone(), root)
-        //Self::iteration_queue_helper(root)
-        Self::iteration_stack_helper(root)
+        Self::bfs_recur(root)
+        //Self::bfs_iter(root)
+        //Self::dfs_iter(root)
     }
 
-    ///
-    /// 递归
-    ///
-    fn recursion_helper(
-        left: Option<Rc<RefCell<TreeNode>>>,
-        right: Option<Rc<RefCell<TreeNode>>>,
-    ) -> bool {
-        match (left, right) {
-            (None, None) => true,
-            (Some(l), Some(r)) => {
-                l.borrow().val == r.borrow().val
-                    && Self::recursion_helper(l.borrow().left.clone(), r.borrow().right.clone())
-                    && Self::recursion_helper(l.borrow().right.clone(), r.borrow().left.clone())
-            }
-            _ => false,
+    fn bfs_recur(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        if let Some(root) = root {
+            const HELPER: fn(Option<Rc<RefCell<TreeNode>>>, Option<Rc<RefCell<TreeNode>>>) -> bool =
+                |left, right| match (left, right) {
+                    (Some(left), Some(right)) => {
+                        left.borrow().val == right.borrow().val
+                            && HELPER(left.borrow().left.clone(), right.borrow().right.clone())
+                            && HELPER(left.borrow().right.clone(), right.borrow().left.clone())
+                    }
+                    (None, None) => true,
+                    (_, _) => false,
+                };
+
+            HELPER(root.borrow().left.clone(), root.borrow().right.clone())
+        } else {
+            true
         }
     }
 
-    ///
-    /// 迭代
-    ///
-    /// 层次遍历
-    fn iteration_queue_helper(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        match root {
-            None => true,
-            Some(root) => {
-                let mut queue = VecDeque::new();
-                let mut ref_mut = root.borrow_mut();
-                queue.push_back((ref_mut.left.take(), ref_mut.right.take()));
+    fn bfs_iter(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        if let Some(root) = root {
+            let mut queue = VecDeque::new();
+            queue.push_back(root.borrow_mut().left.take());
+            queue.push_back(root.borrow_mut().right.take());
 
-                while !queue.is_empty() {
-                    if let Some(pair) = queue.pop_front() {
-                        match pair {
-                            (None, None) => continue,
-                            (Some(l), Some(r)) => {
-                                let mut l_ref = l.borrow_mut();
-                                let mut r_ref = r.borrow_mut();
-                                if l_ref.val != r_ref.val {
-                                    return false;
-                                }
-
-                                queue.push_back((l_ref.left.take(), r_ref.right.take()));
-                                queue.push_back((l_ref.right.take(), r_ref.left.take()));
-                            }
-                            _ => return false,
-                        }
-                    }
-                }
-
-                true
-            }
-        }
-    }
-
-    ///
-    /// 栈迭代
-    ///
-    /// 中序遍历
-    fn iteration_stack_helper(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        match root {
-            None => true,
-            Some(root) => {
-                let mut ref_mut = root.borrow_mut();
-                let mut l = ref_mut.left.take();
-                let mut r = ref_mut.right.take();
-                let mut l_stack = vec![];
-                let mut r_stack = vec![];
-
-                while l.is_some() || !l_stack.is_empty() {
-                    while let Some(ln) = l {
-                        l = ln.borrow_mut().left.take();
-                        l_stack.push(ln);
-                        match r {
-                            None => return false,
-                            Some(rn) => {
-                                r = rn.borrow_mut().right.take();
-                                r_stack.push(rn);
-                            }
-                        }
-                    }
-
-                    if r.is_some() {
-                        return false;
-                    }
-
-                    match (l_stack.pop(), r_stack.pop()) {
-                        (None, None) => continue,
-                        (Some(ln), Some(rn)) => {
-                            if ln.borrow().val != rn.borrow().val {
+            while !queue.is_empty() {
+                match (queue.pop_front(), queue.pop_front()) {
+                    (Some(left), Some(right)) => match (left, right) {
+                        (Some(left), Some(right)) => {
+                            if left.borrow().val != right.borrow().val {
                                 return false;
                             }
-                            l = ln.borrow_mut().right.take();
-                            r = rn.borrow_mut().left.take();
+                            queue.push_back(left.borrow_mut().left.take());
+                            queue.push_back(right.borrow_mut().right.take());
+                            queue.push_back(left.borrow_mut().right.take());
+                            queue.push_back(right.borrow_mut().left.take());
                         }
-                        _ => return false,
-                    }
+                        (None, None) => {}
+                        (_, _) => return false,
+                    },
+                    (_, _) => return false,
                 }
-
-                if r.is_some() || !r_stack.is_empty() {
-                    return false;
-                }
-
-                true
             }
         }
+
+        true
+    }
+
+    ///
+    /// 一边是从根节点一直往左遍历，如果为空则向右，然后重复
+    /// 一边是从根节点一直往右遍历，如果为空则向左，然后重复
+    ///
+    fn dfs_iter(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        if let Some(root) = root {
+            let mut l_r_root = root.borrow_mut().left.take();
+            let mut r_l_root = root.borrow_mut().right.take();
+            let mut l_r_stack = vec![];
+            let mut r_l_stack = vec![];
+
+            while l_r_root.is_some()
+                || !l_r_stack.is_empty()
+                || r_l_root.is_some()
+                || !r_l_stack.is_empty()
+            {
+                match (l_r_root, r_l_root) {
+                    (Some(l_r_node), Some(r_l_node)) => {
+                        if l_r_node.borrow().val != r_l_node.borrow().val {
+                            return false;
+                        }
+                        l_r_root = l_r_node.borrow_mut().left.take();
+                        l_r_stack.push(l_r_node);
+                        r_l_root = r_l_node.borrow_mut().right.take();
+                        r_l_stack.push(r_l_node);
+                    }
+                    (None, None) => match (l_r_stack.pop(), r_l_stack.pop()) {
+                        (Some(l_r_node), Some(r_l_node)) => {
+                            l_r_root = l_r_node.borrow_mut().right.take();
+                            r_l_root = r_l_node.borrow_mut().left.take();
+                        }
+                        (_, _) => return false,
+                    },
+                    (_, _) => return false,
+                }
+            }
+        }
+
+        true
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -1,3 +1,4 @@
+mod easy_101_test;
 mod easy_104_test;
 mod easy_108_test;
 mod easy_110_test;
