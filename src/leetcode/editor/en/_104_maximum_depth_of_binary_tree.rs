@@ -32,84 +32,74 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-
-    pub fn new2(val: i32, left: TreeNode, right: TreeNode) -> Self {
-        TreeNode {
-            val,
-            left: Some(Rc::new(RefCell::new(left))),
-            right: Some(Rc::new(RefCell::new(right))),
-        }
-    }
-}
+use crate::binary_tree::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
 impl Solution {
     pub fn max_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        //Self::recursion_preorder(root)
-        Self::iteration_level_order(root)
+        //Self::dfs_recur(root)
+        //Self::bfs_iter_1(root)
+        Self::bfs_iter_2(root)
     }
-
-    fn recursion_preorder(node: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        match node {
-            None => 0,
-            Some(curr) => {
-                let mut ref_mut = curr.borrow_mut();
-                std::cmp::max(
-                    Self::recursion_preorder(ref_mut.left.take()),
-                    Self::recursion_preorder(ref_mut.right.take()),
-                ) + 1
-            }
+    fn dfs_recur(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        if let Some(curr) = root {
+            std::cmp::max(
+                Self::dfs_recur(curr.borrow().left.clone()),
+                Self::dfs_recur(curr.borrow().right.clone()),
+            ) + 1
+        } else {
+            0
         }
     }
 
-    fn iteration_level_order(node: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        let mut depth = 0;
+    fn bfs_iter_1(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        let mut max_depth = 0;
 
-        match node {
-            None => {}
-            Some(curr) => {
-                let mut queue = VecDeque::new();
-                queue.push_back((curr, 1));
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([(root, 1)]);
 
-                while !queue.is_empty() {
-                    if let Some((curr, level)) = queue.pop_front() {
-                        depth = level;
+            while let Some((curr, level)) = queue.pop_front() {
+                max_depth = level;
 
-                        if let Some(left) = curr.borrow_mut().left.take() {
-                            queue.push_back((left, level + 1));
-                        }
-
-                        if let Some(right) = curr.borrow_mut().right.take() {
-                            queue.push_back((right, level + 1));
-                        }
-                    }
+                if let Some(left) = curr.borrow_mut().left.take() {
+                    queue.push_back((left, level + 1));
+                }
+                if let Some(right) = curr.borrow_mut().right.take() {
+                    queue.push_back((right, level + 1));
                 }
             }
         }
 
-        depth
+        max_depth
+    }
+
+    fn bfs_iter_2(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        let mut max_depth = 0;
+
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([root]);
+            while !queue.is_empty() {
+                let level_len = queue.len();
+
+                for _ in 0..level_len {
+                    if let Some(curr) = queue.pop_front() {
+                        if let Some(left) = curr.borrow_mut().left.take() {
+                            queue.push_back(left);
+                        }
+                        if let Some(right) = curr.borrow_mut().right.take() {
+                            queue.push_back(right);
+                        }
+                    }
+                }
+
+                max_depth += 1;
+            }
+        }
+
+        max_depth
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
