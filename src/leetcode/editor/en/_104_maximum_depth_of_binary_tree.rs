@@ -45,14 +45,18 @@ impl Solution {
         Self::bfs_iter_2(root)
     }
     fn dfs_recur(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        if let Some(curr) = root {
-            std::cmp::max(
-                Self::dfs_recur(curr.borrow().left.clone()),
-                Self::dfs_recur(curr.borrow().right.clone()),
-            ) + 1
-        } else {
-            0
-        }
+        const HELPER: fn(Option<Rc<RefCell<TreeNode>>>) -> i32 = |root| {
+            if let Some(curr) = root {
+                std::cmp::max(
+                    HELPER(curr.borrow().left.clone()),
+                    HELPER(curr.borrow().right.clone()),
+                ) + 1
+            } else {
+                0
+            }
+        };
+
+        HELPER(root)
     }
 
     fn bfs_iter_1(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {

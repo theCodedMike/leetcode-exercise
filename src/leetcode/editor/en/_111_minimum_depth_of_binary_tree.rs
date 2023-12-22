@@ -34,95 +34,142 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-    pub fn new2(
-        val: i32,
-        left: Option<Rc<RefCell<TreeNode>>>,
-        right: Option<Rc<RefCell<TreeNode>>>,
-    ) -> Option<Rc<RefCell<TreeNode>>> {
-        Some(Rc::new(RefCell::new(TreeNode { val, left, right })))
-    }
-}
+use crate::binary_tree::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
 impl Solution {
     pub fn min_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        Self::recursion_helper(root)
-        //Self::bfs_helper(root)
+        //Self::dfs_recur(root)
+        //Self::dfs_pre_order_iter_1(root)
+        //Self::dfs_pre_order_iter_2(root)
+        //Self::dfs_pre_order_iter_3(root)
+        Self::bfs_iter(root)
     }
 
-    fn recursion_helper(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        match root {
-            None => 0,
-            Some(curr) => {
-                let left_child = curr.borrow_mut().left.take();
-                let right_child = curr.borrow_mut().right.take();
-                match (left_child, right_child) {
+    fn dfs_recur(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        const HELPER: fn(Option<Rc<RefCell<TreeNode>>>) -> i32 = |root| {
+            if let Some(curr) = root {
+                match (curr.borrow().left.clone(), curr.borrow().right.clone()) {
                     (None, None) => 1,
-                    (l_child, r_child) => {
-                        let mut min_depth = i32::MAX;
-                        if l_child.is_some() {
-                            min_depth = std::cmp::min(Self::recursion_helper(l_child), min_depth);
-                        }
-                        if r_child.is_some() {
-                            min_depth = std::cmp::min(Self::recursion_helper(r_child), min_depth);
-                        }
-                        min_depth + 1
-                    }
+                    (left, None) => HELPER(left) + 1,
+                    (None, right) => HELPER(right) + 1,
+                    (left, right) => std::cmp::min(HELPER(left), HELPER(right)) + 1,
+                }
+            } else {
+                0
+            }
+        };
+
+        HELPER(root)
+    }
+
+    fn dfs_pre_order_iter_1(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        if root.is_none() {
+            return 0;
+        }
+
+        let mut min_depth = i32::MAX;
+        let mut stack = vec![];
+        let mut root = (root, 1);
+
+        while root.0.is_some() || !stack.is_empty() {
+            while let Some(curr) = root.0 {
+                let level = root.1;
+                if curr.borrow().left.is_none()
+                    && curr.borrow().right.is_none()
+                    && level < min_depth
+                {
+                    min_depth = level;
+                }
+
+                root = (curr.borrow_mut().left.take(), level + 1);
+                stack.push((curr, level));
+            }
+
+            if let Some((curr, level)) = stack.pop() {
+                root = (curr.borrow_mut().right.take(), level + 1);
+            }
+        }
+
+        min_depth
+    }
+
+    fn dfs_pre_order_iter_2(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        if root.is_none() {
+            return 0;
+        }
+
+        let mut min_depth = i32::MAX;
+        let mut stack = vec![];
+        let mut root = (root, 1);
+        while root.0.is_some() || !stack.is_empty() {
+            if let Some(curr) = root.0 {
+                let level = root.1;
+                if curr.borrow().left.is_none()
+                    && curr.borrow().right.is_none()
+                    && level < min_depth
+                {
+                    min_depth = level;
+                }
+
+                root = (curr.borrow_mut().left.take(), level + 1);
+                stack.push((curr, level));
+            } else {
+                if let Some((curr, level)) = stack.pop() {
+                    root = (curr.borrow_mut().right.take(), level + 1);
                 }
             }
         }
+
+        min_depth
     }
 
-    ///
-    /// 层序遍历
-    ///
-    fn bfs_helper(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
-        let mut min_depth = i32::MAX;
-        match root {
-            None => min_depth = 0,
-            Some(curr) => {
-                let mut queue = VecDeque::from([(curr, 1)]);
+    fn dfs_pre_order_iter_3(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        let mut min_depth = 0;
 
-                while !queue.is_empty() {
-                    if let Some((curr, level)) = queue.pop_front() {
-                        let l_child = curr.borrow_mut().left.take();
-                        let r_child = curr.borrow_mut().right.take();
+        if let Some(root) = root {
+            min_depth = i32::MAX;
+            let mut stack = vec![(root, 1)];
 
-                        match (l_child, r_child) {
-                            (None, None) => {
-                                return level;
-                            }
-                            (left, right) => {
-                                if let Some(left) = left {
-                                    queue.push_back((left, level + 1));
-                                }
-                                if let Some(right) = right {
-                                    queue.push_back((right, level + 1));
-                                }
-                            }
-                        }
+            while let Some((curr, level)) = stack.pop() {
+                if curr.borrow().left.is_none()
+                    && curr.borrow().right.is_none()
+                    && level < min_depth
+                {
+                    min_depth = level;
+                }
+                if let Some(right) = curr.borrow_mut().right.take() {
+                    stack.push((right, level + 1));
+                }
+                if let Some(left) = curr.borrow_mut().left.take() {
+                    stack.push((left, level + 1));
+                }
+            }
+        }
+
+        min_depth
+    }
+
+    fn bfs_iter(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
+        let mut min_depth = 0;
+
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([(root, 1)]);
+
+            while !queue.is_empty() {
+                if let Some((curr, level)) = queue.pop_front() {
+                    if curr.borrow().left.is_none() && curr.borrow().right.is_none() {
+                        min_depth = level;
+                        break;
+                    }
+                    if let Some(left) = curr.borrow_mut().left.take() {
+                        queue.push_back((left, level + 1));
+                    }
+                    if let Some(right) = curr.borrow_mut().right.take() {
+                        queue.push_back((right, level + 1));
                     }
                 }
             }
