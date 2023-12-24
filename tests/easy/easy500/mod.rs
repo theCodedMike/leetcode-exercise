@@ -12,6 +12,7 @@ mod easy_171_test;
 mod easy_202_test;
 mod easy_203_test;
 mod easy_20_test;
+mod easy_222_test;
 mod easy_283_test;
 mod easy_28_test;
 mod easy_35_test;
