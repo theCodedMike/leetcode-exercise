@@ -35,56 +35,69 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-    pub fn new2(
-        val: i32,
-        left: Option<Rc<RefCell<TreeNode>>>,
-        right: Option<Rc<RefCell<TreeNode>>>,
-    ) -> Option<Rc<RefCell<TreeNode>>> {
-        Some(Rc::new(RefCell::new(TreeNode { val, left, right })))
-    }
-}
+use crate::binary_tree::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::rc::Rc;
 
 impl Solution {
     pub fn is_balanced(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
-        Self::recursion_helper(root).1
+        //Self::from_bottom_to_top(root)
+        Self::from_top_to_bottom(root)
     }
 
-    /// from bottom to top
-    fn recursion_helper(root: Option<Rc<RefCell<TreeNode>>>) -> (i32, bool) {
-        match root {
+    ///
+    /// Time Complexity: O(n)
+    /// Space Complexity: O(n)
+    ///
+    fn from_bottom_to_top(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        const RECUR_HELPER: fn(Option<Rc<RefCell<TreeNode>>>) -> (i32, bool) = |root| match root {
             None => (0, true),
             Some(curr) => {
-                let (l_height, l_balance) = Self::recursion_helper(curr.borrow_mut().left.take());
-                let (r_height, r_balance) = Self::recursion_helper(curr.borrow_mut().right.take());
-                return (
-                    std::cmp::max(l_height, r_height) + 1,
-                    l_balance && r_balance && (l_height - r_height).abs() <= 1,
-                );
+                let (l_level, l_bal) = RECUR_HELPER(curr.borrow_mut().left.take());
+                let (r_level, r_bal) = RECUR_HELPER(curr.borrow_mut().right.take());
+                (
+                    std::cmp::max(l_level, r_level) + 1,
+                    l_bal && r_bal && (l_level - r_level).abs() <= 1,
+                )
             }
-        }
+        };
+
+        RECUR_HELPER(root).1
+    }
+
+    ///
+    /// Time Complexity: O(n^2)
+    /// Space Complexity: O(n)
+    ///
+    fn from_top_to_bottom(root: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        const CALC_HEIGHT: fn(Option<Rc<RefCell<TreeNode>>>) -> i32 = |root| match root {
+            None => 0,
+            Some(curr) => {
+                std::cmp::max(
+                    CALC_HEIGHT(curr.borrow().left.clone()),
+                    CALC_HEIGHT(curr.borrow().right.clone()),
+                ) + 1
+            }
+        };
+
+        const CHECK_BALANCE: fn(Option<Rc<RefCell<TreeNode>>>) -> bool = |root| match root {
+            None => true,
+            Some(curr) => {
+                let left = curr.borrow_mut().left.take();
+                let right = curr.borrow_mut().right.take();
+                let l_height = CALC_HEIGHT(left.clone());
+                let r_height = CALC_HEIGHT(right.clone());
+                if (l_height - r_height).abs() > 1 {
+                    return false;
+                }
+
+                CHECK_BALANCE(left) && CHECK_BALANCE(right)
+            }
+        };
+
+        CHECK_BALANCE(root)
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
