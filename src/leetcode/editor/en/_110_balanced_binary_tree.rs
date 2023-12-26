@@ -55,11 +55,11 @@ impl Solution {
         const RECUR_HELPER: fn(Option<Rc<RefCell<TreeNode>>>) -> (i32, bool) = |root| match root {
             None => (0, true),
             Some(curr) => {
-                let (l_level, l_bal) = RECUR_HELPER(curr.borrow_mut().left.take());
-                let (r_level, r_bal) = RECUR_HELPER(curr.borrow_mut().right.take());
+                let (l_height, l_bal) = RECUR_HELPER(curr.borrow_mut().left.take());
+                let (r_height, r_bal) = RECUR_HELPER(curr.borrow_mut().right.take());
                 (
-                    std::cmp::max(l_level, r_level) + 1,
-                    l_bal && r_bal && (l_level - r_level).abs() <= 1,
+                    std::cmp::max(l_height, r_height) + 1,
+                    l_bal && r_bal && (l_height - r_height).abs() <= 1,
                 )
             }
         };
