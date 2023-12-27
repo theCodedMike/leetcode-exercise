@@ -117,6 +117,7 @@ pub mod _383_ransom_note;
 pub mod _38_count_and_say;
 pub mod _39_combination_sum;
 pub mod _3_longest_substring_without_repeating_characters;
+pub mod _404_sum_of_left_leaves;
 pub mod _40_combination_sum_i_i;
 pub mod _41_first_missing_positive;
 pub mod _429_n_ary_tree_level_order_traversal;
