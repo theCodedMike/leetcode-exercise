@@ -39,11 +39,14 @@ use std::rc::Rc;
 impl Solution {
     pub fn find_bottom_left_value(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         //Self::dfs_recur(root)
-        Self::dfs_iter(root)
+        //Self::dfs_iter(root)
         //Self::bfs_iter_1(root)
-        //Self::bfs_iter_2(root)
+        Self::bfs_iter_2(root)
     }
 
+    ///
+    /// DFS - Recursion(Pre-Order)
+    ///
     fn dfs_recur(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         let mut val = 0;
         let mut val_level = i32::MIN;
@@ -67,6 +70,9 @@ impl Solution {
         val
     }
 
+    ///
+    /// DFS - Iteration(Pre-Order)
+    ///
     fn dfs_iter(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         let mut val = 0;
         let mut val_level = i32::MIN;
@@ -95,6 +101,9 @@ impl Solution {
         val
     }
 
+    ///
+    /// BFS - Iteration
+    ///
     fn bfs_iter_1(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         let mut val = 0;
 
@@ -123,18 +132,21 @@ impl Solution {
         val
     }
 
+    ///
+    /// BFS - Iteration
+    ///
     fn bfs_iter_2(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {
         let mut val = 0;
 
         if let Some(root) = root {
             let mut queue = VecDeque::from([(root, 0)]);
-            let mut prev: (Option<Rc<RefCell<TreeNode>>>, i32) = (None, -1);
+            let mut prev_level = -1;
 
             while let Some((curr, level)) = queue.pop_front() {
-                if prev.1 != level {
+                if prev_level != level {
                     val = curr.borrow().val;
                 }
-                prev = (Some(curr.clone()), level);
+                prev_level = level;
 
                 if let Some(left) = curr.borrow_mut().left.take() {
                     queue.push_back((left, level + 1));

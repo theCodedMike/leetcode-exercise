@@ -47,95 +47,200 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
+use crate::binary_tree::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
+
 impl Solution {
     pub fn has_path_sum(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
-        Self::recursion_helper(root, target_sum)
-        //Self::bfs_helper(root, target_sum)
+        //Self::dfs_recur_1(root, target_sum)
+        //Self::dfs_iter_1(root, target_sum)
+        //Self::dfs_recur_2(root, target_sum)
+        //Self::dfs_iter_2(root, target_sum)
+        //Self::bfs_iter_1(root, target_sum)
+        Self::bfs_iter_2(root, target_sum)
     }
 
-    fn recursion_helper(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
-        match root {
-            None => false,
-            Some(curr) => {
-                let val = curr.borrow().val;
+    ///
+    /// 1. Find all the paths
+    /// 2. Compare the sum of one path with target_sum
+    ///
+    fn dfs_recur_1(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
+        let mut paths = vec![];
+        const RECUR: fn(root: Option<Rc<RefCell<TreeNode>>>, Vec<i32>, &mut Vec<Vec<i32>>) =
+            |root, mut path, paths| {
+                if let Some(curr) = root {
+                    path.push(curr.borrow().val);
+                    let left = curr.borrow_mut().left.take();
+                    let right = curr.borrow_mut().right.take();
+
+                    if left.is_none() && right.is_none() {
+                        paths.push(path);
+                    } else {
+                        if left.is_some() {
+                            RECUR(left, path.clone(), paths);
+                        }
+                        if right.is_some() {
+                            RECUR(right, path, paths);
+                        }
+                    }
+                }
+            };
+
+        RECUR(root, vec![], &mut paths);
+
+        paths
+            .into_iter()
+            .any(|p| p.into_iter().sum::<i32>() == target_sum)
+    }
+
+    fn dfs_iter_1(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
+        let mut paths = vec![];
+
+        if let Some(root) = root {
+            let mut stack = vec![(root, vec![])];
+
+            while let Some((curr, mut path)) = stack.pop() {
+                path.push(curr.borrow().val);
                 let left = curr.borrow_mut().left.take();
                 let right = curr.borrow_mut().right.take();
-                match (left, right) {
-                    (None, None) => {
-                        if val == target_sum {
-                            true
-                        } else {
-                            false
-                        }
+
+                if left.is_none() && right.is_none() {
+                    paths.push(path);
+                } else {
+                    if let Some(right) = right {
+                        stack.push((right, path.clone()));
                     }
-                    (l_child, r_child) => {
-                        let l_eq = Self::recursion_helper(l_child, target_sum - val);
-                        let r_eq = Self::recursion_helper(r_child, target_sum - val);
-                        l_eq || r_eq
+                    if let Some(left) = left {
+                        stack.push((left, path));
                     }
                 }
             }
         }
+
+        paths
+            .into_iter()
+            .any(|p| p.into_iter().sum::<i32>() == target_sum)
     }
 
-    fn bfs_helper(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
-        match root {
-            None => false,
-            Some(curr) => {
-                let val = curr.borrow().val;
-                let mut queue = VecDeque::from([(val, curr)]);
-                while !queue.is_empty() {
-                    if let Some((sum, curr)) = queue.pop_front() {
-                        let left_child = curr.borrow_mut().left.take();
-                        let right_child = curr.borrow_mut().right.take();
-                        match (left_child, right_child) {
-                            (None, None) => {
-                                if sum == target_sum {
-                                    return true;
-                                }
-                            }
-                            (l_child, r_child) => {
-                                if let Some(left) = l_child {
-                                    let left_val = left.borrow().val;
-                                    queue.push_back((sum + left_val, left));
-                                }
-                                if let Some(right) = r_child {
-                                    let right_val = right.borrow().val;
-                                    queue.push_back((sum + right_val, right));
-                                }
-                            }
+    ///
+    /// Accumulate val on each path and compare when reaching the leaf node
+    ///
+    fn dfs_recur_2(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
+        const RECUR: fn(Option<Rc<RefCell<TreeNode>>>, i32, i32) -> bool =
+            |root, sum, target_sum| match root {
+                None => false,
+                Some(curr) => {
+                    let curr_sum = curr.borrow().val + sum;
+                    let left = curr.borrow_mut().left.take();
+                    let right = curr.borrow_mut().right.take();
+
+                    match (left, right) {
+                        (None, None) => curr_sum == target_sum,
+                        (None, right) => RECUR(right, curr_sum, target_sum),
+                        (left, None) => RECUR(left, curr_sum, target_sum),
+                        (left, right) => {
+                            RECUR(left, curr_sum, target_sum) || RECUR(right, curr_sum, target_sum)
                         }
                     }
                 }
+            };
 
-                false
+        RECUR(root, 0, target_sum)
+    }
+
+    fn dfs_iter_2(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
+        if let Some(root) = root {
+            let mut stack = vec![(root, 0)];
+
+            while let Some((curr, sum)) = stack.pop() {
+                let curr_sum = curr.borrow().val + sum;
+                let left = curr.borrow_mut().left.take();
+                let right = curr.borrow_mut().right.take();
+
+                if left.is_none() && right.is_none() && curr_sum == target_sum {
+                    return true;
+                }
+                if let Some(right) = right {
+                    stack.push((right, curr_sum));
+                }
+                if let Some(left) = left {
+                    stack.push((left, curr_sum));
+                }
             }
         }
+
+        false
+    }
+
+    ///
+    /// 1. Find all the paths
+    /// 2. Compare the sum of one path with target_sum
+    ///
+    fn bfs_iter_1(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
+        let mut paths = vec![];
+
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([(root, vec![])]);
+
+            while let Some((curr, mut path)) = queue.pop_front() {
+                path.push(curr.borrow().val);
+                let left = curr.borrow_mut().left.take();
+                let right = curr.borrow_mut().right.take();
+
+                match (left, right) {
+                    (None, None) => paths.push(path),
+                    (left, right) => {
+                        if let Some(left) = left {
+                            queue.push_back((left, path.clone()));
+                        }
+                        if let Some(right) = right {
+                            queue.push_back((right, path));
+                        }
+                    }
+                }
+            }
+        }
+
+        paths
+            .into_iter()
+            .any(|p| p.into_iter().sum::<i32>() == target_sum)
+    }
+
+    ///
+    /// Accumulate val on each path and compare when reaching the leaf node
+    ///
+    fn bfs_iter_2(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> bool {
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([(root, 0)]);
+
+            while let Some((curr, sum)) = queue.pop_front() {
+                let curr_sum = curr.borrow().val + sum;
+                let left = curr.borrow_mut().left.take();
+                let right = curr.borrow_mut().right.take();
+
+                match (left, right) {
+                    (None, None) => {
+                        if curr_sum == target_sum {
+                            return true;
+                        }
+                    }
+                    (left, right) => {
+                        if let Some(left) = left {
+                            queue.push_back((left, curr_sum));
+                        }
+                        if let Some(right) = right {
+                            queue.push_back((right, curr_sum));
+                        }
+                    }
+                }
+            }
+        }
+
+        false
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
