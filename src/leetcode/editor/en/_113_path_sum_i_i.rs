@@ -45,127 +45,138 @@
 #![allow(dead_code)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-
-    pub fn new2(
-        val: i32,
-        left: Option<Rc<RefCell<TreeNode>>>,
-        right: Option<Rc<RefCell<TreeNode>>>,
-    ) -> Option<Rc<RefCell<TreeNode>>> {
-        Some(Rc::new(RefCell::new(TreeNode { val, left, right })))
-    }
-}
+use crate::binary_tree::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
 impl Solution {
     pub fn path_sum(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
-        Self::recursion_helper(root, target_sum).unwrap_or_default()
-        //Self::bfs_helper(root, target_sum)
+        //Self::dfs_recur_1(root, target_sum)
+        //Self::dfs_iter_1(root, target_sum)
+        //Self::dfs_recur_2(root, target_sum)
+        Self::bfs_iter(root, target_sum)
     }
 
-    pub fn recursion_helper(
-        root: Option<Rc<RefCell<TreeNode>>>,
-        target_sum: i32,
-    ) -> Option<Vec<Vec<i32>>> {
-        match root {
-            None => None,
-            Some(curr) => {
-                let val = curr.borrow().val;
+    fn dfs_recur_1(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
+        let mut paths = vec![];
+        const RECUR: fn(Option<Rc<RefCell<TreeNode>>>, i32, i32, Vec<i32>, &mut Vec<Vec<i32>>) =
+            |root, target_sum, sum, mut path, paths| {
+                if let Some(curr) = root {
+                    let curr_val = curr.borrow().val;
+                    let curr_sum = sum + curr_val;
+                    path.push(curr_val);
+
+                    let left = curr.borrow_mut().left.take();
+                    let right = curr.borrow_mut().right.take();
+
+                    if left.is_none() && right.is_none() && curr_sum == target_sum {
+                        paths.push(path);
+                    } else {
+                        if left.is_some() {
+                            RECUR(left, target_sum, curr_sum, path.clone(), paths);
+                        }
+                        if right.is_some() {
+                            RECUR(right, target_sum, curr_sum, path, paths);
+                        }
+                    }
+                }
+            };
+
+        RECUR(root, target_sum, 0, vec![], &mut paths);
+
+        paths
+    }
+
+    fn dfs_iter_1(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
+        let mut paths = vec![];
+
+        if let Some(root) = root {
+            let mut stack = vec![(root, 0, vec![])];
+
+            while let Some((curr, sum, mut path)) = stack.pop() {
+                let curr_val = curr.borrow().val;
+                let curr_sum = sum + curr_val;
+                path.push(curr_val);
+
                 let left = curr.borrow_mut().left.take();
                 let right = curr.borrow_mut().right.take();
-                match (left, right) {
-                    (None, None) => {
-                        if val == target_sum {
-                            Some(vec![vec![val]])
-                        } else {
-                            None
-                        }
+
+                if left.is_none() && right.is_none() && curr_sum == target_sum {
+                    paths.push(path);
+                } else {
+                    if let Some(right) = right {
+                        stack.push((right, curr_sum, path.clone()));
                     }
-                    (l_child, r_child) => {
-                        let left_res = Self::recursion_helper(l_child, target_sum - val);
-                        let right_res = Self::recursion_helper(r_child, target_sum - val);
-                        match (left_res, right_res) {
-                            (None, None) => None,
-                            (left_res, right_res) => {
-                                let mut l_res = left_res.unwrap_or_default();
-                                l_res.iter_mut().for_each(|v| v.insert(0, val));
-
-                                let mut r_res = right_res.unwrap_or_default();
-                                r_res.iter_mut().for_each(|v| v.insert(0, val));
-
-                                l_res.append(&mut r_res);
-                                Some(l_res)
-                            }
-                        }
+                    if let Some(left) = left {
+                        stack.push((left, curr_sum, path));
                     }
                 }
             }
         }
+
+        paths
     }
 
-    pub fn bfs_helper(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
-        let mut res = vec![];
-        match root {
-            None => {}
-            Some(curr) => {
-                let val = curr.borrow().val;
-                let mut queue = VecDeque::from([(vec![val], val, curr)]);
+    fn dfs_recur_2(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
+        const RECUR: fn(Option<Rc<RefCell<TreeNode>>>, i32, i32) -> Vec<Vec<i32>> =
+            |root, target_sum, sum| match root {
+                None => vec![],
+                Some(curr) => {
+                    let curr_val = curr.borrow().val;
+                    let curr_sum = curr_val + sum;
+                    let left = curr.borrow_mut().left.take();
+                    let right = curr.borrow_mut().right.take();
 
-                while !queue.is_empty() {
-                    if let Some((mut nodes, sum, curr)) = queue.pop_front() {
-                        let left = curr.borrow_mut().left.take();
-                        let right = curr.borrow_mut().right.take();
-
-                        match (left, right) {
-                            (None, None) => {
-                                if sum == target_sum {
-                                    res.push(nodes);
-                                }
-                            }
-                            (l_child, r_child) => {
-                                if let Some(l_node) = l_child {
-                                    let l_val = l_node.borrow().val;
-                                    let l_sum = sum + l_val;
-                                    let mut l_nodes = nodes.clone();
-                                    l_nodes.push(l_val);
-                                    queue.push_back((l_nodes, l_sum, l_node));
-                                }
-
-                                if let Some(r_node) = r_child {
-                                    let r_val = r_node.borrow().val;
-                                    let r_sum = sum + r_val;
-                                    nodes.push(r_val);
-                                    queue.push_back((nodes, r_sum, r_node));
-                                }
-                            }
+                    if left.is_none() && right.is_none() {
+                        if curr_sum == target_sum {
+                            vec![vec![curr_val]]
+                        } else {
+                            vec![]
                         }
+                    } else {
+                        let mut l_paths = RECUR(left, target_sum, curr_sum);
+                        let mut r_paths = RECUR(right, target_sum, curr_sum);
+                        l_paths.iter_mut().for_each(|p| p.insert(0, curr_val));
+                        r_paths.iter_mut().for_each(|p| p.insert(0, curr_val));
+                        l_paths.append(&mut r_paths);
+                        l_paths
+                    }
+                }
+            };
+
+        RECUR(root, target_sum, 0)
+    }
+
+    fn bfs_iter(root: Option<Rc<RefCell<TreeNode>>>, target_sum: i32) -> Vec<Vec<i32>> {
+        let mut paths = vec![];
+
+        if let Some(root) = root {
+            let mut queue = VecDeque::from([(root, 0, vec![])]);
+
+            while let Some((curr, sum, mut path)) = queue.pop_front() {
+                let curr_val = curr.borrow().val;
+                let curr_sum = curr_val + sum;
+                path.push(curr_val);
+
+                let left = curr.borrow_mut().left.take();
+                let right = curr.borrow_mut().right.take();
+
+                if left.is_none() && right.is_none() && curr_sum == target_sum {
+                    paths.push(path);
+                } else {
+                    if let Some(left) = left {
+                        queue.push_back((left, curr_sum, path.clone()));
+                    }
+                    if let Some(right) = right {
+                        queue.push_back((right, curr_sum, path));
                     }
                 }
             }
         }
 
-        res
+        paths
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
