@@ -130,11 +130,11 @@ impl Solution {
                     let right = curr.borrow_mut().right.take();
 
                     if left.is_none() && right.is_none() {
+                        let mut paths = vec![];
                         if curr_sum == target_sum {
-                            vec![vec![curr_val]]
-                        } else {
-                            vec![]
+                            paths.push(vec![curr_val]);
                         }
+                        paths
                     } else {
                         let mut l_paths = RECUR(left, target_sum, curr_sum);
                         let mut r_paths = RECUR(right, target_sum, curr_sum);

@@ -86,6 +86,7 @@ pub mod _20_valid_parentheses;
 pub mod _21_merge_two_sorted_lists;
 pub mod _222_count_complete_tree_nodes;
 pub mod _225_implement_stack_using_queues;
+pub mod _226_invert_binary_tree;
 pub mod _22_generate_parentheses;
 pub mod _232_implement_queue_using_stacks;
 pub mod _239_sliding_window_maximum;
