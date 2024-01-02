@@ -1,4 +1,4 @@
-use leetcode_exercise::binary_tree::TreeNode;
+use leetcode_exercise::binary_tree::safe::TreeNode;
 use leetcode_exercise::leetcode::editor::en::_199_binary_tree_right_side_view::Solution;
 
 #[test]

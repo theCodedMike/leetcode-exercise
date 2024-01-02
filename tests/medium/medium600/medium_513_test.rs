@@ -1,4 +1,4 @@
-use leetcode_exercise::binary_tree::TreeNode;
+use leetcode_exercise::binary_tree::safe::TreeNode;
 use leetcode_exercise::leetcode::editor::en::_513_find_bottom_left_tree_value::Solution;
 
 #[test]

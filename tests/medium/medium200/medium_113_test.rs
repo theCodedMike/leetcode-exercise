@@ -1,4 +1,5 @@
-use leetcode_exercise::leetcode::editor::en::_113_path_sum_i_i::{Solution, TreeNode};
+use leetcode_exercise::binary_tree::safe::TreeNode;
+use leetcode_exercise::leetcode::editor::en::_113_path_sum_i_i::Solution;
 
 #[test]
 fn path_sum_ii() {
@@ -9,33 +10,17 @@ fn path_sum_ii() {
     //         1     2     0    -1
     //        / \   / \   / \   / \
     //       0   1 -1  0 -1  0 1   0
-    let root = TreeNode::new2(
+    let root = TreeNode::new_with_children(
         1,
-        TreeNode::new2(
+        TreeNode::new_with_children(
             0,
-            TreeNode::new2(
-                1,
-                TreeNode::new2(0, None, None),
-                TreeNode::new2(1, None, None),
-            ),
-            TreeNode::new2(
-                2,
-                TreeNode::new2(-1, None, None),
-                TreeNode::new2(0, None, None),
-            ),
+            TreeNode::new_with_children(1, TreeNode::new(0), TreeNode::new(1)),
+            TreeNode::new_with_children(2, TreeNode::new(-1), TreeNode::new(0)),
         ),
-        TreeNode::new2(
+        TreeNode::new_with_children(
             1,
-            TreeNode::new2(
-                0,
-                TreeNode::new2(-1, None, None),
-                TreeNode::new2(0, None, None),
-            ),
-            TreeNode::new2(
-                -1,
-                TreeNode::new2(1, None, None),
-                TreeNode::new2(0, None, None),
-            ),
+            TreeNode::new_with_children(0, TreeNode::new(-1), TreeNode::new(0)),
+            TreeNode::new_with_children(-1, TreeNode::new(1), TreeNode::new(0)),
         ),
     );
     let target_sum = 2;

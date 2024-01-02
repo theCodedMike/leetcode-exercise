@@ -1,4 +1,4 @@
-use leetcode_exercise::binary_tree::TreeNode;
+use leetcode_exercise::binary_tree::safe::TreeNode;
 use leetcode_exercise::leetcode::editor::en::_104_maximum_depth_of_binary_tree::Solution;
 
 #[test]

@@ -1,4 +1,4 @@
-use leetcode_exercise::binary_tree::TreeNode;
+use leetcode_exercise::binary_tree::safe::TreeNode;
 use leetcode_exercise::leetcode::editor::en::_515_find_largest_value_in_each_tree_row::Solution;
 
 #[test]

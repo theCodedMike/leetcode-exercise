@@ -1,4 +1,4 @@
-use leetcode_exercise::binary_tree::TreeNode;
+use leetcode_exercise::binary_tree::safe::TreeNode;
 use leetcode_exercise::leetcode::editor::en::_107_binary_tree_level_order_traversal_i_i::Solution;
 #[test]
 fn binary_tree_level_order_traversal_ii_1() {

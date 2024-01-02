@@ -1,4 +1,4 @@
-use leetcode_exercise::binary_tree::TreeNode;
+use leetcode_exercise::binary_tree::safe::TreeNode;
 use leetcode_exercise::leetcode::editor::en::_222_count_complete_tree_nodes::Solution;
 #[test]
 fn count_complete_tree_nodes_1() {
