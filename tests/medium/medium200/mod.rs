@@ -1,5 +1,6 @@
 mod medium_102_test;
 mod medium_105_test;
+mod medium_106_test;
 mod medium_107_test;
 mod medium_109_test;
 mod medium_113_test;

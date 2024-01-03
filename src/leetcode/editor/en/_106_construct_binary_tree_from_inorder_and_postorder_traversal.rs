@@ -57,67 +57,143 @@ impl TreeNode {
 }
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
+use std::collections::HashMap;
 use std::rc::Rc;
 impl Solution {
     pub fn build_tree(inorder: Vec<i32>, postorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
-        //Self::recursion_helper(&inorder, &postorder)
-        Self::iteration_helper(inorder, postorder)
+        //Self::recur_1(inorder, postorder)
+        //Self::recur_2(inorder, postorder)
+        Self::iter_1(inorder, postorder)
     }
 
-    fn recursion_helper(inorder: &[i32], postorder: &[i32]) -> Option<Rc<RefCell<TreeNode>>> {
-        if postorder.is_empty() {
+    fn recur_1(inorder: Vec<i32>, postorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+        const RECUR: fn(&[i32], &[i32]) -> Option<Rc<RefCell<TreeNode>>> = |postorder, inorder| {
+            let len = postorder.len();
+            if len == 0 {
+                return None;
+            }
+
+            let root_val = postorder[len - 1];
+            let root = Rc::new(RefCell::new(TreeNode::new(root_val)));
+            if len == 1 {
+                return Some(root);
+            }
+
+            let mut childs_inorder = inorder.splitn(2, |&v| v == root_val);
+            let left_inorder = childs_inorder.next().unwrap_or_default();
+            let right_inorder = childs_inorder.next().unwrap_or_default();
+            let (left_postorder, right_postorder) =
+                postorder[..len - 1].split_at(left_inorder.len());
+
+            root.borrow_mut().left = RECUR(left_postorder, left_inorder);
+            root.borrow_mut().right = RECUR(right_postorder, right_inorder);
+
+            Some(root)
+        };
+
+        RECUR(&postorder, &inorder)
+    }
+
+    fn recur_2(inorder: Vec<i32>, postorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+        let len = postorder.len();
+        let map =
+            inorder
+                .iter()
+                .enumerate()
+                .fold(HashMap::with_capacity(len), |mut map, (idx, &v)| {
+                    map.insert(v, idx);
+                    map
+                });
+        const RECUR: fn(
+            &[i32],
+            usize,
+            usize,
+            &[i32],
+            usize,
+            usize,
+            &HashMap<i32, usize>,
+        ) -> Option<Rc<RefCell<TreeNode>>> = |postorder,
+                                              postorder_l_idx,
+                                              postorder_r_idx,
+                                              inorder,
+                                              inorder_l_idx,
+                                              inorder_r_idx,
+                                              map| {
+            let len = postorder_r_idx - postorder_l_idx;
+            if len == 0 {
+                return None;
+            }
+
+            let root_val = postorder[postorder_r_idx - 1];
+            let root = Rc::new(RefCell::new(TreeNode::new(root_val)));
+            if len == 1 {
+                return Some(root);
+            }
+
+            let idx_at_inorder = map[&root_val];
+            let left_inorder_len = idx_at_inorder - inorder_l_idx;
+
+            root.borrow_mut().left = RECUR(
+                postorder,
+                postorder_l_idx,
+                postorder_l_idx + left_inorder_len,
+                inorder,
+                inorder_l_idx,
+                idx_at_inorder,
+                map,
+            );
+            root.borrow_mut().right = RECUR(
+                postorder,
+                postorder_l_idx + left_inorder_len,
+                postorder_r_idx - 1,
+                inorder,
+                idx_at_inorder + 1,
+                inorder_r_idx,
+                map,
+            );
+
+            Some(root)
+        };
+
+        RECUR(&postorder, 0, len, &inorder, 0, len, &map)
+    }
+
+    fn iter_1(inorder: Vec<i32>, postorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
+        let len = postorder.len();
+        if len == 0 {
             return None;
         }
-        if postorder.len() == 1 {
-            return Some(Rc::new(RefCell::new(TreeNode::new(postorder[0]))));
-        }
 
-        let (&root_val, postorder) = postorder.split_last().unwrap();
-        let childs = inorder
-            .split(|v| *v == root_val)
-            .map(|sub| (sub, sub.len()))
-            .collect::<Vec<_>>();
-        let (left_inorder, l_len) = childs[0];
-        let (right_inorder, _r_len) = childs[1];
-        let (left_postorder, right_postorder) = postorder.split_at(l_len);
-
-        let mut root = TreeNode::new(root_val);
-        root.left = Self::recursion_helper(left_inorder, left_postorder);
-        root.right = Self::recursion_helper(right_inorder, right_postorder);
-
-        Some(Rc::new(RefCell::new(root)))
-    }
-
-    fn iteration_helper(inorder: Vec<i32>, postorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
-        let last_post_idx = postorder.len() - 1;
-        let root = Rc::new(RefCell::new(TreeNode::new(postorder[last_post_idx])));
-        let mut curr = root.clone();
+        let root = Rc::new(RefCell::new(TreeNode::new(postorder[len - 1])));
         let mut stack = vec![root.clone()];
-        let mut in_idx = inorder.len() - 1;
+        let mut inorder_idx = len - 1;
 
-        for post_idx in (0..last_post_idx).rev() {
-            let postorder_val = postorder[post_idx];
+        for postorder_val in postorder.into_iter().rev().skip(1) {
+            if let Some(last) = stack.last_mut() {
+                if last.borrow().val != inorder[inorder_idx] {
+                    let right = Rc::new(RefCell::new(TreeNode::new(postorder_val)));
+                    last.borrow_mut().right = Some(right.clone());
+                    stack.push(right);
+                } else {
+                    let mut last_curr = None;
 
-            if curr.borrow().val != inorder[in_idx] {
-                let right = Rc::new(RefCell::new(TreeNode::new(postorder_val)));
-                curr.borrow_mut().right = Some(right.clone());
-                stack.push(right.clone());
-                curr = right;
-            } else {
-                while let Some(last) = stack.last() {
-                    if last.borrow().val == inorder[in_idx] {
-                        curr = stack.pop().unwrap();
-                        in_idx -= 1;
-                    } else {
-                        break;
+                    while let Some(curr) = stack.pop() {
+                        last_curr = Some(curr);
+                        inorder_idx -= 1;
+                        if let Some(last) = stack.last() {
+                            if last.borrow().val != inorder[inorder_idx] {
+                                break;
+                            }
+                        }
                     }
+
+                    last_curr.map(|curr| {
+                        let left = Rc::new(RefCell::new(TreeNode::new(postorder_val)));
+                        curr.borrow_mut().left = Some(left.clone());
+                        stack.push(left);
+                    });
                 }
-                let left = Rc::new(RefCell::new(TreeNode::new(postorder_val)));
-                curr.borrow_mut().left = Some(left.clone());
-                stack.push(left.clone());
-                curr = left;
             }
         }
 
