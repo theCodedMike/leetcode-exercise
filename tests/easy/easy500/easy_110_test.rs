@@ -10,8 +10,8 @@ fn balanced_binary_tree_1() {
     //     15   7
     let root = TreeNode::new_with_children(
         3,
-        TreeNode::new(9),
-        TreeNode::new_with_children(20, TreeNode::new(15), TreeNode::new(7)),
+        TreeNode::new2(9),
+        TreeNode::new_with_children(20, TreeNode::new2(15), TreeNode::new2(7)),
     );
     let balanced = Solution::is_balanced(root);
     assert_eq!(balanced, true);
@@ -30,10 +30,10 @@ fn balanced_binary_tree_2() {
         1,
         TreeNode::new_with_children(
             2,
-            TreeNode::new_with_children(3, TreeNode::new(4), TreeNode::new(4)),
-            TreeNode::new(3),
+            TreeNode::new_with_children(3, TreeNode::new2(4), TreeNode::new2(4)),
+            TreeNode::new2(3),
         ),
-        TreeNode::new(2),
+        TreeNode::new2(2),
     );
     let balanced = Solution::is_balanced(root);
     assert_eq!(balanced, false);
@@ -58,8 +58,8 @@ fn balanced_binary_tree_4() {
 
     let root = TreeNode::new_with_children(
         1,
-        TreeNode::new_with_left(2, TreeNode::new_with_left(3, TreeNode::new(4))),
-        TreeNode::new_with_right(2, TreeNode::new_with_right(3, TreeNode::new(4))),
+        TreeNode::new_with_left(2, TreeNode::new_with_left(3, TreeNode::new2(4))),
+        TreeNode::new_with_right(2, TreeNode::new_with_right(3, TreeNode::new2(4))),
     );
     let balanced = Solution::is_balanced(root);
     assert_eq!(balanced, false);

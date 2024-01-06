@@ -10,8 +10,8 @@ fn binary_tree_level_order_traversal_1() {
     //     15   7
     let root = TreeNode::new_with_children(
         3,
-        TreeNode::new(9),
-        TreeNode::new_with_children(20, TreeNode::new(15), TreeNode::new(7)),
+        TreeNode::new2(9),
+        TreeNode::new_with_children(20, TreeNode::new2(15), TreeNode::new2(7)),
     );
     let res = Solution::level_order(root);
     assert_eq!(res, vec![vec![3], vec![9, 20], vec![15, 7]]);
@@ -19,7 +19,7 @@ fn binary_tree_level_order_traversal_1() {
 
 #[test]
 fn binary_tree_level_order_traversal_2() {
-    let root = TreeNode::new(1);
+    let root = TreeNode::new2(1);
     let res = Solution::level_order(root);
     assert_eq!(res, vec![[1]]);
 }

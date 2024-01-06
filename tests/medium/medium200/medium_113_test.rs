@@ -14,13 +14,13 @@ fn path_sum_ii() {
         1,
         TreeNode::new_with_children(
             0,
-            TreeNode::new_with_children(1, TreeNode::new(0), TreeNode::new(1)),
-            TreeNode::new_with_children(2, TreeNode::new(-1), TreeNode::new(0)),
+            TreeNode::new_with_children(1, TreeNode::new2(0), TreeNode::new2(1)),
+            TreeNode::new_with_children(2, TreeNode::new2(-1), TreeNode::new2(0)),
         ),
         TreeNode::new_with_children(
             1,
-            TreeNode::new_with_children(0, TreeNode::new(-1), TreeNode::new(0)),
-            TreeNode::new_with_children(-1, TreeNode::new(1), TreeNode::new(0)),
+            TreeNode::new_with_children(0, TreeNode::new2(-1), TreeNode::new2(0)),
+            TreeNode::new_with_children(-1, TreeNode::new2(1), TreeNode::new2(0)),
         ),
     );
     let target_sum = 2;

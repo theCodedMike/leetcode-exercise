@@ -16,7 +16,18 @@ pub mod binary_tree {
             ///
             /// Node with no children
             ///
-            pub fn new(val: i32) -> Option<Rc<RefCell<TreeNode>>> {
+            pub fn new(val: i32) -> Self {
+                TreeNode {
+                    val,
+                    left: None,
+                    right: None,
+                }
+            }
+
+            ///
+            /// Node with no children
+            ///
+            pub fn new2(val: i32) -> Option<Rc<RefCell<TreeNode>>> {
                 Self::new_with_children(val, None, None)
             }
 

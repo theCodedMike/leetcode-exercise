@@ -4,8 +4,8 @@ use leetcode_exercise::leetcode::editor::en::_222_count_complete_tree_nodes::Sol
 fn count_complete_tree_nodes_1() {
     let root = TreeNode::new_with_children(
         1,
-        TreeNode::new_with_children(2, TreeNode::new(4), TreeNode::new(5)),
-        TreeNode::new_with_left(3, TreeNode::new(6)),
+        TreeNode::new_with_children(2, TreeNode::new2(4), TreeNode::new2(5)),
+        TreeNode::new_with_left(3, TreeNode::new2(6)),
     );
     let res = Solution::count_nodes(root);
     assert_eq!(res, 6);
@@ -20,7 +20,7 @@ fn count_complete_tree_nodes_2() {
 
 #[test]
 fn count_complete_tree_nodes_3() {
-    let root = TreeNode::new(1);
+    let root = TreeNode::new2(1);
     let res = Solution::count_nodes(root);
     assert_eq!(res, 1);
 }

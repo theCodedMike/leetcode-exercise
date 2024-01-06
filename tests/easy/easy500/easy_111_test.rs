@@ -10,8 +10,8 @@ fn minimum_depth_of_binary_tree_1() {
     //    15   7
     let root = TreeNode::new_with_children(
         3,
-        TreeNode::new(9),
-        TreeNode::new_with_children(20, TreeNode::new(15), TreeNode::new(7)),
+        TreeNode::new2(9),
+        TreeNode::new_with_children(20, TreeNode::new2(15), TreeNode::new2(7)),
     );
 
     let min_depth = Solution::min_depth(root);
@@ -33,7 +33,7 @@ fn minimum_depth_of_binary_tree_2() {
         2,
         TreeNode::new_with_right(
             3,
-            TreeNode::new_with_right(4, TreeNode::new_with_right(5, TreeNode::new(6))),
+            TreeNode::new_with_right(4, TreeNode::new_with_right(5, TreeNode::new2(6))),
         ),
     );
 
@@ -52,11 +52,11 @@ fn minimum_depth_of_binary_tree_3() {
     //  -6   -5
     let root = TreeNode::new_with_children(
         -9,
-        TreeNode::new_with_right(-3, TreeNode::new_with_left(4, TreeNode::new(-6))),
+        TreeNode::new_with_right(-3, TreeNode::new_with_left(4, TreeNode::new2(-6))),
         TreeNode::new_with_children(
             2,
-            TreeNode::new_with_left(4, TreeNode::new(-5)),
-            TreeNode::new(0),
+            TreeNode::new_with_left(4, TreeNode::new2(-5)),
+            TreeNode::new2(0),
         ),
     );
 
@@ -89,7 +89,7 @@ fn minimum_depth_of_binary_tree_4() {
             -9,
             TreeNode::new_with_children(
                 8,
-                TreeNode::new(4),
+                TreeNode::new2(4),
                 TreeNode::new_with_left(
                     -3,
                     TreeNode::new_with_left(
@@ -98,8 +98,8 @@ fn minimum_depth_of_binary_tree_4() {
                             -6,
                             TreeNode::new_with_children(
                                 -6,
-                                TreeNode::new(-4),
-                                TreeNode::new_with_left(-9, TreeNode::new(6)),
+                                TreeNode::new2(-4),
+                                TreeNode::new_with_left(-9, TreeNode::new2(6)),
                             ),
                         ),
                     ),

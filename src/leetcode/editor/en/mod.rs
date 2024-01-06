@@ -147,6 +147,7 @@ pub mod _58_length_of_last_word;
 pub mod _59_spiral_matrix_i_i;
 pub mod _5_longest_palindromic_substring;
 pub mod _60_permutation_sequence;
+pub mod _617_merge_two_binary_trees;
 pub mod _61_rotate_list;
 pub mod _62_unique_paths;
 pub mod _637_average_of_levels_in_binary_tree;
