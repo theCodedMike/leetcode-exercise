@@ -159,6 +159,7 @@ pub mod _67_add_binary;
 pub mod _68_text_justification;
 pub mod _69_sqrt_x;
 pub mod _6_zigzag_conversion;
+pub mod _700_search_in_a_binary_search_tree;
 pub mod _704_binary_search;
 pub mod _707_design_linked_list;
 pub mod _70_climbing_stairs;
