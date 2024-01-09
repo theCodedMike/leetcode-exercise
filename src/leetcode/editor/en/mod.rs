@@ -137,6 +137,7 @@ pub mod _4_median_of_two_sorted_arrays;
 pub mod _50_pow_x_n;
 pub mod _513_find_bottom_left_tree_value;
 pub mod _515_find_largest_value_in_each_tree_row;
+pub mod _530_minimum_absolute_difference_in_b_s_t;
 pub mod _53_maximum_subarray;
 pub mod _541_reverse_string_i_i;
 pub mod _54_spiral_matrix;
