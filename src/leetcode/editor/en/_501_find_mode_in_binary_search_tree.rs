@@ -60,11 +60,11 @@ impl Solution {
         //Self::use_hashmap_recur(root)
         //Self::use_hashmap_iter(root)
 
-        Self::in_order_traversal_recur(root)
+        //Self::in_order_traversal_recur(root)
         //Self::in_order_traversal_iter(root)
 
         //Self::morris_in_order_iter_1(root)
-        //Self::morris_in_order_iter_2(root)
+        Self::morris_in_order_iter_2(root)
     }
 
     ///
@@ -134,6 +134,12 @@ impl Solution {
             })
             .collect()
     }
+
+    ///       val: The value of the node being traversed
+    ///  curr_val: Value being processed
+    /// curr_freq: The frequency of occurrences of values being processed
+    ///  max_freq: Maximum frequency of occurrence
+    ///       res: result
     fn update(
         val: i32,
         curr_val: &mut i32,
@@ -247,38 +253,41 @@ impl Solution {
         let mut curr_val = i32::MIN;
         let mut curr_freq = 0;
         let mut max_freq = 0;
-        let mut prev_node = None;
 
-        while let Some(curr) = root.clone() {
+        while let Some(curr) = root {
             let val = curr.borrow().val;
+            let left = curr.borrow().left.clone();
 
-            if let Some(left) = curr.borrow().left.clone() {
-                prev_node = Some(left.clone());
-                while let Some(prev1) = prev_node.clone() {
-                    if let Some(right) = prev1.borrow().right.clone() {
-                        if right == curr.clone() {
-                            break;
-                        }
-                        prev_node = Some(right);
-                    } else {
+            if left.is_some() {
+                let mut prev_node = left.clone();
+
+                while let Some(ref prev) = prev_node {
+                    let right = prev.borrow().right.clone();
+                    if right.is_none() || right == Some(curr.clone()) {
                         break;
-                    };
+                    } else {
+                        prev_node = right;
+                    }
                 }
 
-                if let Some(prev2) = prev_node.take() {
-                    let mut prev2 = prev2.borrow_mut();
-                    if let Some(_) = prev2.right.take() {
-                        Solution::update(
-                            val,
-                            &mut curr_val,
-                            &mut curr_freq,
-                            &mut max_freq,
-                            &mut res,
-                        );
-                        root = curr.borrow().right.clone();
-                    } else {
-                        prev2.right = Some(curr.clone());
-                        root = Some(left);
+                match prev_node {
+                    None => break, // this is mark code
+                    Some(prev) => {
+                        let mut prev = prev.borrow_mut();
+
+                        if let Some(_) = prev.right.take() {
+                            Solution::update(
+                                val,
+                                &mut curr_val,
+                                &mut curr_freq,
+                                &mut max_freq,
+                                &mut res,
+                            );
+                            root = curr.borrow().right.clone();
+                        } else {
+                            prev.right = Some(curr);
+                            root = left;
+                        }
                     }
                 }
             } else {
@@ -299,9 +308,8 @@ impl Solution {
         let mut curr_val = i32::MIN;
         let mut curr_freq = 0;
         let mut max_freq = 0;
-        let mut prev_node = None;
 
-        while let Some(curr) = root.clone() {
+        while let Some(curr) = root {
             let left = curr.borrow().left.clone();
             let val = curr.borrow().val;
 
@@ -311,19 +319,19 @@ impl Solution {
                 continue;
             }
 
-            prev_node = left.clone();
-            while let Some(prev) = prev_node.clone() {
-                if let Some(right) = prev.borrow().right.clone() {
-                    if right == curr {
-                        break;
-                    }
-                    prev_node = Some(right);
-                } else {
+            let mut prev_node = left.clone();
+            while let Some(ref prev) = prev_node {
+                let right = prev.borrow().right.clone();
+                if right.is_none() || right == Some(curr.clone()) {
                     break;
+                } else {
+                    prev_node = right;
                 }
             }
+
             if let Some(prev) = prev_node {
                 let mut prev = prev.borrow_mut();
+
                 if let Some(_) = prev.right.take() {
                     Solution::update(val, &mut curr_val, &mut curr_freq, &mut max_freq, &mut res);
                     root = curr.borrow().right.clone();
@@ -331,6 +339,10 @@ impl Solution {
                     prev.right = Some(curr);
                     root = left;
                 }
+            } else {
+                // here is mark code
+                //root = None;
+                break;
             }
         }
 
