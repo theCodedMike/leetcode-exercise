@@ -1,7 +1,7 @@
 mod safe {
     use std::cell::RefCell;
     use std::rc::Rc;
-    use leetcode_exercise::leetcode::editor::en::_117_populating_next_right_pointers_in_each_node_i_i::safe::Solution;
+    use leetcode_exercise::leetcode::editor::cn::_117_populating_next_right_pointers_in_each_node_i_i::safe::Solution;
     use leetcode_exercise::binary_tree_with_next::safe::Node;
     use crate::utils::binary_tree_traversal::safe::{
         pre_order_recur as pre_order_traversal,
@@ -331,7 +331,7 @@ mod safe {
 
 mod raw_ptr {
     use std::ptr::null_mut;
-    use leetcode_exercise::leetcode::editor::en::_117_populating_next_right_pointers_in_each_node_i_i::raw_ptr::Solution;
+    use leetcode_exercise::leetcode::editor::cn::_117_populating_next_right_pointers_in_each_node_i_i::raw_ptr::Solution;
     use leetcode_exercise::binary_tree_with_next::raw_ptr::Node;
     use crate::utils::binary_tree_traversal::raw_ptr::{
         pre_order_recur as pre_order_traversal,
@@ -663,7 +663,7 @@ mod raw_ptr {
 
 mod nonnull {
     use std::ptr::NonNull;
-    use leetcode_exercise::leetcode::editor::en::_117_populating_next_right_pointers_in_each_node_i_i::nonnull::Solution;
+    use leetcode_exercise::leetcode::editor::cn::_117_populating_next_right_pointers_in_each_node_i_i::nonnull::Solution;
     use leetcode_exercise::binary_tree_with_next::nonnull::Node;
     use crate::utils::binary_tree_traversal::nonnull::{
         pre_order_recur as pre_order_traversal,

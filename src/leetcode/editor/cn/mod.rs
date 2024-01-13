@@ -89,6 +89,7 @@ pub mod _225_implement_stack_using_queues;
 pub mod _226_invert_binary_tree;
 pub mod _22_generate_parentheses;
 pub mod _232_implement_queue_using_stacks;
+pub mod _236_lowest_common_ancestor_of_a_binary_tree;
 pub mod _239_sliding_window_maximum;
 pub mod _23_merge_k_sorted_lists;
 pub mod _242_valid_anagram;

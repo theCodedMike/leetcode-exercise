@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_49_group_anagrams::Solution;
+use leetcode_exercise::leetcode::editor::cn::_49_group_anagrams::Solution;
 
 #[test]
 fn group_anagrams_test() {

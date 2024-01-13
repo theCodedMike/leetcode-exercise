@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_146_l_r_u_cache::LRUCache;
+use leetcode_exercise::leetcode::editor::cn::_146_l_r_u_cache::LRUCache;
 
 #[test]
 fn lru_cache() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_106_construct_binary_tree_from_inorder_and_postorder_traversal::Solution;
+use leetcode_exercise::leetcode::editor::cn::_106_construct_binary_tree_from_inorder_and_postorder_traversal::Solution;
 
 #[test]
 fn construct_binary_tree_from_inorder_and_postorder_traversal_1() {

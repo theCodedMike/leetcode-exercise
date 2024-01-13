@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_438_find_all_anagrams_in_a_string::Solution;
+use leetcode_exercise::leetcode::editor::cn::_438_find_all_anagrams_in_a_string::Solution;
 
 #[test]
 fn find_all_anagrams_in_a_string() {

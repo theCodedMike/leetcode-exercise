@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_7_reverse_integer::Solution;
+use leetcode_exercise::leetcode::editor::cn::_7_reverse_integer::Solution;
 
 #[test]
 fn reverse_integer() {

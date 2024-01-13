@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_36_valid_sudoku::Solution;
+use leetcode_exercise::leetcode::editor::cn::_36_valid_sudoku::Solution;
 
 #[test]
 fn valid_sudoku() {

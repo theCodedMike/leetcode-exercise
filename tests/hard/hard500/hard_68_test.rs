@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_68_text_justification::Solution;
+use leetcode_exercise::leetcode::editor::cn::_68_text_justification::Solution;
 
 #[test]
 fn text_justification() {

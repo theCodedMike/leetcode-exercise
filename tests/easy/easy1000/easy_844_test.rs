@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_844_backspace_string_compare::Solution;
+use leetcode_exercise::leetcode::editor::cn::_844_backspace_string_compare::Solution;
 
 #[test]
 fn backspace_string_compare() {

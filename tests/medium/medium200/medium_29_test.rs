@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_29_divide_two_integers::Solution;
+use leetcode_exercise::leetcode::editor::cn::_29_divide_two_integers::Solution;
 
 #[test]
 fn divide_two_integers() {

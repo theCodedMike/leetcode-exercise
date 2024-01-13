@@ -1,5 +1,5 @@
 use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::en::_98_validate_binary_search_tree::Solution;
+use leetcode_exercise::leetcode::editor::cn::_98_validate_binary_search_tree::Solution;
 
 #[test]
 fn validate_binary_search_tree_1() {

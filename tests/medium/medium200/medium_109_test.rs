@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_109_convert_sorted_list_to_binary_search_tree::{
+use leetcode_exercise::leetcode::editor::cn::_109_convert_sorted_list_to_binary_search_tree::{
     ListNode, Solution,
 };
 

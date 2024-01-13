@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_5_longest_palindromic_substring::Solution;
+use leetcode_exercise::leetcode::editor::cn::_5_longest_palindromic_substring::Solution;
 
 #[test]
 fn longest_palindromic_substring() {

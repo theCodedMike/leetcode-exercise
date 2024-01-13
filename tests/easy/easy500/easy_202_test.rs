@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_202_happy_number::Solution;
+use leetcode_exercise::leetcode::editor::cn::_202_happy_number::Solution;
 #[test]
 fn happy_number_test() {
     let n = 19;

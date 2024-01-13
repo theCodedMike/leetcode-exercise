@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_165_compare_version_numbers::Solution;
+use leetcode_exercise::leetcode::editor::cn::_165_compare_version_numbers::Solution;
 
 #[test]
 fn compare_version_numbers() {

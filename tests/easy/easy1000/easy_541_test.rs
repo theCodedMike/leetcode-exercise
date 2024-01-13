@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_541_reverse_string_i_i::Solution;
+use leetcode_exercise::leetcode::editor::cn::_541_reverse_string_i_i::Solution;
 
 #[test]
 fn reverse_string_ii_1() {

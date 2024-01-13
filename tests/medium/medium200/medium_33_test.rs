@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_33_search_in_rotated_sorted_array::Solution;
+use leetcode_exercise::leetcode::editor::cn::_33_search_in_rotated_sorted_array::Solution;
 
 #[test]
 fn search_in_rotated_sorted_array() {

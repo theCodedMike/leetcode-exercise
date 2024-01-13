@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_80_remove_duplicates_from_sorted_array_i_i::Solution;
+use leetcode_exercise::leetcode::editor::cn::_80_remove_duplicates_from_sorted_array_i_i::Solution;
 
 #[test]
 fn remove_duplicates_from_sorted_array_ii() {

@@ -1,5 +1,5 @@
 use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::en::_102_binary_tree_level_order_traversal::Solution;
+use leetcode_exercise::leetcode::editor::cn::_102_binary_tree_level_order_traversal::Solution;
 
 #[test]
 fn binary_tree_level_order_traversal_1() {

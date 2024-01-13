@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_50_pow_x_n::Solution;
+use leetcode_exercise::leetcode::editor::cn::_50_pow_x_n::Solution;
 
 /// cargo test pow_x_n
 #[test]

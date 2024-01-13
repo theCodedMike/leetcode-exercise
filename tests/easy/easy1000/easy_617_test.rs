@@ -1,7 +1,7 @@
 use leetcode_exercise::binary_tree::safe::{
     in_order_recur, post_order_recur, pre_order_recur, TreeNode,
 };
-use leetcode_exercise::leetcode::editor::en::_617_merge_two_binary_trees::Solution;
+use leetcode_exercise::leetcode::editor::cn::_617_merge_two_binary_trees::Solution;
 
 #[test]
 fn merge_two_binary_trees_1() {

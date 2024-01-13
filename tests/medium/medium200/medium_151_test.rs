@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_151_reverse_words_in_a_string::Solution;
+use leetcode_exercise::leetcode::editor::cn::_151_reverse_words_in_a_string::Solution;
 
 #[test]
 fn reverse_words_in_a_string_1() {

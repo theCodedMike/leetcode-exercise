@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_704_binary_search::Solution;
+use leetcode_exercise::leetcode::editor::cn::_704_binary_search::Solution;
 
 #[test]
 fn binary_search() {

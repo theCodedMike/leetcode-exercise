@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_20_valid_parentheses::Solution;
+use leetcode_exercise::leetcode::editor::cn::_20_valid_parentheses::Solution;
 
 #[test]
 fn valid_parentheses_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_120_triangle::Solution;
+use leetcode_exercise::leetcode::editor::cn::_120_triangle::Solution;
 
 #[test]
 fn triangle() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_153_find_minimum_in_rotated_sorted_array::Solution;
+use leetcode_exercise::leetcode::editor::cn::_153_find_minimum_in_rotated_sorted_array::Solution;
 
 #[test]
 fn find_minimum_in_rotated_sorted_array() {

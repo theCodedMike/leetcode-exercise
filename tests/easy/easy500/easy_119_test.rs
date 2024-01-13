@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_119_pascals_triangle_i_i::Solution;
+use leetcode_exercise::leetcode::editor::cn::_119_pascals_triangle_i_i::Solution;
 
 #[test]
 fn pascal_triangle_ii() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_141_linked_list_cycle::{ListNode, Solution};
+use leetcode_exercise::leetcode::editor::cn::_141_linked_list_cycle::{ListNode, Solution};
 use std::ptr::null_mut;
 
 #[test]

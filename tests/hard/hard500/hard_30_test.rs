@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_30_substring_with_concatenation_of_all_words::Solution;
+use leetcode_exercise::leetcode::editor::cn::_30_substring_with_concatenation_of_all_words::Solution;
 
 #[test]
 fn substring_with_concatenation_of_all_words() {

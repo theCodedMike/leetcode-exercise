@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_55_jump_game::Solution;
+use leetcode_exercise::leetcode::editor::cn::_55_jump_game::Solution;
 
 #[test]
 fn jump_game() {

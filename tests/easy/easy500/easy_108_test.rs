@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_108_convert_sorted_array_to_binary_search_tree::Solution;
+use leetcode_exercise::leetcode::editor::cn::_108_convert_sorted_array_to_binary_search_tree::Solution;
 
 #[test]
 fn convert_sorted_array_to_binary_search_tree() {

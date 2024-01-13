@@ -1,5 +1,5 @@
 use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::en::_101_symmetric_tree::Solution;
+use leetcode_exercise::leetcode::editor::cn::_101_symmetric_tree::Solution;
 #[test]
 fn symmetric_tree_1() {
     //        1

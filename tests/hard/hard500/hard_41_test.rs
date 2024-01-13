@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_41_first_missing_positive::Solution;
+use leetcode_exercise::leetcode::editor::cn::_41_first_missing_positive::Solution;
 
 #[test]
 fn first_missing_positive() {

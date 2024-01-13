@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_160_intersection_of_two_linked_lists::{
+use leetcode_exercise::leetcode::editor::cn::_160_intersection_of_two_linked_lists::{
     ListNode, Solution,
 };
 use std::ptr::null_mut;

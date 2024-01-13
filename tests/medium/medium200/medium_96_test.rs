@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_96_unique_binary_search_trees::Solution;
+use leetcode_exercise::leetcode::editor::cn::_96_unique_binary_search_trees::Solution;
 
 #[test]
 fn unique_binary_search_trees() {

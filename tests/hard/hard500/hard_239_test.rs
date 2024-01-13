@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_239_sliding_window_maximum::Solution;
+use leetcode_exercise::leetcode::editor::cn::_239_sliding_window_maximum::Solution;
 
 #[test]
 fn sliding_window_maximum_test_1() {

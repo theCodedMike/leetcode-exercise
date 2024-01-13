@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_16_3_sum_closest::Solution;
+use leetcode_exercise::leetcode::editor::cn::_16_3_sum_closest::Solution;
 #[test]
 fn three_sum_closest_1() {
     let nums = vec![-1, 2, 1, -4];

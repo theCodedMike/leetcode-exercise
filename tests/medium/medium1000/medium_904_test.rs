@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_904_fruit_into_baskets::Solution;
+use leetcode_exercise::leetcode::editor::cn::_904_fruit_into_baskets::Solution;
 
 #[test]
 fn fruit_into_baskets() {

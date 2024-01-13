@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_28_find_the_index_of_the_first_occurrence_in_a_string::Solution;
+use leetcode_exercise::leetcode::editor::cn::_28_find_the_index_of_the_first_occurrence_in_a_string::Solution;
 
 #[test]
 fn find_the_index_of_the_first_occurrence_in_a_string_1() {

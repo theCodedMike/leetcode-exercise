@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_4_median_of_two_sorted_arrays::Solution;
+use leetcode_exercise::leetcode::editor::cn::_4_median_of_two_sorted_arrays::Solution;
 
 #[test]
 fn median_of_two_sorted_arrays() {

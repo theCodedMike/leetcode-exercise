@@ -1,5 +1,5 @@
 use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::en::_110_balanced_binary_tree::Solution;
+use leetcode_exercise::leetcode::editor::cn::_110_balanced_binary_tree::Solution;
 
 #[test]
 fn balanced_binary_tree_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_57_insert_interval::Solution;
+use leetcode_exercise::leetcode::editor::cn::_57_insert_interval::Solution;
 
 #[test]
 fn insert_interval() {

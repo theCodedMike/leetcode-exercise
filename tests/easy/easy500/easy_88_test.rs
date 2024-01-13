@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_88_merge_sorted_array::Solution;
+use leetcode_exercise::leetcode::editor::cn::_88_merge_sorted_array::Solution;
 
 #[test]
 fn merge_sorted_array() {

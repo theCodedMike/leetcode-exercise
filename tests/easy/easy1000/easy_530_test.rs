@@ -1,5 +1,5 @@
 use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::en::_530_minimum_absolute_difference_in_b_s_t::Solution;
+use leetcode_exercise::leetcode::editor::cn::_530_minimum_absolute_difference_in_b_s_t::Solution;
 
 #[test]
 fn minimum_absolute_difference_in_bst_1() {

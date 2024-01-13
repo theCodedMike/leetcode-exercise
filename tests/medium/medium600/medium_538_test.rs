@@ -1,7 +1,7 @@
 use leetcode_exercise::binary_tree::safe::{
     in_order_recur, post_order_recur, pre_order_recur, TreeNode,
 };
-use leetcode_exercise::leetcode::editor::en::_538_convert_b_s_t_to_greater_tree::Solution;
+use leetcode_exercise::leetcode::editor::cn::_538_convert_b_s_t_to_greater_tree::Solution;
 
 #[test]
 fn convert_bst_to_greater_tree_1() {

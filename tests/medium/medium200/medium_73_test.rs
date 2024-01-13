@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_73_set_matrix_zeroes::Solution;
+use leetcode_exercise::leetcode::editor::cn::_73_set_matrix_zeroes::Solution;
 
 #[test]
 fn set_matrix_zeroes() {

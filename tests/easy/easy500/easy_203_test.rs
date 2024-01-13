@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_203_remove_linked_list_elements::{
+use leetcode_exercise::leetcode::editor::cn::_203_remove_linked_list_elements::{
     ListNode, Solution,
 };
 
@@ -19,14 +19,14 @@ fn remove_linked_list_elements_1() {
     );
     let val = 6;
     let res = Solution::remove_elements(head, val);
-    assert_eq!(ListNode::to_vec(res), [1, 2, 3, 4, 5]);
+    assert_eq!(ListNode::convert_to_vec(res), [1, 2, 3, 4, 5]);
 }
 
 #[test]
 fn remove_linked_list_elements_2() {
     let val = 1;
     let res = Solution::remove_elements(None, val);
-    assert_eq!(ListNode::to_vec(res), []);
+    assert_eq!(ListNode::convert_to_vec(res), []);
 }
 
 #[test]
@@ -37,5 +37,5 @@ fn remove_linked_list_elements_3() {
     );
     let val = 7;
     let res = Solution::remove_elements(head, val);
-    assert_eq!(ListNode::to_vec(res), []);
+    assert_eq!(ListNode::convert_to_vec(res), []);
 }

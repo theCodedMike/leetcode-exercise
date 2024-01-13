@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::en::_42_trapping_rain_water::Solution;
+use leetcode_exercise::leetcode::editor::cn::_42_trapping_rain_water::Solution;
 
 #[test]
 fn trapping_rain_water() {

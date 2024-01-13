@@ -1,5 +1,5 @@
 use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::en::_222_count_complete_tree_nodes::Solution;
+use leetcode_exercise::leetcode::editor::cn::_222_count_complete_tree_nodes::Solution;
 #[test]
 fn count_complete_tree_nodes_1() {
     let root = TreeNode::new_with_children(
