@@ -47,24 +47,30 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn inorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        //let mut res = vec![];
-        //Self::recursion_impl(root, &mut res);
-        //return res;
+        //Self::recursion_impl(root)
 
         //Self::iteration_impl_1(root)
         //Self::iteration_impl_2(root)
-        Self::iteration_impl_3(root)
+        //Self::iteration_impl_3(root)
+
+        Self::morris_impl(root)
     }
 
-    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>, res: &mut Vec<i32>) {
-        match root {
-            None => {}
-            Some(root) => {
-                Self::recursion_impl(root.borrow_mut().left.take(), res);
+    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+        const INORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
+            if let Some(root) = root {
+                INORDER(root.borrow_mut().left.take(), res);
+
                 res.push(root.borrow().val);
-                Self::recursion_impl(root.borrow_mut().right.take(), res);
+
+                INORDER(root.borrow_mut().right.take(), res);
             }
-        }
+        };
+
+        INORDER(root, &mut res);
+
+        res
     }
 
     fn iteration_impl_1(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
@@ -127,6 +133,45 @@ impl Solution {
                     }
                     Err(val) => res.push(val),
                 }
+            }
+        }
+
+        res
+    }
+
+    fn morris_impl(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        while let Some(curr) = root {
+            let left = curr.borrow().left.clone();
+
+            if left.is_some() {
+                let mut prev_node = left.clone();
+                while let Some(ref prev) = prev_node {
+                    let right = prev.borrow().right.clone();
+                    if right.is_none() || right == Some(curr.clone()) {
+                        break;
+                    } else {
+                        prev_node = right;
+                    }
+                }
+
+                match prev_node {
+                    None => break,
+                    Some(prev) => {
+                        let mut prev = prev.borrow_mut();
+                        if let Some(_) = prev.right.take() {
+                            res.push(curr.borrow().val);
+                            root = curr.borrow().right.clone();
+                        } else {
+                            prev.right = Some(curr);
+                            root = left;
+                        }
+                    }
+                }
+            } else {
+                res.push(curr.borrow().val);
+                root = curr.borrow().right.clone();
             }
         }
 

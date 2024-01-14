@@ -46,28 +46,33 @@ use std::cell::RefCell;
 use std::rc::Rc;
 impl Solution {
     pub fn preorder_traversal(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-        //let mut res = vec![];
-        //Self::recursion_impl(root, &mut res);
-        //res
+        //Self::recursion_impl(root)
 
         //Self::iteration_impl_1(root)
         //Self::iteration_impl_2(root)
         //Self::iteration_impl_3(root)
-        Self::iteration_impl_4(root)
+        //Self::iteration_impl_4(root)
+
+        Self::morris_impl(root)
     }
 
     /// Time Complexity: O(n)
     ///
     /// Space Complexity: O(n), the space is taken up by the recursive call stack.
-    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>, res: &mut Vec<i32>) {
-        match root {
-            None => {}
-            Some(node) => {
+    fn recursion_impl(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+        const PREORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
+            if let Some(node) = root {
                 res.push(node.borrow().val);
-                Self::recursion_impl(node.borrow_mut().left.take(), res);
-                Self::recursion_impl(node.borrow_mut().right.take(), res);
+
+                PREORDER(node.borrow_mut().left.take(), res);
+                PREORDER(node.borrow_mut().right.take(), res);
             }
-        }
+        };
+
+        PREORDER(root, &mut res);
+
+        res
     }
 
     /// 这种写法可以作为前序遍历或后序遍历的通用写法
@@ -153,6 +158,45 @@ impl Solution {
                     }
                     Err(val) => res.push(val),
                 }
+            }
+        }
+
+        res
+    }
+
+    fn morris_impl(mut root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
+        let mut res = vec![];
+
+        while let Some(curr) = root {
+            let left = curr.borrow().left.clone();
+
+            if left.is_some() {
+                let mut prev_node = left.clone();
+                while let Some(ref prev) = prev_node {
+                    let right = prev.borrow().right.clone();
+                    if right.is_none() || right == Some(curr.clone()) {
+                        break;
+                    } else {
+                        prev_node = right;
+                    }
+                }
+
+                match prev_node {
+                    None => break,
+                    Some(prev) => {
+                        let mut prev = prev.borrow_mut();
+                        if let Some(_) = prev.right.take() {
+                            root = curr.borrow().right.clone();
+                        } else {
+                            res.push(curr.borrow().val);
+                            prev.right = Some(curr);
+                            root = left;
+                        }
+                    }
+                }
+            } else {
+                res.push(curr.borrow().val);
+                root = curr.borrow().right.clone();
             }
         }
 

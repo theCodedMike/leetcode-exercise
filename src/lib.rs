@@ -5,7 +5,7 @@ pub mod binary_tree {
         use std::cell::RefCell;
         use std::rc::Rc;
 
-        #[derive(Debug, PartialEq, Eq, Default)]
+        #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Default)]
         pub struct TreeNode {
             pub val: i32,
             pub left: Option<Rc<RefCell<TreeNode>>>,

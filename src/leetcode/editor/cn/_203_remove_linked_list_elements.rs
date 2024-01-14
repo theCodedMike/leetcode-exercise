@@ -55,7 +55,7 @@ impl ListNode {
         Some(Box::new(ListNode { val, next }))
     }
 
-    pub fn to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
+    pub fn convert_to_vec(mut head: Option<Box<ListNode>>) -> Vec<i32> {
         let mut res = vec![];
 
         while let Some(mut curr) = head {

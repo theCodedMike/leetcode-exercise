@@ -71,24 +71,30 @@ impl Solution {
     ) -> Option<Rc<RefCell<TreeNode>>> {
         const POSTORDER: fn(
             Option<Rc<RefCell<TreeNode>>>,
-            &Option<Rc<RefCell<TreeNode>>>,
-            &Option<Rc<RefCell<TreeNode>>>,
+            Option<Rc<RefCell<TreeNode>>>,
+            Option<Rc<RefCell<TreeNode>>>,
         ) -> Option<Rc<RefCell<TreeNode>>> = |root, p, q| match root {
             None => None,
-            root if root == *p || root == *q => root,
             Some(curr) => {
-                let l_res = POSTORDER(curr.borrow().left.clone(), p, q);
-                let r_res = POSTORDER(curr.borrow().right.clone(), p, q);
+                let left = curr.borrow_mut().left.take();
+                let right = curr.borrow_mut().right.take();
+                let curr = Some(curr);
+                if curr == p || curr == q {
+                    return curr;
+                }
+
+                let l_res = POSTORDER(left, p.clone(), q.clone());
+                let r_res = POSTORDER(right, p.clone(), q.clone());
 
                 if l_res.is_some() && r_res.is_some() {
-                    return Some(curr);
+                    return curr;
                 }
 
                 return if l_res.is_some() { l_res } else { r_res };
             }
         };
 
-        POSTORDER(root, &p, &q)
+        POSTORDER(root, p, q)
     }
 
     fn store_parent_node(
@@ -96,42 +102,46 @@ impl Solution {
         mut p: Option<Rc<RefCell<TreeNode>>>,
         mut q: Option<Rc<RefCell<TreeNode>>>,
     ) -> Option<Rc<RefCell<TreeNode>>> {
-        match root {
-            None => None,
-            Some(root) => {
-                let mut map = HashMap::from([(root.borrow().val, (None, false))]);
-                let mut queue = VecDeque::from([root]);
-                while let Some(curr) = queue.pop_front() {
-                    if let Some(left) = curr.borrow().left.clone() {
-                        map.insert(left.borrow().val, (Some(curr.clone()), false));
-                        queue.push_back(left);
-                    }
-                    if let Some(right) = curr.borrow().right.clone() {
-                        map.insert(right.borrow().val, (Some(curr.clone()), false));
-                        queue.push_back(right);
-                    }
-                }
+        let mut map = HashMap::new();
 
-                while let Some(ref p_val) = p {
-                    let key = p_val.borrow().val;
-                    if let Some((parent, is_visited)) = map.get_mut(&key) {
-                        *is_visited = true;
-                        p = parent.clone();
-                    }
-                }
+        if let Some(root) = root {
+            map.insert(root.borrow().val, (None, false));
 
-                while let Some(ref q_val) = q {
-                    let key = q_val.borrow().val;
-                    let (parent, is_visited) = &map[&key];
-                    if *is_visited {
-                        return q;
-                    }
-                    q = parent.clone();
+            const BUILD: fn(
+                Rc<RefCell<TreeNode>>,
+                &mut HashMap<i32, (Option<Rc<RefCell<TreeNode>>>, bool)>,
+            ) = |root, map| {
+                if let Some(left) = root.borrow_mut().left.take() {
+                    map.insert(left.borrow().val, (Some(root.clone()), false));
+                    BUILD(left, map);
                 }
+                if let Some(right) = root.borrow_mut().right.take() {
+                    map.insert(right.borrow().val, (Some(root.clone()), false));
+                    BUILD(right, map);
+                }
+            };
 
-                None
+            BUILD(root, &mut map);
+        }
+
+        while let Some(ref curr) = p {
+            let p_val = curr.borrow().val;
+            if let Some((parent, is_visit)) = map.get_mut(&p_val) {
+                *is_visit = true;
+                p = parent.clone();
             }
         }
+
+        while let Some(ref curr) = q {
+            let q_val = curr.borrow().val;
+            let (parent, is_visit) = &map[&q_val];
+            if *is_visit {
+                return q;
+            }
+            q = parent.clone();
+        }
+
+        None
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
