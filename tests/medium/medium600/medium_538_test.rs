@@ -1,7 +1,6 @@
-use leetcode_exercise::binary_tree::safe::{
-    in_order_recur, post_order_recur, pre_order_recur, TreeNode,
-};
+use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
 use leetcode_exercise::leetcode::editor::cn::_538_convert_b_s_t_to_greater_tree::Solution;
+use leetcode_exercise::Traverse;
 
 #[test]
 fn convert_bst_to_greater_tree_1() {
@@ -26,15 +25,19 @@ fn convert_bst_to_greater_tree_1() {
         ),
     );
     let res = Solution::convert_bst(root);
+
     assert_eq!(
-        pre_order_recur(res.clone()),
+        BinaryTree::pre_order_recur(res.clone()),
         [30, 36, 36, 35, 33, 21, 26, 15, 8]
     );
     assert_eq!(
-        in_order_recur(res.clone()),
+        BinaryTree::in_order_recur(res.clone()),
         [36, 36, 35, 33, 30, 26, 21, 15, 8]
     );
-    assert_eq!(post_order_recur(res), [36, 33, 35, 36, 26, 8, 15, 21, 30]);
+    assert_eq!(
+        BinaryTree::post_order_recur(res),
+        [36, 33, 35, 36, 26, 8, 15, 21, 30]
+    );
 }
 
 #[test]
@@ -44,9 +47,10 @@ fn convert_bst_to_greater_tree_2() {
     //     1                      1
     let root = TreeNode::new_with_right(0, TreeNode::new2(1));
     let res = Solution::convert_bst(root);
-    assert_eq!(pre_order_recur(res.clone()), [1, 1]);
-    assert_eq!(in_order_recur(res.clone()), [1, 1]);
-    assert_eq!(post_order_recur(res), [1, 1]);
+
+    assert_eq!(BinaryTree::pre_order_recur(res.clone()), [1, 1]);
+    assert_eq!(BinaryTree::in_order_recur(res.clone()), [1, 1]);
+    assert_eq!(BinaryTree::post_order_recur(res), [1, 1]);
 }
 
 #[test]
@@ -56,9 +60,10 @@ fn convert_bst_to_greater_tree_3() {
     // 0   2                  3   2
     let root = TreeNode::new_with_children(1, TreeNode::new2(0), TreeNode::new2(2));
     let res = Solution::convert_bst(root);
-    assert_eq!(pre_order_recur(res.clone()), [3, 3, 2]);
-    assert_eq!(in_order_recur(res.clone()), [3, 3, 2]);
-    assert_eq!(post_order_recur(res), [3, 2, 3]);
+
+    assert_eq!(BinaryTree::pre_order_recur(res.clone()), [3, 3, 2]);
+    assert_eq!(BinaryTree::in_order_recur(res.clone()), [3, 3, 2]);
+    assert_eq!(BinaryTree::post_order_recur(res), [3, 2, 3]);
 }
 
 #[test]
@@ -74,7 +79,8 @@ fn convert_bst_to_greater_tree_4() {
         TreeNode::new2(4),
     );
     let res = Solution::convert_bst(root);
-    assert_eq!(pre_order_recur(res.clone()), [7, 9, 10, 4]);
-    assert_eq!(in_order_recur(res.clone()), [10, 9, 7, 4]);
-    assert_eq!(post_order_recur(res), [10, 9, 4, 7]);
+
+    assert_eq!(BinaryTree::pre_order_recur(res.clone()), [7, 9, 10, 4]);
+    assert_eq!(BinaryTree::in_order_recur(res.clone()), [10, 9, 7, 4]);
+    assert_eq!(BinaryTree::post_order_recur(res), [10, 9, 4, 7]);
 }

@@ -1,7 +1,6 @@
-use leetcode_exercise::binary_tree::safe::{
-    in_order_recur, post_order_recur, pre_order_recur, TreeNode,
-};
+use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
 use leetcode_exercise::leetcode::editor::cn::_701_insert_into_a_binary_search_tree::Solution;
+use leetcode_exercise::Traverse;
 
 #[test]
 fn insert_into_a_binary_search_tree_1() {
@@ -17,9 +16,10 @@ fn insert_into_a_binary_search_tree_1() {
     );
     let val = 5;
     let res = Solution::insert_into_bst(root, val);
-    assert_eq!(pre_order_recur(res.clone()), [4, 2, 1, 3, 7, 5]);
-    assert_eq!(in_order_recur(res.clone()), [1, 2, 3, 4, 5, 7]);
-    assert_eq!(post_order_recur(res), [1, 3, 2, 5, 7, 4]);
+
+    assert_eq!(BinaryTree::pre_order_recur(res.clone()), [4, 2, 1, 3, 7, 5]);
+    assert_eq!(BinaryTree::in_order_recur(res.clone()), [1, 2, 3, 4, 5, 7]);
+    assert_eq!(BinaryTree::post_order_recur(res), [1, 3, 2, 5, 7, 4]);
 }
 
 #[test]
@@ -38,13 +38,17 @@ fn insert_into_a_binary_search_tree_2() {
     );
     let val = 25;
     let res = Solution::insert_into_bst(root, val);
+
     assert_eq!(
-        pre_order_recur(res.clone()),
+        BinaryTree::pre_order_recur(res.clone()),
         [40, 20, 10, 30, 25, 60, 50, 70]
     );
     assert_eq!(
-        in_order_recur(res.clone()),
+        BinaryTree::in_order_recur(res.clone()),
         [10, 20, 25, 30, 40, 50, 60, 70]
     );
-    assert_eq!(post_order_recur(res), [10, 25, 30, 20, 50, 70, 60, 40]);
+    assert_eq!(
+        BinaryTree::post_order_recur(res),
+        [10, 25, 30, 20, 50, 70, 60, 40]
+    );
 }

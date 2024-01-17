@@ -1,7 +1,6 @@
-use leetcode_exercise::binary_tree::safe::{
-    in_order_recur, post_order_recur, pre_order_recur, TreeNode,
-};
+use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
 use leetcode_exercise::leetcode::editor::cn::_617_merge_two_binary_trees::Solution;
+use leetcode_exercise::Traverse;
 
 #[test]
 fn merge_two_binary_trees_1() {
@@ -20,11 +19,14 @@ fn merge_two_binary_trees_1() {
         TreeNode::new_with_right(1, TreeNode::new2(4)),
         TreeNode::new_with_right(3, TreeNode::new2(7)),
     );
-
     let root = Solution::merge_trees(root1, root2);
-    assert_eq!(pre_order_recur(root.clone()), [3, 4, 5, 4, 5, 7]);
-    assert_eq!(in_order_recur(root.clone()), [5, 4, 4, 3, 5, 7]);
-    assert_eq!(post_order_recur(root), [5, 4, 4, 7, 5, 3]);
+
+    assert_eq!(
+        BinaryTree::pre_order_recur(root.clone()),
+        [3, 4, 5, 4, 5, 7]
+    );
+    assert_eq!(BinaryTree::in_order_recur(root.clone()), [5, 4, 4, 3, 5, 7]);
+    assert_eq!(BinaryTree::post_order_recur(root), [5, 4, 4, 7, 5, 3]);
 }
 
 #[test]
@@ -44,11 +46,17 @@ fn merge_two_binary_trees_2() {
         TreeNode::new2(1),
         TreeNode::new_with_left(3, TreeNode::new2(7)),
     );
-
     let root = Solution::merge_trees(root1, root2);
-    assert_eq!(pre_order_recur(root.clone()), [3, 4, 5, 4, 5, 7, 10]);
-    assert_eq!(in_order_recur(root.clone()), [5, 4, 4, 3, 7, 5, 10]);
-    assert_eq!(post_order_recur(root), [5, 4, 4, 7, 10, 5, 3]);
+
+    assert_eq!(
+        BinaryTree::pre_order_recur(root.clone()),
+        [3, 4, 5, 4, 5, 7, 10]
+    );
+    assert_eq!(
+        BinaryTree::in_order_recur(root.clone()),
+        [5, 4, 4, 3, 7, 5, 10]
+    );
+    assert_eq!(BinaryTree::post_order_recur(root), [5, 4, 4, 7, 10, 5, 3]);
 }
 
 #[test]
@@ -58,11 +66,11 @@ fn merge_two_binary_trees_3() {
     //              2                      2
     let root1 = TreeNode::new2(1);
     let root2 = TreeNode::new_with_left(1, TreeNode::new2(2));
-
     let root = Solution::merge_trees(root1, root2);
-    assert_eq!(pre_order_recur(root.clone()), [2, 2]);
-    assert_eq!(in_order_recur(root.clone()), [2, 2]);
-    assert_eq!(post_order_recur(root), [2, 2]);
+
+    assert_eq!(BinaryTree::pre_order_recur(root.clone()), [2, 2]);
+    assert_eq!(BinaryTree::in_order_recur(root.clone()), [2, 2]);
+    assert_eq!(BinaryTree::post_order_recur(root), [2, 2]);
 }
 
 #[test]
@@ -82,11 +90,11 @@ fn merge_two_binary_trees_4() {
         TreeNode::new_with_left(1, TreeNode::new2(1)),
         TreeNode::new2(2),
     );
-
     let root = Solution::merge_trees(root1, root2);
-    assert_eq!(pre_order_recur(root.clone()), [7, 5, 2, 2, 7]);
-    assert_eq!(in_order_recur(root.clone()), [2, 5, 2, 7, 7]);
-    assert_eq!(post_order_recur(root), [2, 2, 5, 7, 7]);
+
+    assert_eq!(BinaryTree::pre_order_recur(root.clone()), [7, 5, 2, 2, 7]);
+    assert_eq!(BinaryTree::in_order_recur(root.clone()), [2, 5, 2, 7, 7]);
+    assert_eq!(BinaryTree::post_order_recur(root), [2, 2, 5, 7, 7]);
 }
 
 #[test]
@@ -106,9 +114,9 @@ fn merge_two_binary_trees_5() {
         TreeNode::new_with_children(1, TreeNode::new2(1), TreeNode::new2(7)),
         TreeNode::new2(2),
     );
-
     let root = Solution::merge_trees(root1, root2);
-    assert_eq!(pre_order_recur(root.clone()), [7, 5, 2, 9, 7]);
-    assert_eq!(in_order_recur(root.clone()), [2, 5, 9, 7, 7]);
-    assert_eq!(post_order_recur(root), [2, 9, 5, 7, 7]);
+
+    assert_eq!(BinaryTree::pre_order_recur(root.clone()), [7, 5, 2, 9, 7]);
+    assert_eq!(BinaryTree::in_order_recur(root.clone()), [2, 5, 9, 7, 7]);
+    assert_eq!(BinaryTree::post_order_recur(root), [2, 9, 5, 7, 7]);
 }

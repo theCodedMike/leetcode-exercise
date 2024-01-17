@@ -1,10 +1,196 @@
 pub mod leetcode;
 
+pub trait Traverse {
+    type RootType;
+    type ElemType;
+    /// 递归前序遍历
+    fn pre_order_recur(root: Self::RootType) -> Vec<Self::ElemType>;
+    /// 递归中序遍历
+    fn in_order_recur(root: Self::RootType) -> Vec<Self::ElemType>;
+    /// 递归后序遍历
+    fn post_order_recur(root: Self::RootType) -> Vec<Self::ElemType>;
+
+    /// 迭代前序遍历
+    fn pre_order_iter(root: Self::RootType) -> Vec<Self::ElemType>;
+    /// 迭代中序遍历
+    fn in_order_iter(root: Self::RootType) -> Vec<Self::ElemType>;
+    /// 迭代后序遍历
+    fn post_order_iter(root: Self::RootType) -> Vec<Self::ElemType>;
+
+    /// 层序遍历
+    fn level_order(root: Self::RootType) -> Vec<Self::ElemType>;
+}
+
+pub trait BuildTree {
+    type ElemType;
+    type RootType;
+
+    fn build(elems: &[Option<Self::ElemType>]) -> Self::RootType;
+}
+
 pub mod binary_tree {
     pub mod safe {
+        use crate::{BuildTree, Traverse};
         use std::cell::RefCell;
+        use std::collections::VecDeque;
         use std::rc::Rc;
+        pub struct BinaryTree;
+        impl BuildTree for BinaryTree {
+            type ElemType = i32;
+            type RootType = Option<Rc<RefCell<TreeNode>>>;
+            fn build(elems: &[Option<Self::ElemType>]) -> Self::RootType {
+                if elems.is_empty() {
+                    return None;
+                }
 
+                let mut nodes = vec![None; 1 + elems.len()];
+                for (mut idx, val) in elems.into_iter().enumerate() {
+                    idx += 1;
+                    if let Some(val) = val {
+                        let node = TreeNode::new2(*val);
+                        if idx != 1 {
+                            let p_idx = idx / 2;
+                            let is_left = idx % 2 == 0;
+                            nodes[p_idx].as_mut().map(|p: &mut Rc<RefCell<TreeNode>>| {
+                                if is_left {
+                                    p.borrow_mut().left = node.clone();
+                                } else {
+                                    p.borrow_mut().right = node.clone();
+                                }
+                            });
+                        }
+                        nodes[idx] = node;
+                    }
+                }
+
+                nodes[1].take()
+            }
+        }
+        impl Traverse for BinaryTree {
+            type RootType = Option<Rc<RefCell<TreeNode>>>;
+            type ElemType = i32;
+
+            fn pre_order_recur(root: Self::RootType) -> Vec<Self::ElemType> {
+                let mut res = vec![];
+                const PRE_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
+                    if let Some(curr) = root {
+                        res.push(curr.borrow().val);
+                        PRE_ORDER(curr.borrow().left.clone(), res);
+                        PRE_ORDER(curr.borrow().right.clone(), res);
+                    }
+                };
+                PRE_ORDER(root, &mut res);
+                res
+            }
+
+            fn in_order_recur(root: Self::RootType) -> Vec<Self::ElemType> {
+                let mut res = vec![];
+                const IN_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
+                    if let Some(curr) = root {
+                        IN_ORDER(curr.borrow().left.clone(), res);
+                        res.push(curr.borrow().val);
+                        IN_ORDER(curr.borrow().right.clone(), res);
+                    }
+                };
+                IN_ORDER(root, &mut res);
+                res
+            }
+
+            fn post_order_recur(root: Self::RootType) -> Vec<Self::ElemType> {
+                let mut res = vec![];
+                const POST_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
+                    if let Some(curr) = root {
+                        POST_ORDER(curr.borrow().left.clone(), res);
+                        POST_ORDER(curr.borrow().right.clone(), res);
+                        res.push(curr.borrow().val);
+                    }
+                };
+                POST_ORDER(root, &mut res);
+                res
+            }
+            fn pre_order_iter(root: Self::RootType) -> Vec<Self::ElemType> {
+                let mut res = vec![];
+                if let Some(root) = root {
+                    let mut stack = vec![Ok(root)];
+                    while let Some(curr) = stack.pop() {
+                        match curr {
+                            Ok(node) => {
+                                if let Some(right) = node.borrow().right.clone() {
+                                    stack.push(Ok(right));
+                                }
+                                if let Some(left) = node.borrow().left.clone() {
+                                    stack.push(Ok(left));
+                                }
+                                stack.push(Err(node.borrow().val));
+                            }
+                            Err(val) => res.push(val),
+                        }
+                    }
+                }
+                res
+            }
+
+            fn in_order_iter(root: Self::RootType) -> Vec<Self::ElemType> {
+                let mut res = vec![];
+                if let Some(root) = root {
+                    let mut stack = vec![Ok(root)];
+                    while let Some(curr) = stack.pop() {
+                        match curr {
+                            Ok(node) => {
+                                if let Some(right) = node.borrow().right.clone() {
+                                    stack.push(Ok(right));
+                                }
+                                stack.push(Err(node.borrow().val));
+                                if let Some(left) = node.borrow().left.clone() {
+                                    stack.push(Ok(left));
+                                }
+                            }
+                            Err(val) => res.push(val),
+                        }
+                    }
+                }
+                res
+            }
+
+            fn post_order_iter(root: Self::RootType) -> Vec<Self::ElemType> {
+                let mut res = vec![];
+                if let Some(root) = root {
+                    let mut stack = vec![Ok(root)];
+                    while let Some(curr) = stack.pop() {
+                        match curr {
+                            Ok(node) => {
+                                stack.push(Err(node.borrow().val));
+                                if let Some(right) = node.borrow().right.clone() {
+                                    stack.push(Ok(right));
+                                }
+                                if let Some(left) = node.borrow().left.clone() {
+                                    stack.push(Ok(left));
+                                }
+                            }
+                            Err(val) => res.push(val),
+                        }
+                    }
+                }
+                res
+            }
+
+            fn level_order(root: Self::RootType) -> Vec<Self::ElemType> {
+                let mut res = vec![];
+                if let Some(root) = root {
+                    let mut queue = VecDeque::from([root]);
+                    while let Some(curr) = queue.pop_front() {
+                        res.push(curr.borrow().val);
+                        if let Some(left) = curr.borrow().left.clone() {
+                            queue.push_back(left);
+                        }
+                        if let Some(right) = curr.borrow().right.clone() {
+                            queue.push_back(right);
+                        }
+                    }
+                }
+                res
+            }
+        }
         #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Default)]
         pub struct TreeNode {
             pub val: i32,
@@ -61,44 +247,6 @@ pub mod binary_tree {
             ) -> Option<Rc<RefCell<TreeNode>>> {
                 Some(Rc::new(RefCell::new(TreeNode { val, left, right })))
             }
-        }
-
-        pub fn pre_order_recur(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-            let mut res = vec![];
-            const PRE_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
-                if let Some(curr) = root {
-                    res.push(curr.borrow().val);
-                    PRE_ORDER(curr.borrow_mut().left.clone(), res);
-                    PRE_ORDER(curr.borrow_mut().right.clone(), res);
-                }
-            };
-            PRE_ORDER(root, &mut res);
-            res
-        }
-        pub fn in_order_recur(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-            let mut res = vec![];
-            const IN_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
-                if let Some(curr) = root {
-                    IN_ORDER(curr.borrow_mut().left.clone(), res);
-                    res.push(curr.borrow().val);
-                    IN_ORDER(curr.borrow_mut().right.clone(), res);
-                }
-            };
-            IN_ORDER(root, &mut res);
-            res
-        }
-
-        pub fn post_order_recur(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {
-            let mut res = vec![];
-            const POST_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
-                if let Some(curr) = root {
-                    POST_ORDER(curr.borrow_mut().left.clone(), res);
-                    POST_ORDER(curr.borrow_mut().right.clone(), res);
-                    res.push(curr.borrow().val);
-                }
-            };
-            POST_ORDER(root, &mut res);
-            res
         }
     }
     pub mod raw_ptr {}
