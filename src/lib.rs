@@ -49,8 +49,13 @@ pub mod binary_tree {
                     if let Some(val) = val {
                         let node = TreeNode::new2(*val);
                         if idx != 1 {
-                            let p_idx = idx / 2;
+                            let mut p_idx = idx / 2;
                             let is_left = idx % 2 == 0;
+
+                            while nodes[p_idx].is_none() {
+                                p_idx += 1;
+                            }
+
                             nodes[p_idx].as_mut().map(|p: &mut Rc<RefCell<TreeNode>>| {
                                 if is_left {
                                     p.borrow_mut().left = node.clone();

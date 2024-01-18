@@ -160,6 +160,7 @@ pub mod _637_average_of_levels_in_binary_tree;
 pub mod _64_minimum_path_sum;
 pub mod _654_maximum_binary_tree;
 pub mod _65_valid_number;
+pub mod _669_trim_a_binary_search_tree;
 pub mod _66_plus_one;
 pub mod _67_add_binary;
 pub mod _68_text_justification;

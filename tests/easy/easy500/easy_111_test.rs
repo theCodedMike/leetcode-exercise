@@ -1,5 +1,6 @@
-use leetcode_exercise::binary_tree::safe::TreeNode;
+use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
 use leetcode_exercise::leetcode::editor::cn::_111_minimum_depth_of_binary_tree::Solution;
+use leetcode_exercise::BuildTree;
 
 #[test]
 fn minimum_depth_of_binary_tree_1() {
@@ -8,11 +9,8 @@ fn minimum_depth_of_binary_tree_1() {
     //   9  20
     //     /  \
     //    15   7
-    let root = TreeNode::new_with_children(
-        3,
-        TreeNode::new2(9),
-        TreeNode::new_with_children(20, TreeNode::new2(15), TreeNode::new2(7)),
-    );
+    let nodes = [Some(3), Some(9), Some(20), None, None, Some(15), Some(7)];
+    let root = BinaryTree::build(&nodes);
 
     let min_depth = Solution::min_depth(root);
     assert_eq!(min_depth, 2);
