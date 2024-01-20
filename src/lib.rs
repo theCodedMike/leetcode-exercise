@@ -1,81 +1,84 @@
 pub mod leetcode;
 
 pub trait Traverse {
-    type RootType;
+    type NodeType;
     type ElemType;
     /// 递归前序遍历
-    fn pre_order_recur(root: Self::RootType) -> Vec<Self::ElemType>;
+    fn pre_order_recur(root: Self::NodeType) -> Vec<Self::ElemType>;
     /// 递归中序遍历
-    fn in_order_recur(root: Self::RootType) -> Vec<Self::ElemType>;
+    fn in_order_recur(root: Self::NodeType) -> Vec<Self::ElemType>;
     /// 递归后序遍历
-    fn post_order_recur(root: Self::RootType) -> Vec<Self::ElemType>;
+    fn post_order_recur(root: Self::NodeType) -> Vec<Self::ElemType>;
 
     /// 迭代前序遍历
-    fn pre_order_iter(root: Self::RootType) -> Vec<Self::ElemType>;
+    fn pre_order_iter(root: Self::NodeType) -> Vec<Self::ElemType>;
     /// 迭代中序遍历
-    fn in_order_iter(root: Self::RootType) -> Vec<Self::ElemType>;
+    fn in_order_iter(root: Self::NodeType) -> Vec<Self::ElemType>;
     /// 迭代后序遍历
-    fn post_order_iter(root: Self::RootType) -> Vec<Self::ElemType>;
+    fn post_order_iter(root: Self::NodeType) -> Vec<Self::ElemType>;
 
     /// 层序遍历
-    fn level_order(root: Self::RootType) -> Vec<Self::ElemType>;
+    fn level_order(root: Self::NodeType) -> Vec<Self::ElemType>;
 }
 
-pub trait BuildTree {
+pub trait Build {
     type ElemType;
-    type RootType;
+    type NodeType;
 
-    fn build(elems: &[Option<Self::ElemType>]) -> Self::RootType;
+    fn build(elems: &[Self::ElemType]) -> Self::NodeType;
 }
 
 pub mod binary_tree {
     pub mod safe {
-        use crate::{BuildTree, Traverse};
+        use crate::{Build, Traverse};
         use std::cell::RefCell;
         use std::collections::VecDeque;
         use std::rc::Rc;
+
         pub struct BinaryTree;
-        impl BuildTree for BinaryTree {
-            type ElemType = i32;
-            type RootType = Option<Rc<RefCell<TreeNode>>>;
-            fn build(elems: &[Option<Self::ElemType>]) -> Self::RootType {
-                if elems.is_empty() {
+        impl Build for BinaryTree {
+            type ElemType = Option<i32>;
+            type NodeType = Option<Rc<RefCell<TreeNode>>>;
+            fn build(elems: &[Self::ElemType]) -> Self::NodeType {
+                if elems.is_empty() || elems[0].is_none() {
                     return None;
                 }
 
-                let mut nodes = vec![None; 1 + elems.len()];
-                for (mut idx, val) in elems.into_iter().enumerate() {
-                    idx += 1;
-                    if let Some(val) = val {
-                        let node = TreeNode::new2(*val);
-                        if idx != 1 {
-                            let mut p_idx = idx / 2;
-                            let is_left = idx % 2 == 0;
+                let root = TreeNode::new2(elems[0].unwrap_or_default());
+                let mut queue = VecDeque::from([root.clone()]);
+                let (mut idx, len) = (0, elems.len());
 
-                            while nodes[p_idx].is_none() {
-                                p_idx += 1;
-                            }
-
-                            nodes[p_idx].as_mut().map(|p: &mut Rc<RefCell<TreeNode>>| {
-                                if is_left {
-                                    p.borrow_mut().left = node.clone();
-                                } else {
-                                    p.borrow_mut().right = node.clone();
-                                }
-                            });
+                while let Some(curr) = queue.pop_front() {
+                    if let Some(curr) = curr {
+                        idx += 1;
+                        if idx == len {
+                            break;
                         }
-                        nodes[idx] = node;
+                        if let Some(val) = elems[idx] {
+                            let left = TreeNode::new2(val);
+                            curr.borrow_mut().left = left.clone();
+                            queue.push_back(left)
+                        }
+                        idx += 1;
+                        if idx == len {
+                            break;
+                        }
+                        if let Some(val) = elems[idx] {
+                            let right = TreeNode::new2(val);
+                            curr.borrow_mut().right = right.clone();
+                            queue.push_back(right);
+                        }
                     }
                 }
 
-                nodes[1].take()
+                root
             }
         }
         impl Traverse for BinaryTree {
-            type RootType = Option<Rc<RefCell<TreeNode>>>;
+            type NodeType = Option<Rc<RefCell<TreeNode>>>;
             type ElemType = i32;
 
-            fn pre_order_recur(root: Self::RootType) -> Vec<Self::ElemType> {
+            fn pre_order_recur(root: Self::NodeType) -> Vec<Self::ElemType> {
                 let mut res = vec![];
                 const PRE_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
                     if let Some(curr) = root {
@@ -88,7 +91,7 @@ pub mod binary_tree {
                 res
             }
 
-            fn in_order_recur(root: Self::RootType) -> Vec<Self::ElemType> {
+            fn in_order_recur(root: Self::NodeType) -> Vec<Self::ElemType> {
                 let mut res = vec![];
                 const IN_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
                     if let Some(curr) = root {
@@ -101,7 +104,7 @@ pub mod binary_tree {
                 res
             }
 
-            fn post_order_recur(root: Self::RootType) -> Vec<Self::ElemType> {
+            fn post_order_recur(root: Self::NodeType) -> Vec<Self::ElemType> {
                 let mut res = vec![];
                 const POST_ORDER: fn(Option<Rc<RefCell<TreeNode>>>, &mut Vec<i32>) = |root, res| {
                     if let Some(curr) = root {
@@ -113,7 +116,7 @@ pub mod binary_tree {
                 POST_ORDER(root, &mut res);
                 res
             }
-            fn pre_order_iter(root: Self::RootType) -> Vec<Self::ElemType> {
+            fn pre_order_iter(root: Self::NodeType) -> Vec<Self::ElemType> {
                 let mut res = vec![];
                 if let Some(root) = root {
                     let mut stack = vec![Ok(root)];
@@ -135,7 +138,7 @@ pub mod binary_tree {
                 res
             }
 
-            fn in_order_iter(root: Self::RootType) -> Vec<Self::ElemType> {
+            fn in_order_iter(root: Self::NodeType) -> Vec<Self::ElemType> {
                 let mut res = vec![];
                 if let Some(root) = root {
                     let mut stack = vec![Ok(root)];
@@ -157,7 +160,7 @@ pub mod binary_tree {
                 res
             }
 
-            fn post_order_iter(root: Self::RootType) -> Vec<Self::ElemType> {
+            fn post_order_iter(root: Self::NodeType) -> Vec<Self::ElemType> {
                 let mut res = vec![];
                 if let Some(root) = root {
                     let mut stack = vec![Ok(root)];
@@ -179,7 +182,7 @@ pub mod binary_tree {
                 res
             }
 
-            fn level_order(root: Self::RootType) -> Vec<Self::ElemType> {
+            fn level_order(root: Self::NodeType) -> Vec<Self::ElemType> {
                 let mut res = vec![];
                 if let Some(root) = root {
                     let mut queue = VecDeque::from([root]);
@@ -406,6 +409,51 @@ pub mod binary_tree_with_next {
                     right,
                     next: None,
                 })))
+            }
+        }
+    }
+}
+
+pub mod linked_list {
+    pub mod singly_linked_list {
+        pub mod safe {
+            use crate::Build;
+
+            pub struct LinkedList;
+            impl Build for LinkedList {
+                type ElemType = i32;
+                type NodeType = Option<Box<ListNode>>;
+
+                fn build(elems: &[Self::ElemType]) -> Self::NodeType {
+                    let mut dummy = ListNode::new(0);
+
+                    for val in elems.into_iter().rev() {
+                        dummy.next = ListNode::new_with_next(*val, dummy.next.take());
+                    }
+
+                    dummy.next.take()
+                }
+            }
+
+            #[derive(Debug, PartialEq, Eq)]
+            pub struct ListNode {
+                pub val: i32,
+                pub next: Option<Box<ListNode>>,
+            }
+
+            impl ListNode {
+                pub fn new(val: i32) -> Self {
+                    ListNode { val, next: None }
+                }
+                pub fn new2(val: i32) -> Option<Box<ListNode>> {
+                    Self::new_with_next(val, None)
+                }
+                pub fn new_with_next(
+                    val: i32,
+                    next: Option<Box<ListNode>>,
+                ) -> Option<Box<ListNode>> {
+                    Some(Box::new(ListNode { val, next }))
+                }
             }
         }
     }

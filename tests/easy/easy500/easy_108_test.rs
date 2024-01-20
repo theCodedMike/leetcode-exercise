@@ -1,6 +1,6 @@
 use leetcode_exercise::binary_tree::safe::BinaryTree;
 use leetcode_exercise::leetcode::editor::cn::_108_convert_sorted_array_to_binary_search_tree::Solution;
-use leetcode_exercise::BuildTree;
+use leetcode_exercise::Build;
 
 #[test]
 fn convert_sorted_array_to_binary_search_tree_1() {
