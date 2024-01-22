@@ -41,28 +41,9 @@
 #![allow(unused_variables)]
 
 pub struct Solution;
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
+use crate::binary_tree::safe::TreeNode;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-
 use std::cell::RefCell;
 use std::collections::VecDeque;
 use std::rc::Rc;
@@ -71,108 +52,66 @@ impl Solution {
         p: Option<Rc<RefCell<TreeNode>>>,
         q: Option<Rc<RefCell<TreeNode>>>,
     ) -> bool {
-        let use_recursion = false;
-        if use_recursion {
-            Self::recursion_preorder_helper(p, q)
-        } else {
-            //Self::iteration_preorder_helper(p, q)
-            Self::iteration_level_order_helper(p, q)
-        }
+        //Self::dfs_recur(p, q)
+        //Self::dfs_iter(p, q)
+
+        Self::bfs_iter(p, q)
     }
 
-    fn recursion_preorder_helper(
-        p_node: Option<Rc<RefCell<TreeNode>>>,
-        q_node: Option<Rc<RefCell<TreeNode>>>,
-    ) -> bool {
-        match (p_node, q_node) {
-            (Some(p), Some(q)) => {
-                let p_val = p.borrow().val;
-                let q_val = q.borrow().val;
-                if p_val != q_val {
-                    return false;
-                }
+    fn dfs_recur(p: Option<Rc<RefCell<TreeNode>>>, q: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        const COMPARE: fn(Option<Rc<RefCell<TreeNode>>>, Option<Rc<RefCell<TreeNode>>>) -> bool =
+            |p, q| match (p, q) {
+                (None, None) => true,
+                (Some(p), Some(q)) => {
+                    if p.borrow().val != q.borrow().val {
+                        return false;
+                    }
 
-                Self::recursion_preorder_helper(p.borrow().left.clone(), q.borrow().left.clone())
-                    && Self::recursion_preorder_helper(
-                        p.borrow().right.clone(),
-                        q.borrow().right.clone(),
-                    )
-            }
-            (None, None) => true,
-            _ => false,
-        }
+                    COMPARE(p.borrow_mut().left.take(), q.borrow_mut().left.take())
+                        && COMPARE(p.borrow_mut().right.take(), q.borrow_mut().right.take())
+                }
+                _ => false,
+            };
+
+        COMPARE(p, q)
     }
 
-    fn iteration_preorder_helper(
-        mut p_node: Option<Rc<RefCell<TreeNode>>>,
-        mut q_node: Option<Rc<RefCell<TreeNode>>>,
-    ) -> bool {
-        let mut stack = vec![];
+    fn dfs_iter(p: Option<Rc<RefCell<TreeNode>>>, q: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        let mut stack = vec![(p, q)];
 
-        while (p_node.is_some() && q_node.is_some()) || !stack.is_empty() {
-            loop {
-                match (p_node.clone(), q_node.clone()) {
-                    (Some(p), Some(q)) => {
-                        let p_val = p.borrow().val;
-                        let q_val = q.borrow().val;
-                        if p_val != q_val {
-                            return false;
-                        }
-                        stack.push((p.clone(), q.clone()));
-                        p_node = p.borrow().left.clone();
-                        q_node = q.borrow().left.clone();
+        while let Some((p, q)) = stack.pop() {
+            match (p, q) {
+                (None, None) => {}
+                (Some(p), Some(q)) => {
+                    if p.borrow().val != q.borrow().val {
+                        return false;
                     }
-                    (None, None) => break,
-                    _ => return false,
-                }
-            }
 
-            if let Some((p, q)) = stack.pop() {
-                p_node = p.borrow().right.clone();
-                q_node = q.borrow().right.clone();
+                    stack.push((p.borrow_mut().right.take(), q.borrow_mut().right.take()));
+                    stack.push((p.borrow_mut().left.take(), q.borrow_mut().left.take()));
+                }
+                _ => return false,
             }
         }
 
-        p_node.is_none() && q_node.is_none()
+        true
     }
 
-    fn iteration_level_order_helper(
-        p_node: Option<Rc<RefCell<TreeNode>>>,
-        q_node: Option<Rc<RefCell<TreeNode>>>,
-    ) -> bool {
-        let mut queue = VecDeque::new();
+    fn bfs_iter(p: Option<Rc<RefCell<TreeNode>>>, q: Option<Rc<RefCell<TreeNode>>>) -> bool {
+        let mut queue = VecDeque::from([(p, q)]);
 
-        match (p_node, q_node) {
-            (Some(p), Some(q)) => {
-                queue.push_back((p, q));
-            }
-            (None, None) => return true,
-            _ => return false,
-        }
-
-        while !queue.is_empty() {
-            if let Some((p, q)) = queue.pop_front() {
-                let p_val = p.borrow().val;
-                let q_val = q.borrow().val;
-                if p_val != q_val {
-                    return false;
-                }
-
-                match (p.borrow().left.clone(), q.borrow().left.clone()) {
-                    (Some(p_left), Some(q_left)) => {
-                        queue.push_back((p_left, q_left));
+        while let Some((p, q)) = queue.pop_front() {
+            match (p, q) {
+                (None, None) => {}
+                (Some(p), Some(q)) => {
+                    if p.borrow().val != q.borrow().val {
+                        return false;
                     }
-                    (None, None) => {}
-                    _ => return false,
-                }
 
-                match (p.borrow().right.clone(), q.borrow().right.clone()) {
-                    (Some(p_right), Some(q_right)) => {
-                        queue.push_back((p_right, q_right));
-                    }
-                    (None, None) => {}
-                    _ => return false,
+                    queue.push_back((p.borrow_mut().left.take(), q.borrow_mut().left.take()));
+                    queue.push_back((p.borrow_mut().right.take(), q.borrow_mut().right.take()));
                 }
+                _ => return false,
             }
         }
 
