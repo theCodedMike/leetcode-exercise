@@ -148,6 +148,7 @@ pub mod _541_reverse_string_i_i;
 pub mod _54_spiral_matrix;
 pub mod _55_jump_game;
 pub mod _56_merge_intervals;
+pub mod _572_subtree_of_another_tree;
 pub mod _57_insert_interval;
 pub mod _58_length_of_last_word;
 pub mod _59_spiral_matrix_i_i;
