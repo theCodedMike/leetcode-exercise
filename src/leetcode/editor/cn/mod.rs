@@ -146,6 +146,7 @@ pub mod _538_convert_b_s_t_to_greater_tree;
 pub mod _53_maximum_subarray;
 pub mod _541_reverse_string_i_i;
 pub mod _54_spiral_matrix;
+pub mod _559_maximum_depth_of_n_ary_tree;
 pub mod _55_jump_game;
 pub mod _56_merge_intervals;
 pub mod _572_subtree_of_another_tree;

@@ -182,6 +182,42 @@ fn subtree_of_another_tree_6() {
     assert_eq!(Solution::is_subtree(root, sub_root), true);
 }
 
+#[test]
+fn subtree_of_another_tree_7() {
+    let vals = vec![
+        "29", "28", "30", "27", "29", "29", "31", "26", "26", "28", "28", "28", "28", "30", "32",
+        "25", "25", "25", "25", "27", "29", "null", "29", "29", "29", "null", "29", "29", "29",
+        "31", "null", "26", "24", "26", "26", "26", "null", "24", "null", "null", "26", "28",
+        "null", "28", "28", "30", "28", "30", "30", "null", "null", "30", "30", "30", "30", "null",
+        "32", "27", "27", "null", "25", "25", "null", "null", "25", "27", "27", "null", "null",
+        "null", "null", "27", "27", "27", "29", "null", "null", "null", "31", "29", "null", "31",
+        "null", "29", "29", "null", "null", "29", "31", "null", "29", "29", "31", "null", "31",
+        "null", "null", "null", "28", "24", "24", "24", "26", "24", "24", "null", "28", "26", "28",
+        "26", "null", "null", "null", "28", "28", "null", "28", "null", "null", "28", "30", "32",
+        "null", "30", "28", "28", "28", "null", "null", "null", "null", "28", "30", "28", "28",
+        "null", "null", "null", "null", "27", "null", "null", "null", "23", "25", "null", "null",
+        "null", "null", "null", "null", "null", "null", "27", "27", "null", "null", "null", "29",
+        "null", "null", "null", "null", "27", "29", "null", "27", "27", "null", "null", "null",
+        "null", "31", "29", "29", "27", "29", "null", "29", "27", "29", "null", "null", "null",
+        "null", "27", "null", "null", "29", "null", "null", "22", "22", "null", "26", "null",
+        "null", "26", "28", "28", "28", "null", "28", "null", "28", "null", "28", "null", "null",
+        "null", "null", "null", "null", "null", "28", "null", "28", "28", "null", "30", "null",
+        "null", "null", "null", "null", "26", "null", "28", "30", "21", "23", "null", "null",
+        "null", "25", "null", "27", "null", "null", "null", "null", "27", "29", "27", "29", "27",
+        "27", "null", "null", "null", "null", "29", "null", "27", "null", "null", "null", "25",
+        "27", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null",
+        "null", "null", "null", "null", "null", "null", "null", "28", "null", "null", "null",
+        "null", "null", "null", "null", "null", "26", "null", "null", "24", "null", "28", "null",
+        "null", "null", "null", "null", "23",
+    ];
+    let root = convert(&vals);
+
+    // [29]
+    let sub_root = BinaryTree::build(&[Some(29)]);
+
+    assert_eq!(Solution::is_subtree(root, sub_root), true);
+}
+
 fn convert(vals: &[&str]) -> Option<Rc<RefCell<TreeNode>>> {
     let std_vals = vals
         .into_iter()

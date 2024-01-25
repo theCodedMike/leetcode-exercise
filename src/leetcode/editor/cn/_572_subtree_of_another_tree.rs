@@ -183,6 +183,8 @@ impl Solution {
     /// Time Complexity: O(|r| + |s|)
     /// Space Complexity: O(|r| + |s|)
     ///
+    /// 不完全正确
+    ///
     fn tree_hash(
         root: Option<Rc<RefCell<TreeNode>>>,
         sub_root: Option<Rc<RefCell<TreeNode>>>,
@@ -221,17 +223,18 @@ impl Solution {
 
             const DFS: fn(
                 Option<Rc<RefCell<TreeNode>>>,
-                &mut HashMap<(usize, i32, bool, Option<i32>), (i32, usize)>,
+                &mut HashMap<*const Option<Rc<RefCell<TreeNode>>>, (i32, usize)>,
                 &Vec<usize>,
-                (usize, i32, bool, Option<i32>),
+                *const Option<Rc<RefCell<TreeNode>>>,
             ) = |root, map, primes, key| {
                 if let Some(curr) = root {
-                    let root_val = curr.borrow().val;
-                    map.insert(key, (root_val, 1));
+                    map.insert(key, (curr.borrow().val, 1));
+                    let left = curr.borrow().left.clone();
+                    let right = curr.borrow().right.clone();
 
-                    if let Some(left) = curr.borrow().left.clone() {
-                        let l_key = (key.0 + 1, left.borrow().val, true, Some(root_val));
-                        DFS(Some(left), map, primes, l_key);
+                    if left.is_some() {
+                        let l_key = std::ptr::addr_of!(left);
+                        DFS(left, map, primes, l_key);
 
                         let l_sub_tree = map[&l_key].1;
                         let tmp_val =
@@ -244,9 +247,9 @@ impl Solution {
                         });
                     }
 
-                    if let Some(right) = curr.borrow().right.clone() {
-                        let r_key = (key.0 + 1, right.borrow().val, false, Some(root_val));
-                        DFS(Some(right), map, primes, r_key);
+                    if right.is_some() {
+                        let r_key = std::ptr::addr_of!(right);
+                        DFS(right, map, primes, r_key);
                         let r_sub_tree = map[&r_key].1;
                         let tmp_val =
                             (179_i128 * map[&r_key].0 as i128 * primes[map[&r_key].1] as i128)
@@ -264,9 +267,9 @@ impl Solution {
 
             map
         };
-        let root_key = (1, root.as_ref().unwrap().borrow().val, false, None);
+        let root_key = std::ptr::addr_of!(root);
         let root_map = get_hashmap(root, root_key);
-        let sub_key = (1, sub_root.as_ref().unwrap().borrow().val, false, None);
+        let sub_key = std::ptr::addr_of!(sub_root);
         let sub_map = get_hashmap(sub_root, sub_key);
 
         let sub_hash = sub_map[&sub_key].0;
