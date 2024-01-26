@@ -39,8 +39,88 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn combine(n: i32, k: i32) -> Vec<Vec<i32>> {
-        // todo!
-        vec![vec![n; 0]; k as usize]
+        Self::backtracking(n, k)
+
+        //Self::combination_enum_recur(n, k)
+
+        //Self::combination_enum_iter(n, k as usize)
+    }
+
+    fn backtracking(n: i32, k: i32) -> Vec<Vec<i32>> {
+        const BACKTRACKING: fn(i32, i32, usize, &mut Vec<i32>, &mut Vec<Vec<i32>>) =
+            |start, n, k, path, res| {
+                // prune
+                if (n - start + 1) as usize + path.len() < k {
+                    return;
+                }
+
+                if path.len() == k {
+                    res.push(path.clone());
+                    return;
+                }
+
+                for i in start..=n {
+                    path.push(i);
+                    BACKTRACKING(i + 1, n, k, path, res);
+                    path.pop();
+                }
+            };
+        let mut res = vec![];
+
+        BACKTRACKING(1, n, k as usize, &mut vec![], &mut res);
+
+        res
+    }
+
+    fn combination_enum_recur(n: i32, k: i32) -> Vec<Vec<i32>> {
+        const DFS: fn(i32, i32, usize, &mut Vec<i32>, &mut Vec<Vec<i32>>) =
+            |start, n, k, path, res| {
+                // prune
+                if (n - start + 1) as usize + path.len() < k {
+                    return;
+                }
+
+                if path.len() == k {
+                    res.push(path.clone());
+                    return;
+                }
+
+                path.push(start);
+                DFS(start + 1, n, k, path, res);
+                path.pop();
+                DFS(start + 1, n, k, path, res);
+            };
+        let mut res = vec![];
+
+        DFS(1, n, k as usize, &mut vec![], &mut res);
+
+        res
+    }
+
+    fn combination_enum_iter(n: i32, k: usize) -> Vec<Vec<i32>> {
+        let mut res = vec![];
+        let mut path = (1..=k)
+            .into_iter()
+            .fold(Vec::with_capacity(k + 1), |mut path, val| {
+                path.push(val as i32);
+                path
+            });
+        path.push(n + 1);
+
+        let mut j = 0;
+        while j < k {
+            res.push(path[..k].to_vec());
+            j = 0;
+
+            while j < k && path[j] + 1 == path[j + 1] {
+                path[j] = j as i32 + 1;
+                j += 1;
+            }
+
+            path[j] += 1;
+        }
+
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

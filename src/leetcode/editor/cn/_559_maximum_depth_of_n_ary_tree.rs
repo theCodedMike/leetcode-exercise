@@ -57,7 +57,7 @@ impl Solution {
 
     fn dfs_recur(root: Option<Rc<RefCell<Node>>>) -> i32 {
         const DFS: fn(Option<Rc<RefCell<Node>>>) -> i32 = |root| match root {
-            None => 1,
+            None => 0,
             Some(node) => {
                 let mut max_depth = 0;
 
