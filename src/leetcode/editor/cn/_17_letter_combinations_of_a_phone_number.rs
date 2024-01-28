@@ -46,44 +46,43 @@ use std::collections::HashMap;
 
 impl Solution {
     pub fn letter_combinations(digits: String) -> Vec<String> {
+        Self::backtracking(digits)
+    }
+
+    fn backtracking(digits: String) -> Vec<String> {
         let mut res = vec![];
         if digits.is_empty() {
             return res;
         }
 
-        let mut map = HashMap::new();
-        map.insert('2', "abc");
-        map.insert('3', "def");
-        map.insert('4', "ghi");
-        map.insert('5', "jkl");
-        map.insert('6', "mno");
-        map.insert('7', "pqrs");
-        map.insert('8', "tuv");
-        map.insert('9', "wxyz");
+        let map = HashMap::from([
+            ("2", "abc"),
+            ("3", "def"),
+            ("4", "ghi"),
+            ("5", "jkl"),
+            ("6", "mno"),
+            ("7", "pqrs"),
+            ("8", "tuv"),
+            ("9", "wxyz"),
+        ]);
+        const BACKTRACKING: fn(usize, &str, &mut String, &mut Vec<String>, &HashMap<&str, &str>) =
+            |idx, digits, path, res, map| {
+                if path.len() == digits.len() {
+                    res.push(path.clone());
+                    return;
+                }
 
-        for c in digits.chars() {
-            res = two_words_multiply(&res, map[&c]);
-        }
+                let digit = &digits[idx..idx + 1];
+                for ch in map[digit].chars() {
+                    path.push(ch);
+                    BACKTRACKING(idx + 1, digits, path, res, map);
+                    path.pop();
+                }
+            };
+
+        BACKTRACKING(0, &digits, &mut String::new(), &mut res, &map);
 
         res
-    }
-}
-
-fn two_words_multiply(res: &Vec<String>, word: &str) -> Vec<String> {
-    if res.is_empty() {
-        word.chars().map(|c| c.to_string()).collect()
-    } else {
-        let mut new_res = Vec::with_capacity(res.len() * word.len());
-
-        for ori in res {
-            for c in word.chars() {
-                let mut s = ori.to_string();
-                s.push(c);
-                new_res.push(s);
-            }
-        }
-
-        new_res
     }
 }
 
