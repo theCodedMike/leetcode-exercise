@@ -53,10 +53,61 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
+
 impl Solution {
-    pub fn combination_sum(_candidates: Vec<i32>, _target: i32) -> Vec<Vec<i32>> {
-        let res = vec![];
-        // todo!
+    pub fn combination_sum(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+        //Self::backtracking_1(candidates, target)
+
+        Self::backtracking_2(candidates, target)
+    }
+
+    fn backtracking_1(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+        const BACKTRACK: fn(usize, &[i32], i32, &mut Vec<i32>, &mut Vec<Vec<i32>>) =
+            |idx, candidates, target, combine, res| {
+                if target < 0 {
+                    return;
+                }
+                if target == 0 {
+                    res.push(combine.clone());
+                    return;
+                }
+
+                for i in idx..candidates.len() {
+                    combine.push(candidates[i]);
+                    BACKTRACK(i, candidates, target - candidates[i], combine, res);
+                    combine.pop();
+                }
+            };
+        let mut res = vec![];
+
+        BACKTRACK(0, &candidates, target, &mut vec![], &mut res);
+
+        res
+    }
+
+    fn backtracking_2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {
+        const BACKTRACK: fn(usize, &[i32], i32, &mut Vec<i32>, &mut Vec<Vec<i32>>) =
+            |idx, candidates, target, combine, res| {
+                if idx == candidates.len() {
+                    return;
+                }
+                if target == 0 {
+                    res.push(combine.clone());
+                    return;
+                }
+
+                BACKTRACK(idx + 1, candidates, target, combine, res);
+
+                if target - candidates[idx] >= 0 {
+                    combine.push(candidates[idx]);
+                    BACKTRACK(idx, candidates, target - candidates[idx], combine, res);
+                    combine.pop();
+                }
+            };
+        let mut res = vec![];
+
+        BACKTRACK(0, &candidates, target, &mut vec![], &mut res);
+
         res
     }
 }
