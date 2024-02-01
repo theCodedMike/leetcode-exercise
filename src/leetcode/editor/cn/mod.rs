@@ -83,6 +83,7 @@ pub mod _203_remove_linked_list_elements;
 pub mod _206_reverse_linked_list;
 pub mod _209_minimum_size_subarray_sum;
 pub mod _20_valid_parentheses;
+pub mod _216_combination_sum_i_i_i;
 pub mod _21_merge_two_sorted_lists;
 pub mod _222_count_complete_tree_nodes;
 pub mod _225_implement_stack_using_queues;
