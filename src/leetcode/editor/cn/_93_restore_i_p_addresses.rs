@@ -49,8 +49,40 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn restore_ip_addresses(s: String) -> Vec<String> {
-        // todo!
-        vec![s]
+        Self::backtracking(s)
+    }
+
+    fn backtracking(s: String) -> Vec<String> {
+        const DFS: for<'a> fn(usize, &'a str, &mut Vec<&'a str>, &mut Vec<String>) =
+            |i, s, address, res| {
+                if address.len() == 4 {
+                    res.push(address.join("."));
+                    return;
+                }
+
+                let start = if address.len() != 3 { i + 1 } else { s.len() };
+                for j in start..=s.len() {
+                    let substr = &s[i..j];
+                    if substr.is_empty() {
+                        break;
+                    }
+                    if substr.starts_with('0') && substr.len() > 1 {
+                        break;
+                    }
+                    if substr.parse::<usize>().is_ok_and(|num| num > 255) {
+                        break;
+                    }
+
+                    address.push(substr);
+                    DFS(j, s, address, res);
+                    address.pop();
+                }
+            };
+        let mut res = vec![];
+
+        DFS(0, &s, &mut vec![], &mut res);
+
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
