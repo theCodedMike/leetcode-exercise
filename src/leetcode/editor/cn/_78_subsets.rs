@@ -37,11 +37,43 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {
-        // todo!
-        let len = nums.len();
-        let cap = 2_usize.pow(len as u32);
-        let vec = Vec::with_capacity(cap);
-        vec
+        //Self::backtracking(nums)
+
+        Self::iteration(nums)
+    }
+
+    fn backtracking(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        const DFS: fn(usize, &[i32], &mut Vec<i32>, &mut Vec<Vec<i32>>) = |i, nums, subset, res| {
+            res.push(subset.clone());
+            if i == nums.len() {
+                return;
+            }
+
+            for j in i..nums.len() {
+                subset.push(nums[j]);
+                DFS(j + 1, nums, subset, res);
+                subset.pop();
+            }
+        };
+        let mut res = Vec::with_capacity(2_usize.pow(nums.len() as u32));
+
+        DFS(0, &nums, &mut vec![], &mut res);
+
+        res
+    }
+
+    fn iteration(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        let mut res = vec![vec![]];
+
+        for i in 0..nums.len() {
+            for j in 0..res.len() {
+                let mut subset = res[j].clone();
+                subset.push(nums[i]);
+                res.push(subset);
+            }
+        }
+
+        res
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
