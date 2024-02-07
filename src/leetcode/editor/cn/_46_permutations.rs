@@ -30,26 +30,65 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::collections::BTreeSet;
 
 impl Solution {
-    pub fn permute(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
-        let mut res = BTreeSet::new();
-        let len = nums.len() - 1;
-        // todo!
-        for _ in 0..=len {
-            res.insert(nums.clone());
-            for i in 0..=len {
-                for j in (i + 1)..=len {
-                    let mut clone = nums.clone();
-                    clone.swap(i, j);
-                    res.insert(clone);
+    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        //Self::backtracking(nums)
+
+        Self::recursion(nums)
+    }
+
+    fn backtracking(mut nums: Vec<i32>) -> Vec<Vec<i32>> {
+        const DFS: fn(&mut Vec<i32>, &mut Vec<i32>, &mut Vec<Vec<i32>>) = |nums, permute, res| {
+            if permute.len() == nums.len() {
+                res.push(permute.clone());
+                return;
+            }
+
+            for i in 0..nums.len() {
+                if nums[i] == i32::MIN {
+                    continue;
+                }
+
+                permute.push(nums[i]);
+                nums[i] = i32::MIN;
+                DFS(nums, permute, res);
+                nums[i] = permute.pop().unwrap_or_default();
+            }
+        };
+        let mut res = vec![];
+
+        DFS(&mut nums, &mut vec![], &mut res);
+
+        res
+    }
+
+    fn recursion(nums: Vec<i32>) -> Vec<Vec<i32>> {
+        const PERMUTE: fn(Vec<i32>) -> Vec<Vec<i32>> = |nums| {
+            let mut res = vec![];
+            if nums.len() <= 1 {
+                res.push(nums);
+                return res;
+            }
+
+            for i in 0..nums.len() {
+                let num = nums[i];
+                let new_nums = nums
+                    .iter()
+                    .enumerate()
+                    .filter_map(|(idx, &val)| if idx == i { None } else { Some(val) })
+                    .collect::<Vec<_>>();
+                let perms = PERMUTE(new_nums);
+                for mut perm in perms {
+                    perm.push(num);
+                    res.push(perm);
                 }
             }
-            nums.rotate_left(1);
-        }
 
-        res.into_iter().collect()
+            res
+        };
+
+        PERMUTE(nums)
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
