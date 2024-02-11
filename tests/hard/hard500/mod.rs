@@ -7,6 +7,7 @@ mod hard_32_test;
 mod hard_41_test;
 mod hard_42_test;
 mod hard_4_test;
+mod hard_51_test;
 mod hard_60_test;
 mod hard_65_test;
 mod hard_68_test;
