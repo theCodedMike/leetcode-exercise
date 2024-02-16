@@ -73,74 +73,100 @@ use std::collections::HashMap;
 
 impl Solution {
     pub fn is_valid_sudoku(board: Vec<Vec<char>>) -> bool {
-        let len = board.len();
-        // 校验每行中的数字是否重复
-        for i in 0..len {
-            if !Solution::is_row_valid(&board[i]) {
-                return false;
-            }
-        }
+        //Self::traversal_three_times(board)
 
-        // 校验每列中的数字是否重复
-        for i in 0..len {
-            let mut map = HashMap::new();
-            for j in 0..len {
-                if !Solution::is_column_valid(board[j][i], &mut map) {
-                    return false;
+        Self::traversal_once(board)
+    }
+
+    fn traversal_three_times(board: Vec<Vec<char>>) -> bool {
+        let len = board.len();
+        let mut counter = HashMap::with_capacity(len);
+        let is_valid = |ch: char, counter: &mut HashMap<char, i32>| {
+            if ch != '.' {
+                counter.entry(ch).and_modify(|v| *v += 1).or_insert(1);
+                return counter[&ch] < 2;
+            };
+
+            true
+        };
+
+        let mut is_row_valid = || {
+            for i in 0..len {
+                counter.clear();
+
+                for &ch in board[i].iter() {
+                    if !is_valid(ch, &mut counter) {
+                        return false;
+                    }
                 }
             }
+
+            true
+        };
+        if !is_row_valid() {
+            return false;
         }
 
-        // 校验sub-boxes中的数字是否重复
-        for i in 0..len {
-            for j in 0..len {
-                if i % 3 == 0 && j % 3 == 0 {
-                    if !Solution::is_subboxes_valid(i, j, &board) {
+        let mut is_col_valid = || {
+            for i in 0..len {
+                counter.clear();
+
+                for j in 0..len {
+                    if !is_valid(board[j][i], &mut counter) {
+                        return false;
+                    }
+                }
+            }
+
+            true
+        };
+        if !is_col_valid() {
+            return false;
+        }
+
+        let mut is_sub_boxes_valid = || {
+            for i in 0..len {
+                for j in 0..len {
+                    if i % 3 == 0 && j % 3 == 0 {
+                        counter.clear();
+
+                        for r in 0..3 {
+                            for c in 0..3 {
+                                if !is_valid(board[i + r][j + c], &mut counter) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            true
+        };
+
+        is_sub_boxes_valid()
+    }
+
+    fn traversal_once(board: Vec<Vec<char>>) -> bool {
+        let mut rows = [[0; 9]; 9];
+        let mut cols = [[0; 9]; 9];
+        let mut subboxes = [[[0; 3]; 3]; 9];
+
+        for i in 0..9 {
+            for j in 0..9 {
+                let ch = board[i][j];
+                if ch != '.' {
+                    let idx = (ch as u8 - b'1') as usize;
+                    rows[i][idx] += 1;
+                    cols[j][idx] += 1;
+                    subboxes[idx][i / 3][j / 3] += 1;
+                    if rows[i][idx] > 1 || cols[j][idx] > 1 || subboxes[idx][i / 3][j / 3] > 1 {
                         return false;
                     }
                 }
             }
         }
 
-        true
-    }
-
-    fn is_row_valid(row: &[char]) -> bool {
-        let mut counter = HashMap::new();
-        for &cell in row {
-            if !Solution::is_cell_count_valid(cell, &mut counter) {
-                return false;
-            }
-        }
-        true
-    }
-
-    fn is_column_valid(cell: char, counter: &mut HashMap<char, i32>) -> bool {
-        Solution::is_cell_count_valid(cell, counter)
-    }
-
-    fn is_subboxes_valid(r_idx: usize, c_idx: usize, board: &[Vec<char>]) -> bool {
-        let mut counter = HashMap::new();
-        for i in 0..3 {
-            for j in 0..3 {
-                let cell = board[r_idx + i][c_idx + j];
-                if !Solution::is_cell_count_valid(cell, &mut counter) {
-                    return false;
-                }
-            }
-        }
-
-        true
-    }
-
-    fn is_cell_count_valid(cell: char, counter: &mut HashMap<char, i32>) -> bool {
-        if cell == '.' {
-            return true;
-        }
-        counter.entry(cell).and_modify(|k| *k += 1).or_insert(1);
-        if counter[&cell] >= 2 {
-            return false;
-        }
         true
     }
 }
