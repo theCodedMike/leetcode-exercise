@@ -49,8 +49,134 @@ pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
-    pub fn solve_sudoku(_board: &mut Vec<Vec<char>>) {
-        // todo!
+    pub fn solve_sudoku(board: &mut Vec<Vec<char>>) {
+        Self::backtracking(board)
+
+        //Self::bit_operation_optimization(board)
+    }
+
+    fn backtracking(board: &mut Vec<Vec<char>>) {
+        let mut row = vec![vec![false; 9]; 9];
+        let mut col = vec![vec![false; 9]; 9];
+        let mut sub_boxes = vec![vec![vec![false; 3]; 3]; 9];
+        let mut spaces = vec![];
+        let mut valid = false;
+
+        for i in 0..9 {
+            for j in 0..9 {
+                if board[i][j] == '.' {
+                    spaces.push((i, j));
+                } else {
+                    let idx = (board[i][j] as u8 - b'1') as usize;
+                    (row[i][idx], col[j][idx], sub_boxes[idx][i / 3][j / 3]) = (true, true, true);
+                }
+            }
+        }
+
+        const DFS: fn(
+            &mut Vec<Vec<char>>,
+            usize,
+            &Vec<(usize, usize)>,
+            &mut Vec<Vec<bool>>,
+            &mut Vec<Vec<bool>>,
+            &mut Vec<Vec<Vec<bool>>>,
+            &mut bool,
+        ) = |board, pos, spaces, row, col, sub_boxes, valid| {
+            if pos == spaces.len() {
+                *valid = true;
+                return;
+            }
+
+            let (i, j) = spaces[pos];
+            for idx in 0..9 {
+                if *valid {
+                    break;
+                }
+                if !row[i][idx] && !col[j][idx] && !sub_boxes[idx][i / 3][j / 3] {
+                    (row[i][idx], col[j][idx], sub_boxes[idx][i / 3][j / 3]) = (true, true, true);
+                    board[i][j] = (b'1' + (idx as u8)) as char;
+
+                    DFS(board, pos + 1, spaces, row, col, sub_boxes, valid);
+
+                    (row[i][idx], col[j][idx], sub_boxes[idx][i / 3][j / 3]) =
+                        (false, false, false);
+                }
+            }
+        };
+
+        DFS(
+            board,
+            0,
+            &spaces,
+            &mut row,
+            &mut col,
+            &mut sub_boxes,
+            &mut valid,
+        );
+    }
+
+    fn bit_operation_optimization(board: &mut Vec<Vec<char>>) {
+        let mut row = vec![0; 9];
+        let mut col = vec![0; 9];
+        let mut sub_boxes = vec![vec![0; 3]; 3];
+        let mut spaces = vec![];
+        let mut valid = false;
+
+        for i in 0..9 {
+            for j in 0..9 {
+                if board[i][j] == '.' {
+                    spaces.push((i, j));
+                } else {
+                    let digit = (board[i][j] as u8 - b'1') as usize;
+                    row[i] ^= 1 << digit;
+                    col[j] ^= 1 << digit;
+                    sub_boxes[i / 3][j / 3] ^= 1 << digit;
+                }
+            }
+        }
+
+        const DFS: fn(
+            &mut Vec<Vec<char>>,
+            usize,
+            &Vec<(usize, usize)>,
+            &mut Vec<i32>,
+            &mut Vec<i32>,
+            &mut Vec<Vec<i32>>,
+            &mut bool,
+        ) = |board, pos, spaces, row, col, sub_boxes, valid| {
+            if pos == spaces.len() {
+                *valid = true;
+                return;
+            }
+
+            let (i, j) = spaces[pos];
+            let mut mask = !(row[i] | col[j] | sub_boxes[i / 3][j / 3]) & 0x1ff;
+            while mask != 0 && !*valid {
+                let digit = (mask & (-mask)).trailing_zeros();
+                row[i] ^= 1 << digit;
+                col[j] ^= 1 << digit;
+                sub_boxes[i / 3][j / 3] ^= 1 << digit;
+                board[i][j] = (digit as u8 + b'1') as char;
+
+                DFS(board, pos + 1, spaces, row, col, sub_boxes, valid);
+
+                row[i] ^= 1 << digit;
+                col[j] ^= 1 << digit;
+                sub_boxes[i / 3][j / 3] ^= 1 << digit;
+
+                mask &= mask - 1;
+            }
+        };
+
+        DFS(
+            board,
+            0,
+            &spaces,
+            &mut row,
+            &mut col,
+            &mut sub_boxes,
+            &mut valid,
+        );
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
