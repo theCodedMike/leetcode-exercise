@@ -136,6 +136,7 @@ pub mod _45_jump_game_i_i;
 pub mod _46_permutations;
 pub mod _47_permutations_i_i;
 pub mod _48_rotate_image;
+pub mod _491_non_decreasing_subsequences;
 pub mod _49_group_anagrams;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _501_find_mode_in_binary_search_tree;
