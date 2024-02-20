@@ -4,6 +4,7 @@ mod hard_239_test;
 mod hard_23_test;
 mod hard_30_test;
 mod hard_32_test;
+mod hard_332_test;
 mod hard_37_test;
 mod hard_41_test;
 mod hard_42_test;

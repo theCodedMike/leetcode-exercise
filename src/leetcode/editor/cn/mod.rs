@@ -107,6 +107,7 @@ pub mod _2_add_two_numbers;
 pub mod _30_substring_with_concatenation_of_all_words;
 pub mod _31_next_permutation;
 pub mod _32_longest_valid_parentheses;
+pub mod _332_reconstruct_itinerary;
 pub mod _33_search_in_rotated_sorted_array;
 pub mod _344_reverse_string;
 pub mod _347_top_k_frequent_elements;
