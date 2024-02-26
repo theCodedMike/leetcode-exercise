@@ -132,6 +132,7 @@ pub mod _43_multiply_strings;
 pub mod _44_wildcard_matching;
 pub mod _450_delete_node_in_a_b_s_t;
 pub mod _454_4_sum_i_i;
+pub mod _455_assign_cookies;
 pub mod _459_repeated_substring_pattern;
 pub mod _45_jump_game_i_i;
 pub mod _46_permutations;
