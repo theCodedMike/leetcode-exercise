@@ -1,3 +1,4 @@
+pub mod _1005_maximize_sum_of_array_after_k_negations;
 pub mod _100_same_tree;
 pub mod _101_symmetric_tree;
 pub mod _102_binary_tree_level_order_traversal;
