@@ -53,7 +53,9 @@ impl Solution {
     pub fn find_content_children(g: Vec<i32>, s: Vec<i32>) -> i32 {
         //Self::brute_force(g, s)
 
-        Self::greedy(g, s)
+        //Self::greedy(g, s)
+
+        Self::solution_3(g, s)
     }
 
     fn brute_force(g: Vec<i32>, mut s: Vec<i32>) -> i32 {
@@ -102,6 +104,20 @@ impl Solution {
         }
 
         res
+    }
+
+    fn solution_3(mut g: Vec<i32>, mut s: Vec<i32>) -> i32 {
+        g.sort_unstable();
+        s.sort_unstable();
+
+        let mut j = 0;
+        for i in s {
+            if j < g.len() && g[j] <= i {
+                j += 1;
+            }
+        }
+
+        j as i32
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

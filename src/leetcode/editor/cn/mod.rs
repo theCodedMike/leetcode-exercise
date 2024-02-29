@@ -197,6 +197,7 @@ pub mod _83_remove_duplicates_from_sorted_list;
 pub mod _844_backspace_string_compare;
 pub mod _84_largest_rectangle_in_histogram;
 pub mod _85_maximal_rectangle;
+pub mod _860_lemonade_change;
 pub mod _86_partition_list;
 pub mod _87_scramble_string;
 pub mod _88_merge_sorted_array;
