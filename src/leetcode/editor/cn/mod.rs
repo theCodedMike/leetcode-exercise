@@ -118,6 +118,7 @@ pub mod _350_intersection_of_two_arrays_i_i;
 pub mod _35_search_insert_position;
 pub mod _367_valid_perfect_square;
 pub mod _36_valid_sudoku;
+pub mod _376_wiggle_subsequence;
 pub mod _37_sudoku_solver;
 pub mod _383_ransom_note;
 pub mod _38_count_and_say;
