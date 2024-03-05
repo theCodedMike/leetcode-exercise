@@ -1,0 +1,3 @@
+# Leetcode Exercise
+
+exercise everyday!
