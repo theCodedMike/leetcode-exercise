@@ -56,7 +56,31 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn max_profit(prices: Vec<i32>) -> i32 {
-        prices[0]
+        //Self::greedy(prices)
+
+        Self::dp(prices)
+    }
+
+    fn greedy(prices: Vec<i32>) -> i32 {
+        let mut res = 0;
+
+        for i in 1..prices.len() {
+            res += std::cmp::max(0, prices[i] - prices[i - 1]);
+        }
+
+        res
+    }
+
+    fn dp(prices: Vec<i32>) -> i32 {
+        let (mut dp0, mut dp1) = (0, -prices[0]);
+
+        for i in 1..prices.len() {
+            let new_dp0 = std::cmp::max(dp0, dp1 + prices[i]);
+            let new_dp1 = std::cmp::max(dp1, dp0 - prices[i]);
+            (dp0, dp1) = (new_dp0, new_dp1);
+        }
+
+        dp0
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
