@@ -182,6 +182,7 @@ pub mod _701_insert_into_a_binary_search_tree;
 pub mod _704_binary_search;
 pub mod _707_design_linked_list;
 pub mod _70_climbing_stairs;
+pub mod _714_best_time_to_buy_and_sell_stock_with_transaction_fee;
 pub mod _71_simplify_path;
 pub mod _72_edit_distance;
 pub mod _738_monotone_increasing_digits;

@@ -59,6 +59,8 @@ impl Solution {
         //Self::greedy(prices)
 
         Self::dp(prices)
+
+        //Self::optimized_dp(prices)
     }
 
     fn greedy(prices: Vec<i32>) -> i32 {
@@ -72,12 +74,26 @@ impl Solution {
     }
 
     fn dp(prices: Vec<i32>) -> i32 {
+        let len = prices.len();
+        let mut dp = vec![[0; 2]; len];
+        (dp[0][0], dp[0][1]) = (0, -prices[0]);
+
+        for i in 1..len {
+            dp[i][0] = std::cmp::max(dp[i-1][0], dp[i-1][1] + prices[i]);
+            dp[i][1] = std::cmp::max(dp[i-1][1], dp[i-1][0] - prices[i]);
+        }
+
+        dp[len -1][0]
+    }
+
+    fn optimized_dp(prices: Vec<i32>) -> i32 {
         let (mut dp0, mut dp1) = (0, -prices[0]);
 
         for i in 1..prices.len() {
-            let new_dp0 = std::cmp::max(dp0, dp1 + prices[i]);
-            let new_dp1 = std::cmp::max(dp1, dp0 - prices[i]);
-            (dp0, dp1) = (new_dp0, new_dp1);
+            (dp0, dp1) = (
+                std::cmp::max(dp0, dp1 + prices[i]),
+                std::cmp::max(dp1, dp0 - prices[i]),
+            );
         }
 
         dp0

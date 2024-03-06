@@ -43,35 +43,46 @@
 
 package src
 
-import "math"
-
 // leetcode submit region begin(Prohibit modification and deletion)
 func maxProfit(prices []int) int {
 	//return greedy(prices)
 
 	return dp(prices)
+
+	//return optimizedDP(prices)
 }
 
 func greedy(prices []int) int {
-	res := 0.0
+	res := 0
 
 	for i, size := 1, len(prices); i < size; i++ {
-		res += math.Max(0, float64(prices[i]-prices[i-1]))
+		res += max(0, prices[i]-prices[i-1])
 	}
 
-	return int(res)
+	return res
 }
 
 func dp(prices []int) int {
-	dp0, dp1 := 0.0, float64(-prices[0])
+	size := len(prices)
+	dp := make([][2]int, size)
+	dp[0][0], dp[0][1] = 0, -prices[0]
 
-	for i, size := 1, len(prices); i < size; i++ {
-		newDp0 := math.Max(dp0, dp1+float64(prices[i]))
-		newDp1 := math.Max(dp1, dp0-float64(prices[i]))
-		dp0, dp1 = newDp0, newDp1
+	for i := 1; i < size; i++ {
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]+prices[i])
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]-prices[i])
 	}
 
-	return int(dp0)
+	return dp[size-1][0]
+}
+
+func optimizedDP(prices []int) int {
+	dp0, dp1 := 0, -prices[0]
+
+	for i, size := 1, len(prices); i < size; i++ {
+		dp0, dp1 = max(dp0, dp1+prices[i]), max(dp1, dp0-prices[i])
+	}
+
+	return dp0
 }
 
 //leetcode submit region end(Prohibit modification and deletion)
