@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_99_recover_binary_search_tree::{Solution, TreeNode};
+use leetcode_rust::leetcode::editor::cn::_99_recover_binary_search_tree::{Solution, TreeNode};
 use std::cell::RefCell;
 use std::rc::Rc;
 

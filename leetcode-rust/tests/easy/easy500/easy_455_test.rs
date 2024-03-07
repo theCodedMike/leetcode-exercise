@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_455_assign_cookies::Solution;
+use leetcode_rust::leetcode::editor::cn::_455_assign_cookies::Solution;
 
 #[test]
 fn assign_cookies_1() {

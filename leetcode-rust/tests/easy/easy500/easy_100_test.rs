@@ -1,6 +1,6 @@
-use leetcode_exercise::binary_tree::safe::BinaryTree;
-use leetcode_exercise::leetcode::editor::cn::_100_same_tree::Solution;
-use leetcode_exercise::Build;
+use leetcode_rust::binary_tree::safe::BinaryTree;
+use leetcode_rust::leetcode::editor::cn::_100_same_tree::Solution;
+use leetcode_rust::Build;
 
 #[test]
 fn same_tree_1() {

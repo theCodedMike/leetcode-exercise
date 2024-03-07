@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_35_search_insert_position::Solution;
+use leetcode_rust::leetcode::editor::cn::_35_search_insert_position::Solution;
 
 #[test]
 fn search_insert_position() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_137_single_number_i_i::Solution;
+use leetcode_rust::leetcode::editor::cn::_137_single_number_i_i::Solution;
 
 #[test]
 fn single_number_ii() {

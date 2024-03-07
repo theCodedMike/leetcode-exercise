@@ -79,11 +79,11 @@ impl Solution {
         (dp[0][0], dp[0][1]) = (0, -prices[0]);
 
         for i in 1..len {
-            dp[i][0] = std::cmp::max(dp[i-1][0], dp[i-1][1] + prices[i]);
-            dp[i][1] = std::cmp::max(dp[i-1][1], dp[i-1][0] - prices[i]);
+            dp[i][0] = std::cmp::max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            dp[i][1] = std::cmp::max(dp[i - 1][1], dp[i - 1][0] - prices[i]);
         }
 
-        dp[len -1][0]
+        dp[len - 1][0]
     }
 
     fn optimized_dp(prices: Vec<i32>) -> i32 {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_149_max_points_on_a_line::Solution;
+use leetcode_rust::leetcode::editor::cn::_149_max_points_on_a_line::Solution;
 
 #[test]
 fn max_points_on_a_line() {

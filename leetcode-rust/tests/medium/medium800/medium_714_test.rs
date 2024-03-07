@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_714_best_time_to_buy_and_sell_stock_with_transaction_fee::Solution;
+use leetcode_rust::leetcode::editor::cn::_714_best_time_to_buy_and_sell_stock_with_transaction_fee::Solution;
 
 #[test]
 fn best_time_to_buy_and_sell_stock_with_transaction_fee_1() {

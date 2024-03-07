@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_76_minimum_window_substring::Solution;
+use leetcode_rust::leetcode::editor::cn::_76_minimum_window_substring::Solution;
 
 #[test]
 fn minimum_window_substring() {

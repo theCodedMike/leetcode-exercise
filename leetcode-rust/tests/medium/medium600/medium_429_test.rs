@@ -1,5 +1,5 @@
-use leetcode_exercise::leetcode::editor::cn::_429_n_ary_tree_level_order_traversal::Solution;
-use leetcode_exercise::n_ary_tree::Node;
+use leetcode_rust::leetcode::editor::cn::_429_n_ary_tree_level_order_traversal::Solution;
+use leetcode_rust::n_ary_tree::Node;
 
 #[test]
 fn n_ary_tree_level_order_traversal_1() {

@@ -1,6 +1,6 @@
-use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
-use leetcode_exercise::leetcode::editor::cn::_538_convert_b_s_t_to_greater_tree::Solution;
-use leetcode_exercise::Traverse;
+use leetcode_rust::binary_tree::safe::{BinaryTree, TreeNode};
+use leetcode_rust::leetcode::editor::cn::_538_convert_b_s_t_to_greater_tree::Solution;
+use leetcode_rust::Traverse;
 
 #[test]
 fn convert_bst_to_greater_tree_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_459_repeated_substring_pattern::Solution;
+use leetcode_rust::leetcode::editor::cn::_459_repeated_substring_pattern::Solution;
 
 #[test]
 fn repeated_substring_pattern_1() {

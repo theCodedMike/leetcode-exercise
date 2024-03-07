@@ -1,7 +1,7 @@
-use leetcode_exercise::binary_tree::safe::BinaryTree;
-use leetcode_exercise::leetcode::editor::cn::_109_convert_sorted_list_to_binary_search_tree::Solution;
-use leetcode_exercise::linked_list::singly_linked_list::safe::LinkedList;
-use leetcode_exercise::{Build, Traverse};
+use leetcode_rust::binary_tree::safe::BinaryTree;
+use leetcode_rust::leetcode::editor::cn::_109_convert_sorted_list_to_binary_search_tree::Solution;
+use leetcode_rust::linked_list::singly_linked_list::safe::LinkedList;
+use leetcode_rust::{Build, Traverse};
 
 #[test]
 fn convert_sorted_list_to_binary_search_tree_1() {

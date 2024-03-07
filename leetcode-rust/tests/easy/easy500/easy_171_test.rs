@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_171_excel_sheet_column_number::Solution;
+use leetcode_rust::leetcode::editor::cn::_171_excel_sheet_column_number::Solution;
 
 #[test]
 fn excel_sheet_column_number() {

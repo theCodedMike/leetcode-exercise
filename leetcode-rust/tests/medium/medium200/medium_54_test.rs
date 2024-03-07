@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_54_spiral_matrix::Solution;
+use leetcode_rust::leetcode::editor::cn::_54_spiral_matrix::Solution;
 
 #[test]
 fn spiral_matrix() {

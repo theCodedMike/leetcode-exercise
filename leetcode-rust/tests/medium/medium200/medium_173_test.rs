@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_173_binary_search_tree_iterator::{
+use leetcode_rust::leetcode::editor::cn::_173_binary_search_tree_iterator::{
     BSTIterator, TreeNode,
 };
 

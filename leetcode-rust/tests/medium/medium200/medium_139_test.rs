@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_139_word_break::Solution;
+use leetcode_rust::leetcode::editor::cn::_139_word_break::Solution;
 
 #[test]
 fn word_break() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_92_reverse_linked_list_i_i::{ListNode, Solution};
+use leetcode_rust::leetcode::editor::cn::_92_reverse_linked_list_i_i::{ListNode, Solution};
 
 #[test]
 fn reverse_linked_list_ii() {

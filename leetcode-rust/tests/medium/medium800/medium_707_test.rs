@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_707_design_linked_list::MyLinkedList;
+use leetcode_rust::leetcode::editor::cn::_707_design_linked_list::MyLinkedList;
 
 #[test]
 fn design_linked_list_1() {

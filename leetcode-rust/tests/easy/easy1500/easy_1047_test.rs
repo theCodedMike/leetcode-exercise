@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_1047_remove_all_adjacent_duplicates_in_string::Solution;
+use leetcode_rust::leetcode::editor::cn::_1047_remove_all_adjacent_duplicates_in_string::Solution;
 
 #[test]
 fn remove_all_adjacent_duplicates_in_string_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_738_monotone_increasing_digits::Solution;
+use leetcode_rust::leetcode::editor::cn::_738_monotone_increasing_digits::Solution;
 
 #[test]
 fn monotone_increasing_digits_1() {

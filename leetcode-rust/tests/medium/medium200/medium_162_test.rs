@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_162_find_peak_element::Solution;
+use leetcode_rust::leetcode::editor::cn::_162_find_peak_element::Solution;
 
 #[test]
 fn find_peak_element() {

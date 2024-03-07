@@ -1,6 +1,6 @@
-use leetcode_exercise::binary_tree::safe::BinaryTree;
-use leetcode_exercise::leetcode::editor::cn::_450_delete_node_in_a_b_s_t::Solution;
-use leetcode_exercise::Build;
+use leetcode_rust::binary_tree::safe::BinaryTree;
+use leetcode_rust::leetcode::editor::cn::_450_delete_node_in_a_b_s_t::Solution;
+use leetcode_rust::Build;
 
 #[test]
 fn delete_node_in_a_bst_1() {

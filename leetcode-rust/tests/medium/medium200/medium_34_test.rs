@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_34_find_first_and_last_position_of_element_in_sorted_array::Solution;
+use leetcode_rust::leetcode::editor::cn::_34_find_first_and_last_position_of_element_in_sorted_array::Solution;
 
 #[test]
 fn find_first_and_last_position_of_element_in_sorted_array() {

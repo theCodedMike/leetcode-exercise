@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_60_permutation_sequence::Solution;
+use leetcode_rust::leetcode::editor::cn::_60_permutation_sequence::Solution;
 
 #[test]
 fn permutation_sequence() {

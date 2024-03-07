@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_168_excel_sheet_column_title::Solution;
+use leetcode_rust::leetcode::editor::cn::_168_excel_sheet_column_title::Solution;
 
 #[test]
 fn excel_sheet_column_title() {

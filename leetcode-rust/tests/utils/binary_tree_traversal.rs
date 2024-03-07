@@ -1,5 +1,5 @@
 pub mod safe {
-    use leetcode_exercise::binary_tree_with_next::safe::Node;
+    use leetcode_rust::binary_tree_with_next::safe::Node;
     use std::cell::RefCell;
     use std::rc::Rc;
 
@@ -43,7 +43,7 @@ pub mod safe {
 }
 
 pub mod raw_ptr {
-    use leetcode_exercise::binary_tree_with_next::raw_ptr::Node;
+    use leetcode_rust::binary_tree_with_next::raw_ptr::Node;
 
     pub fn pre_order_recur(root: *mut Node) -> Vec<i32> {
         let mut res = vec![];
@@ -92,7 +92,7 @@ pub mod raw_ptr {
 }
 
 pub mod nonnull {
-    use leetcode_exercise::binary_tree_with_next::nonnull::Node;
+    use leetcode_rust::binary_tree_with_next::nonnull::Node;
     use std::ptr::NonNull;
 
     pub fn pre_order_recur(root: Option<NonNull<Node>>) -> Vec<i32> {

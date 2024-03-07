@@ -1,5 +1,5 @@
-use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::cn::_235_lowest_common_ancestor_of_a_binary_search_tree::Solution;
+use leetcode_rust::binary_tree::safe::TreeNode;
+use leetcode_rust::leetcode::editor::cn::_235_lowest_common_ancestor_of_a_binary_search_tree::Solution;
 
 #[test]
 fn lowest_common_ancestor_of_a_binary_search_tree_1() {

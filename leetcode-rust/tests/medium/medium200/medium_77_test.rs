@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_77_combinations::Solution;
+use leetcode_rust::leetcode::editor::cn::_77_combinations::Solution;
 use std::collections::HashSet;
 
 #[test]

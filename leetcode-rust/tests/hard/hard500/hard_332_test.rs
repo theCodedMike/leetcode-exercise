@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_332_reconstruct_itinerary::Solution;
+use leetcode_rust::leetcode::editor::cn::_332_reconstruct_itinerary::Solution;
 
 #[test]
 fn reconstruct_itinerary_1() {

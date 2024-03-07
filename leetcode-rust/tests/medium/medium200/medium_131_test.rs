@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_131_palindrome_partitioning::Solution;
+use leetcode_rust::leetcode::editor::cn::_131_palindrome_partitioning::Solution;
 use std::collections::HashSet;
 
 #[test]

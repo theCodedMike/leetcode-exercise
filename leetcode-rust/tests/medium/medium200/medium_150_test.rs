@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_150_evaluate_reverse_polish_notation::Solution;
+use leetcode_rust::leetcode::editor::cn::_150_evaluate_reverse_polish_notation::Solution;
 
 #[test]
 fn evaluate_reverse_polish_notation_1() {

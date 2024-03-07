@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_654_maximum_binary_tree::Solution;
+use leetcode_rust::leetcode::editor::cn::_654_maximum_binary_tree::Solution;
 
 #[test]
 fn maximum_binary_tree_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_977_squares_of_a_sorted_array::Solution;
+use leetcode_rust::leetcode::editor::cn::_977_squares_of_a_sorted_array::Solution;
 
 #[test]
 fn squares_of_a_sorted_array() {

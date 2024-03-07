@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_52_n_queens_i_i::Solution;
+use leetcode_rust::leetcode::editor::cn::_52_n_queens_i_i::Solution;
 
 #[test]
 fn n_queens_ii_1() {

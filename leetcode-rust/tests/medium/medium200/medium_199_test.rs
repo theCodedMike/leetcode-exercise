@@ -1,5 +1,5 @@
-use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::cn::_199_binary_tree_right_side_view::Solution;
+use leetcode_rust::binary_tree::safe::TreeNode;
+use leetcode_rust::leetcode::editor::cn::_199_binary_tree_right_side_view::Solution;
 
 #[test]
 fn binary_tree_right_side_view_1() {

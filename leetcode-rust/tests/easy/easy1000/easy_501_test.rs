@@ -1,5 +1,5 @@
-use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::cn::_501_find_mode_in_binary_search_tree::Solution;
+use leetcode_rust::binary_tree::safe::TreeNode;
+use leetcode_rust::leetcode::editor::cn::_501_find_mode_in_binary_search_tree::Solution;
 #[test]
 fn find_mode_in_binary_search_tree_1() {
     //  1

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_347_top_k_frequent_elements::Solution;
+use leetcode_rust::leetcode::editor::cn::_347_top_k_frequent_elements::Solution;
 
 #[test]
 fn top_k_frequent_elements_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_166_fraction_to_recurring_decimal::Solution;
+use leetcode_rust::leetcode::editor::cn::_166_fraction_to_recurring_decimal::Solution;
 
 #[test]
 fn fraction_to_recurring_decimal() {

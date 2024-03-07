@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_189_rotate_array::Solution;
+use leetcode_rust::leetcode::editor::cn::_189_rotate_array::Solution;
 
 #[test]
 fn rotate_array() {

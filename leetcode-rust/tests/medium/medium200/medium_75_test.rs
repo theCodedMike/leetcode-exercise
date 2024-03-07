@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_75_sort_colors::Solution;
+use leetcode_rust::leetcode::editor::cn::_75_sort_colors::Solution;
 
 #[test]
 fn sort_colors() {

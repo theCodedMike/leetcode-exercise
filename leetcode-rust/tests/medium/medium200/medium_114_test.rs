@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_114_flatten_binary_tree_to_linked_list::{
+use leetcode_rust::leetcode::editor::cn::_114_flatten_binary_tree_to_linked_list::{
     Solution, TreeNode,
 };
 

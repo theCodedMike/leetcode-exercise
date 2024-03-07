@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_860_lemonade_change::Solution;
+use leetcode_rust::leetcode::editor::cn::_860_lemonade_change::Solution;
 
 #[test]
 fn lemonade_change_test_1() {

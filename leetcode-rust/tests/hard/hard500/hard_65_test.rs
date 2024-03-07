@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_65_valid_number::Solution;
+use leetcode_rust::leetcode::editor::cn::_65_valid_number::Solution;
 
 #[test]
 fn valid_number() {

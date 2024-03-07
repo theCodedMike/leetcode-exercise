@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_122_best_time_to_buy_and_sell_stock_i_i::Solution;
+use leetcode_rust::leetcode::editor::cn::_122_best_time_to_buy_and_sell_stock_i_i::Solution;
 
 #[test]
 fn best_time_to_buy_and_sell_stock_ii_1() {

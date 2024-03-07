@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_15_3_sum::Solution;
+use leetcode_rust::leetcode::editor::cn::_15_3_sum::Solution;
 
 #[test]
 fn three_sum_1() {

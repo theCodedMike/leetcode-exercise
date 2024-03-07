@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_23_merge_k_sorted_lists::{ListNode, Solution};
+use leetcode_rust::leetcode::editor::cn::_23_merge_k_sorted_lists::{ListNode, Solution};
 
 /// cargo test -- --show-output merge_k_sorted_lists_test
 #[test]

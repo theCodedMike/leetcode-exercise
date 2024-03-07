@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_155_min_stack::MinStack;
+use leetcode_rust::leetcode::editor::cn::_155_min_stack::MinStack;
 
 #[test]
 fn min_stack() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_17_letter_combinations_of_a_phone_number::Solution;
+use leetcode_rust::leetcode::editor::cn::_17_letter_combinations_of_a_phone_number::Solution;
 use std::collections::HashSet;
 
 #[test]

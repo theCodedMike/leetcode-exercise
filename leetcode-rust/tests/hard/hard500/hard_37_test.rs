@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_37_sudoku_solver::Solution;
+use leetcode_rust::leetcode::editor::cn::_37_sudoku_solver::Solution;
 
 #[test]
 fn sudoku_solver_1() {

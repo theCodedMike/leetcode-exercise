@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_1005_maximize_sum_of_array_after_k_negations::Solution;
+use leetcode_rust::leetcode::editor::cn::_1005_maximize_sum_of_array_after_k_negations::Solution;
 
 #[test]
 fn maximize_sum_of_array_after_k_negations_1() {

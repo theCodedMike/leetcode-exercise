@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_3_longest_substring_without_repeating_characters::Solution;
+use leetcode_rust::leetcode::editor::cn::_3_longest_substring_without_repeating_characters::Solution;
 
 #[test]
 fn longest_substring_without_repeating_characters() {

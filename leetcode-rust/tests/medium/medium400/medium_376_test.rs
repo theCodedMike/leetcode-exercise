@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_376_wiggle_subsequence::Solution;
+use leetcode_rust::leetcode::editor::cn::_376_wiggle_subsequence::Solution;
 
 #[test]
 fn wiggle_subsequence_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_209_minimum_size_subarray_sum::Solution;
+use leetcode_rust::leetcode::editor::cn::_209_minimum_size_subarray_sum::Solution;
 
 #[test]
 fn minimum_size_subarray_sum() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_216_combination_sum_i_i_i::Solution;
+use leetcode_rust::leetcode::editor::cn::_216_combination_sum_i_i_i::Solution;
 use std::collections::HashSet;
 
 #[test]

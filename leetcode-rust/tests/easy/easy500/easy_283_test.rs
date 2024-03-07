@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_283_move_zeroes::Solution;
+use leetcode_rust::leetcode::editor::cn::_283_move_zeroes::Solution;
 
 #[test]
 fn move_zeroes() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_32_longest_valid_parentheses::Solution;
+use leetcode_rust::leetcode::editor::cn::_32_longest_valid_parentheses::Solution;
 
 #[test]
 fn longest_valid_parentheses() {

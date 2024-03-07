@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_491_non_decreasing_subsequences::Solution;
+use leetcode_rust::leetcode::editor::cn::_491_non_decreasing_subsequences::Solution;
 use std::collections::HashSet;
 
 #[test]

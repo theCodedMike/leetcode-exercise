@@ -1,6 +1,6 @@
-use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
-use leetcode_exercise::leetcode::editor::cn::_572_subtree_of_another_tree::Solution;
-use leetcode_exercise::Build;
+use leetcode_rust::binary_tree::safe::{BinaryTree, TreeNode};
+use leetcode_rust::leetcode::editor::cn::_572_subtree_of_another_tree::Solution;
+use leetcode_rust::Build;
 use std::cell::RefCell;
 use std::rc::Rc;
 

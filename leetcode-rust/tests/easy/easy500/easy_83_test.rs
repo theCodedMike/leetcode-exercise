@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_83_remove_duplicates_from_sorted_list::{
+use leetcode_rust::leetcode::editor::cn::_83_remove_duplicates_from_sorted_list::{
     ListNode, Solution,
 };
 

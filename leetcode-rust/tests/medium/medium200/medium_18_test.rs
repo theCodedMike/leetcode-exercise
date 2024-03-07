@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_18_4_sum::Solution;
+use leetcode_rust::leetcode::editor::cn::_18_4_sum::Solution;
 
 #[test]
 fn _4_sum_test_1() {

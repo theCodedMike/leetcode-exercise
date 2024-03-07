@@ -1,5 +1,5 @@
-use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::cn::_104_maximum_depth_of_binary_tree::Solution;
+use leetcode_rust::binary_tree::safe::TreeNode;
+use leetcode_rust::leetcode::editor::cn::_104_maximum_depth_of_binary_tree::Solution;
 
 #[test]
 fn maximum_depth_of_binary_tree_1() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_43_multiply_strings::Solution;
+use leetcode_rust::leetcode::editor::cn::_43_multiply_strings::Solution;
 
 #[test]
 fn multiply_strings() {

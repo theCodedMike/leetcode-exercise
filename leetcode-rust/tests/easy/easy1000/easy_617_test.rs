@@ -1,6 +1,6 @@
-use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
-use leetcode_exercise::leetcode::editor::cn::_617_merge_two_binary_trees::Solution;
-use leetcode_exercise::Traverse;
+use leetcode_rust::binary_tree::safe::{BinaryTree, TreeNode};
+use leetcode_rust::leetcode::editor::cn::_617_merge_two_binary_trees::Solution;
+use leetcode_rust::Traverse;
 
 #[test]
 fn merge_two_binary_trees_1() {

@@ -1,5 +1,5 @@
-use leetcode_exercise::leetcode::editor::cn::_559_maximum_depth_of_n_ary_tree::Solution;
-use leetcode_exercise::n_ary_tree::Node;
+use leetcode_rust::leetcode::editor::cn::_559_maximum_depth_of_n_ary_tree::Solution;
+use leetcode_rust::n_ary_tree::Node;
 
 #[test]
 fn maximum_depth_of_n_ary_tree_1() {

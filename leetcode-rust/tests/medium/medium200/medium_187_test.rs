@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_187_repeated_d_n_a_sequences::Solution;
+use leetcode_rust::leetcode::editor::cn::_187_repeated_d_n_a_sequences::Solution;
 
 #[test]
 fn repeated_dna_sequences() {

@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_130_surrounded_regions::Solution;
+use leetcode_rust::leetcode::editor::cn::_130_surrounded_regions::Solution;
 
 #[test]
 fn surrounded_regions() {

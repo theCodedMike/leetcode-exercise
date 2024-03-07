@@ -1,5 +1,5 @@
-use leetcode_exercise::binary_tree::safe::TreeNode;
-use leetcode_exercise::leetcode::editor::cn::_513_find_bottom_left_tree_value::Solution;
+use leetcode_rust::binary_tree::safe::TreeNode;
+use leetcode_rust::leetcode::editor::cn::_513_find_bottom_left_tree_value::Solution;
 
 #[test]
 fn find_bottom_left_tree_value_1() {

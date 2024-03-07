@@ -1,4 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_143_reorder_list::{ListNode, Solution};
+use leetcode_rust::leetcode::editor::cn::_143_reorder_list::{ListNode, Solution};
 
 #[test]
 fn reorder_list() {

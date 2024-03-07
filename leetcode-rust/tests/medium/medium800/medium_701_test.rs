@@ -1,6 +1,6 @@
-use leetcode_exercise::binary_tree::safe::{BinaryTree, TreeNode};
-use leetcode_exercise::leetcode::editor::cn::_701_insert_into_a_binary_search_tree::Solution;
-use leetcode_exercise::Traverse;
+use leetcode_rust::binary_tree::safe::{BinaryTree, TreeNode};
+use leetcode_rust::leetcode::editor::cn::_701_insert_into_a_binary_search_tree::Solution;
+use leetcode_rust::Traverse;
 
 #[test]
 fn insert_into_a_binary_search_tree_1() {

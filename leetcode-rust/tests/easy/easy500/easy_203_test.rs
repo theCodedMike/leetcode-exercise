@@ -1,6 +1,4 @@
-use leetcode_exercise::leetcode::editor::cn::_203_remove_linked_list_elements::{
-    ListNode, Solution,
-};
+use leetcode_rust::leetcode::editor::cn::_203_remove_linked_list_elements::{ListNode, Solution};
 
 #[test]
 fn remove_linked_list_elements_1() {
