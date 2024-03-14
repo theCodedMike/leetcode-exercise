@@ -39,17 +39,39 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn can_jump(nums: Vec<i32>) -> bool {
+        //Self::greedy(nums)
+
+        Self::reverse_traversal(nums)
+    }
+
+    fn greedy(nums: Vec<i32>) -> bool {
         let max_idx = nums.len() - 1;
-        let mut reach = 0;
+        let mut rightmost = 0;
 
         for i in 0..=max_idx {
-            if i > reach || reach >= max_idx {
-                break;
+            if i <= rightmost {
+                rightmost = std::cmp::max(rightmost, i + nums[i] as usize);
+                if rightmost >= max_idx {
+                    return true;
+                }
             }
-            reach = std::cmp::max(reach, i + nums[i] as usize);
         }
 
-        reach >= max_idx
+        false
+    }
+
+    fn reverse_traversal(nums: Vec<i32>) -> bool {
+        let mut jump_len = 1;
+
+        for i in (0..nums.len() - 1).rev() {
+            if nums[i] >= jump_len {
+                jump_len = 1;
+            } else {
+                jump_len += 1;
+            }
+        }
+
+        jump_len == 1
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
