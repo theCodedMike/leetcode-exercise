@@ -47,8 +47,44 @@ pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
-    pub fn jump(_nums: Vec<i32>) -> i32 {
-        0
+    pub fn jump(nums: Vec<i32>) -> i32 {
+        //Self::reverse_traversal(nums)
+
+        Self::greedy(nums)
+    }
+
+    fn reverse_traversal(nums: Vec<i32>) -> i32 {
+        let mut pos = nums.len() - 1;
+        let mut steps = 0;
+
+        while pos != 0 {
+            for i in 0..pos {
+                if i + nums[i] as usize >= pos {
+                    pos = i;
+                    steps += 1;
+                    break;
+                }
+            }
+        }
+
+        steps
+    }
+
+    fn greedy(nums: Vec<i32>) -> i32 {
+        let (mut max_pos, len, mut end) = (0, nums.len(), 0);
+        let mut steps = 0;
+
+        for i in 0..len - 1 {
+            if max_pos >= i {
+                max_pos = std::cmp::max(max_pos, i + nums[i] as usize);
+                if i == end {
+                    end = max_pos;
+                    steps += 1;
+                }
+            }
+        }
+
+        steps
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

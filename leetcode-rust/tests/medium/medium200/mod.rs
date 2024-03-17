@@ -39,6 +39,7 @@ mod medium_39_test;
 mod medium_3_test;
 mod medium_40_test;
 mod medium_43_test;
+mod medium_45_test;
 mod medium_46_test;
 mod medium_47_test;
 mod medium_49_test;
