@@ -136,6 +136,7 @@ pub mod _438_find_all_anagrams_in_a_string;
 pub mod _43_multiply_strings;
 pub mod _44_wildcard_matching;
 pub mod _450_delete_node_in_a_b_s_t;
+pub mod _452_minimum_number_of_arrows_to_burst_balloons;
 pub mod _454_4_sum_i_i;
 pub mod _455_assign_cookies;
 pub mod _459_repeated_substring_pattern;
