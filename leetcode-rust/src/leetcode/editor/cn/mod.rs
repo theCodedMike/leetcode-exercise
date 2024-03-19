@@ -132,6 +132,7 @@ pub mod _40_combination_sum_i_i;
 pub mod _41_first_missing_positive;
 pub mod _429_n_ary_tree_level_order_traversal;
 pub mod _42_trapping_rain_water;
+pub mod _435_non_overlapping_intervals;
 pub mod _438_find_all_anagrams_in_a_string;
 pub mod _43_multiply_strings;
 pub mod _44_wildcard_matching;
