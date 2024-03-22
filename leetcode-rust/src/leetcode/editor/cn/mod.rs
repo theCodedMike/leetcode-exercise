@@ -193,6 +193,7 @@ pub mod _738_monotone_increasing_digits;
 pub mod _73_set_matrix_zeroes;
 pub mod _74_search_a_2_d_matrix;
 pub mod _75_sort_colors;
+pub mod _763_partition_labels;
 pub mod _76_minimum_window_substring;
 pub mod _77_combinations;
 pub mod _78_subsets;
