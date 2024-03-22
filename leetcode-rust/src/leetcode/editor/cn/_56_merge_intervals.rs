@@ -31,37 +31,47 @@
 // Related Topics Array Sorting 👍 19945 👎 674
 
 #![allow(dead_code)]
-//   测试用例              期望结果
-// [[1,4],[0,4]]         [[0,4]]
-// [[1,4],[2,3]]         [[1,4]]
 
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
-    pub fn merge(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+    pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        //Self::brute_force(intervals)
+
+        Self::sorting(intervals)
+    }
+
+    fn brute_force(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         intervals.sort_unstable();
 
-        let mut min = i32::MAX;
-        let mut max = i32::MIN;
-        let mut res = vec![];
+        let (mut start, mut end) = (i32::MAX, i32::MIN);
+        let (mut res, len) = (vec![], intervals.len());
+        for i in 0..len {
+            start = std::cmp::min(start, intervals[i][0]);
+            end = std::cmp::max(end, intervals[i][1]);
 
-        let mut iter = intervals.iter().peekable();
-        while let Some(curr) = iter.next() {
-            min = std::cmp::min(min, curr[0]);
-            max = std::cmp::max(max, curr[1]);
-            match iter.peek() {
-                None => {
-                    res.push(vec![min, max]);
-                }
-                Some(next) => {
-                    if next[0] > max {
-                        // 无交集
-                        res.push(vec![min, max]);
-                        min = i32::MAX;
-                        max = i32::MIN;
-                    }
-                }
+            if (i < len - 1 && end < intervals[i + 1][0]) || (i == len - 1) {
+                res.push(vec![start, end]);
+                (start, end) = (i32::MAX, i32::MIN);
+            }
+        }
+
+        res
+    }
+
+    fn sorting(mut intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        intervals.sort_unstable();
+
+        let mut res: Vec<Vec<i32>> = vec![];
+        for interval in intervals {
+            let (l, r) = (interval[0], interval[1]);
+            let len = res.len();
+
+            if len == 0 || res[len - 1][1] < l {
+                res.push(vec![l, r]);
+            } else {
+                res[len - 1][1] = std::cmp::max(res[len - 1][1], r);
             }
         }
 

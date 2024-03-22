@@ -46,6 +46,7 @@ mod medium_49_test;
 mod medium_50_test;
 mod medium_54_test;
 mod medium_55_test;
+mod medium_56_test;
 mod medium_57_test;
 mod medium_59_test;
 mod medium_5_test;
