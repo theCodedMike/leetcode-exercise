@@ -33,6 +33,7 @@ pub mod _12_integer_to_roman;
 pub mod _130_surrounded_regions;
 pub mod _131_palindrome_partitioning;
 pub mod _133_clone_graph;
+pub mod _134_gas_station;
 pub mod _135_candy;
 pub mod _136_single_number;
 pub mod _137_single_number_i_i;
