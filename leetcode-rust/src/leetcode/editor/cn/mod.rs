@@ -220,6 +220,7 @@ pub mod _92_reverse_linked_list_i_i;
 pub mod _93_restore_i_p_addresses;
 pub mod _94_binary_tree_inorder_traversal;
 pub mod _95_unique_binary_search_trees_i_i;
+pub mod _968_binary_tree_cameras;
 pub mod _96_unique_binary_search_trees;
 pub mod _977_squares_of_a_sorted_array;
 pub mod _97_interleaving_string;
