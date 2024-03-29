@@ -150,6 +150,7 @@ pub mod _491_non_decreasing_subsequences;
 pub mod _49_group_anagrams;
 pub mod _4_median_of_two_sorted_arrays;
 pub mod _501_find_mode_in_binary_search_tree;
+pub mod _509_fibonacci_number;
 pub mod _50_pow_x_n;
 pub mod _513_find_bottom_left_tree_value;
 pub mod _515_find_largest_value_in_each_tree_row;

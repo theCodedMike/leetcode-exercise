@@ -1,4 +1,5 @@
 mod easy_501_test;
+mod easy_509_test;
 mod easy_530_test;
 mod easy_541_test;
 mod easy_559_test;
