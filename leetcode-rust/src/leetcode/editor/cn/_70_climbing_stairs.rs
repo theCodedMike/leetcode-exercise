@@ -35,22 +35,72 @@
 // Related Topics Math Dynamic Programming Memoization 👍 18478 👎 580
 
 #![allow(dead_code)]
+#![allow(unused_assignments)]
 
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn climb_stairs(n: i32) -> i32 {
-        // 超时了，后续优化
-        // todo
-        count_of_ways(n)
-    }
-}
+        //Self::dp(n)
 
-fn count_of_ways(n: i32) -> i32 {
-    if n <= 1 {
-        return 1;
+        Self::matrix_fast_power(n)
+
+        //Self::general_formula(n)
     }
-    count_of_ways(n - 1) + count_of_ways(n - 2)
+
+    /// Time Complexity: O(n)
+    /// Space Complexity: O(1)
+    fn dp(n: i32) -> i32 {
+        let (mut p, mut q, mut r) = (0, 0, 1);
+
+        for _ in 0..n {
+            p = q;
+            q = r;
+            r = p + q;
+        }
+
+        r
+    }
+
+    /// Time Complexity: O(log(n))
+    /// Space Complexity: O(1)
+    fn matrix_fast_power(mut n: i32) -> i32 {
+        let mut m = vec![vec![1, 1], vec![1, 0]];
+
+        let multiply = |a: &[Vec<i64>], b: &[Vec<i64>]| {
+            let mut c = vec![vec![0; 2]; 2];
+            for i in 0..2 {
+                for j in 0..2 {
+                    c[i][j] = a[i][0] * b[0][j] + a[i][1] * b[1][j];
+                }
+            }
+            c
+        };
+        let mut pow = || {
+            let mut ret = vec![vec![1, 0], vec![0, 1]];
+            while n > 0 {
+                if n & 1 == 1 {
+                    ret = multiply(&ret, &m);
+                }
+                n >>= 1;
+                m = multiply(&m, &m);
+            }
+            ret
+        };
+
+        let res = pow();
+
+        res[0][0] as i32
+    }
+
+    /// Time Complexity: O(?)
+    /// Space Complexity: O(1)
+    fn general_formula(n: i32) -> i32 {
+        let sqrt5 = 5_f64.sqrt();
+        let fib_n = ((1.0 + sqrt5) / 2.0).powi(n + 1) - ((1.0 - sqrt5) / 2.0).powi(n + 1);
+
+        return (fib_n / sqrt5).round() as i32;
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
