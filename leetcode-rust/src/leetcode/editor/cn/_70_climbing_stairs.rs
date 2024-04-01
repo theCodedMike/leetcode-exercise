@@ -44,9 +44,11 @@ impl Solution {
     pub fn climb_stairs(n: i32) -> i32 {
         //Self::dp(n)
 
-        Self::matrix_fast_power(n)
+        //Self::matrix_fast_power(n)
 
         //Self::general_formula(n)
+
+        Self::combine(n)
     }
 
     /// Time Complexity: O(n)
@@ -101,6 +103,28 @@ impl Solution {
         let fib_n = ((1.0 + sqrt5) / 2.0).powi(n + 1) - ((1.0 - sqrt5) / 2.0).powi(n + 1);
 
         return (fib_n / sqrt5).round() as i32;
+    }
+
+    /// Time Complexity: O(n^2)
+    /// Space Complexity: O(1)
+    fn combine(n: i32) -> i32 {
+        let n = n as i64;
+        let calc = |mut a, b| {
+            let mut ans = 1;
+            for i in 1..=b {
+                ans *= a;
+                a -= 1;
+                ans /= i;
+            }
+            ans
+        };
+
+        let mut res = 1;
+        for i in 1..=n / 2 {
+            res += calc(n - i, i);
+        }
+
+        res as i32
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

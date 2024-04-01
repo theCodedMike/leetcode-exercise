@@ -45,9 +45,11 @@ class Solution {
     public int climbStairs(int n) {
         //return this.dp(n);
 
-        return this.matrixFastPower(n);
+        //return this.matrixFastPower(n);
 
         //return this.generalFormula(n);
+
+        return this.combine(n);
     }
 
     int dp(int n) {
@@ -96,6 +98,25 @@ class Solution {
         double sqrt5 = Math.sqrt(5);
         double fibN = Math.pow((1 + sqrt5) / 2, n + 1) - Math.pow((1 - sqrt5) / 2, n + 1);
         return (int) Math.round(fibN / sqrt5);
+    }
+
+    int combine(int n) {
+        BiFunction<Integer, Integer, Long> calc = (a, b) -> {
+            long ans = 1;
+            for (int i = 1; i <= b; i++) {
+                ans *= a;
+                a--;
+                ans /= i;
+            }
+            return ans;
+        };
+
+        long res = 1;
+        for (int i = 1, times = n / 2; i <= times; i++) {
+            res += calc.apply(n - i, i);
+        }
+
+        return (int) res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

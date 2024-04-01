@@ -44,7 +44,9 @@ func climbStairs(n int) int {
 
 	//return matrixFastPower(n)
 
-	return generalFormula(n)
+	//return generalFormula(n)
+
+	return combine(n)
 }
 
 func dp(n int) int {
@@ -99,6 +101,25 @@ func generalFormula(n int) int {
 	fibN := math.Pow((1+sqrt5)/2, float64(n+1)) - math.Pow((1-sqrt5)/2, float64(n+1))
 
 	return int(math.Round(fibN / sqrt5))
+}
+
+func combine(n int) int {
+	calc := func(a, b int) int {
+		ans := 1
+		for i := 1; i <= b; i++ {
+			ans *= a
+			a--
+			ans /= i
+		}
+		return ans
+	}
+
+	res := 1
+	for i, times := 1, n/2; i <= times; i++ {
+		res += calc(n-i, i)
+	}
+
+	return res
 }
 
 //leetcode submit region end(Prohibit modification and deletion)

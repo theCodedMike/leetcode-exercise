@@ -14,6 +14,7 @@ pub mod _10_regular_expression_matching;
 pub mod _110_balanced_binary_tree;
 pub mod _111_minimum_depth_of_binary_tree;
 pub mod _112_path_sum;
+pub mod _1137_n_th_tribonacci_number;
 pub mod _113_path_sum_i_i;
 pub mod _114_flatten_binary_tree_to_linked_list;
 pub mod _115_distinct_subsequences;
