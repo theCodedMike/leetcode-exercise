@@ -42,7 +42,7 @@ package leetcode.editor.cn;
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+public class _45_跳跃游戏II {
     public int jump(int[] nums) {
         //return this.reverseTraversal(nums);
 

@@ -34,11 +34,10 @@ package leetcode.editor.cn;
 // Related Topics 记忆化搜索 数学 动态规划 👍 298 👎 0
 
 
-import java.util.Arrays;
 import java.util.function.BiFunction;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+public class _1137_第N个泰波那契数 {
     public int tribonacci(int n) {
         return dpRecur(n);
         //return dpIter(n);

@@ -194,6 +194,7 @@ pub mod _71_simplify_path;
 pub mod _72_edit_distance;
 pub mod _738_monotone_increasing_digits;
 pub mod _73_set_matrix_zeroes;
+pub mod _740_delete_and_earn;
 pub mod _746_min_cost_climbing_stairs;
 pub mod _74_search_a_2_d_matrix;
 pub mod _75_sort_colors;

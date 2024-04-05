@@ -45,7 +45,7 @@ package leetcode.editor.cn;
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+public class _746_使用最小花费爬楼梯 {
     public int minCostClimbingStairs(int[] cost) {
         //return this.dp(cost);
 

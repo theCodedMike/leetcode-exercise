@@ -41,7 +41,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+public class _70_爬楼梯 {
     public int climbStairs(int n) {
         //return this.dp(n);
 
