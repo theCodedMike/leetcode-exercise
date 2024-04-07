@@ -43,24 +43,50 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
+use std::cmp::max;
+
 impl Solution {
     pub fn rob(nums: Vec<i32>) -> i32 {
-        Self::use_dp(nums)
+        //Self::dp(nums)
+
+        Self::optimize_dp(nums)
     }
 
-    pub fn use_dp(nums: Vec<i32>) -> i32 {
+    /// Time Complexity: O(n)
+    /// Space Complexity: O(n)
+    fn dp(nums: Vec<i32>) -> i32 {
         let len = nums.len();
         match len {
             0 => 0,
             1 => nums[0],
             _ => {
                 let mut dp = vec![0; len];
-                dp[0] = nums[0];
-                dp[1] = std::cmp::max(nums[0], nums[1]);
+                (dp[0], dp[1]) = (nums[0], max(nums[0], nums[1]));
+
                 for i in 2..len {
-                    dp[i] = std::cmp::max(dp[i - 2] + nums[i], dp[i - 1]);
+                    dp[i] = max(dp[i - 2] + nums[i], dp[i - 1]);
                 }
+
                 dp[len - 1]
+            }
+        }
+    }
+
+    /// Time Complexity: O(n)
+    /// Space Complexity: O(1)
+    fn optimize_dp(nums: Vec<i32>) -> i32 {
+        let len = nums.len();
+        match len {
+            0 => 0,
+            1 => nums[0],
+            _ => {
+                let (mut first, mut second) = (nums[0], max(nums[0], nums[1]));
+
+                for i in 2..len {
+                    (first, second) = (second, max(first + nums[i], second));
+                }
+
+                second
             }
         }
     }
