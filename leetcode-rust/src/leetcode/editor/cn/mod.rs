@@ -114,6 +114,7 @@ pub mod _31_next_permutation;
 pub mod _32_longest_valid_parentheses;
 pub mod _332_reconstruct_itinerary;
 pub mod _33_search_in_rotated_sorted_array;
+pub mod _343_integer_break;
 pub mod _344_reverse_string;
 pub mod _347_top_k_frequent_elements;
 pub mod _349_intersection_of_two_arrays;

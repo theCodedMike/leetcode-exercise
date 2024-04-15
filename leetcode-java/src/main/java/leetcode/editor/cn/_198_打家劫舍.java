@@ -36,7 +36,7 @@ package leetcode.editor.cn;
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+public class _198_打家劫舍 {
     public int rob(int[] nums) {
         //return this.dp(nums);
 
