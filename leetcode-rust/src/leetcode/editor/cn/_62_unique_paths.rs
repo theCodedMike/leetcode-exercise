@@ -45,8 +45,62 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn unique_paths(m: i32, n: i32) -> i32 {
-        // todo!
-        m * n
+        //Self::dp(m, n)
+
+        //Self::optimize_dp(m, n)
+
+        Self::combinatorics(m, n)
+    }
+
+    /// Time Complexity: O(m * n)
+    /// Space Complexity: O(m * n)
+    fn dp(m: i32, n: i32) -> i32 {
+        let (m, n) = (m as usize, n as usize);
+        let mut dp = vec![vec![0; n]; m];
+
+        for i in 0..m {
+            dp[i][0] = 1;
+        }
+        for i in 0..n {
+            dp[0][i] = 1;
+        }
+        for i in 1..m {
+            for j in 1..n {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+
+        dp[m - 1][n - 1]
+    }
+
+    /// Time Complexity: O(m * n)
+    /// Space Complexity: O(n)
+    fn optimize_dp(m: i32, n: i32) -> i32 {
+        let n = n as usize;
+        let mut dp = vec![1; n];
+
+        for _ in 1..m {
+            for j in 1..n {
+                dp[j] += dp[j - 1];
+            }
+        }
+
+        dp[n - 1]
+    }
+
+    /// Time Complexity: O(m)
+    /// Space Complexity: O(1)
+    fn combinatorics(m: i32, n: i32) -> i32 {
+        let m = m as i64;
+        let mut res = 1_i64;
+        let (mut x, mut y) = (n as i64, 1);
+
+        while y < m {
+            res = res * x / y;
+            (x, y) = (x + 1, y + 1);
+        }
+
+        res as i32
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
