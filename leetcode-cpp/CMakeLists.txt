@@ -7,4 +7,5 @@ add_executable(leetcode_cpp main.cpp
         "leetcode/editor/cn/[1]Two Sum.cpp"
         "leetcode/editor/cn/[9]Palindrome Number.cpp"
         "leetcode/editor/cn/[13]Roman to Integer.cpp"
+        "leetcode/editor/cn/[704]Binary Search.cpp"
 )

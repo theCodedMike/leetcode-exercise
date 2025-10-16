@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-cpp/cmake-build-debug" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-cpp/cmake-build-debug/.cmake" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-cpp/cmake-build-debug/CMakeFiles" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-cpp/cmake-build-debug/Testing" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-csharp/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-csharp/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-go/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-java/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-java/target" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-rust/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-rust/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
