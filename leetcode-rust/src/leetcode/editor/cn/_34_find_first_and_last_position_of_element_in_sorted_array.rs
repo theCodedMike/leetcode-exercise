@@ -47,9 +47,7 @@ pub struct Solution;
 impl Solution {
     pub fn search_range(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let mut res = vec![-1, -1];
-        let len = nums.len();
-        let mut left = 0;
-        let mut right = len;
+        let (mut left, mut right) = (0, nums.len());
 
         while left < right {
             let mid = left + (right - left) / 2;
@@ -59,10 +57,9 @@ impl Solution {
                 left = mid + 1;
             } else {
                 // num[mid]肯定等于target，往左右两边遍历
-                let mut prev = mid;
-                let mut next = mid;
-                let mut move_prev = false;
-                let mut move_next = false;
+                let (mut prev, mut next) = (mid, mid);
+                let (mut move_prev, mut move_next) = (false, false);
+
                 loop {
                     move_prev = false;
                     if prev != 0 && nums[prev - 1] == target {
@@ -70,15 +67,15 @@ impl Solution {
                         prev -= 1;
                     }
                     move_next = false;
-                    if next != len - 1 && nums[next + 1] == target {
+                    if next != nums.len() - 1 && nums[next + 1] == target {
                         move_next = true;
                         next += 1;
                     }
-
                     if !move_prev && !move_next {
                         break;
                     }
                 }
+
                 res[0] = prev as i32;
                 res[1] = next as i32;
                 break;
