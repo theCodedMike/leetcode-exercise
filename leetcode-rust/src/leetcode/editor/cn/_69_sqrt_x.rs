@@ -45,33 +45,46 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn my_sqrt(x: i32) -> i32 {
-        let x = x as usize;
+        //Self::left_close_right_open(x)
+        Self::left_close_right_close(x)
+    }
 
-        match x {
-            0 => 0,
-            1 => 1,
-            _ => {
-                let mut low = 1;
-                let mut high = x / 2;
-                let mut mid = 0;
-                let mut product = 0;
+    fn left_close_right_open(x: i32) -> i32 {
+        let x = x as i64;
+        let (mut left, mut right) = (0_i64, x + 1);
 
-                while low <= high {
-                    mid = (low + high) >> 1;
-                    product = mid * mid;
-
-                    if x < product {
-                        high = mid - 1;
-                    } else if x > product {
-                        low = mid + 1;
-                    } else {
-                        return mid as i32;
-                    }
-                }
-
-                low as i32 - 1
+        while left < right {
+            let mid = left + (right - left) / 2;
+            let square = mid * mid;
+            if square > x {
+                right = mid;
+            } else if square < x {
+                left = mid + 1;
+            } else {
+                return mid as i32;
             }
         }
+
+        left as i32 - 1
+    }
+
+    fn left_close_right_close(x: i32) -> i32 {
+        let x = x as i64;
+        let (mut left, mut right) = (0_i64, x);
+
+        while left <= right {
+            let mid = left + (right - left) / 2;
+            let square = mid * mid;
+            if square > x {
+                right = mid - 1;
+            } else if square < x {
+                left = mid + 1;
+            } else {
+                return mid as i32;
+            }
+        }
+
+        left as i32 - 1
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
