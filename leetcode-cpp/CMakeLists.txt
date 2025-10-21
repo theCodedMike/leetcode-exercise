@@ -11,4 +11,5 @@ add_executable(leetcode_cpp main.cpp
         "leetcode/editor/cn/[35]Search Insert Position.cpp"
         "leetcode/editor/cn/[34]Find First and Last Position of Element in Sorted Array.cpp"
         "leetcode/editor/cn/[69]Sqrt(x).cpp"
+        "leetcode/editor/cn/[367]Valid Perfect Square.cpp"
 )

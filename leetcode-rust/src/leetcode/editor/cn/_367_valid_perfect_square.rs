@@ -40,14 +40,13 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn is_perfect_square(num: i32) -> bool {
-        //Self::binary_search_1(num)
-        Self::binary_search_2(num)
+        //Self::left_close_right_open(num)
+        Self::left_close_right_close(num)
     }
 
-    pub fn binary_search_1(num: i32) -> bool {
+    pub fn left_close_right_open(num: i32) -> bool {
         let num = num as i64;
-        let mut left = 1_i64;
-        let mut right = num + 1;
+        let (mut left, mut right) = (0_i64, num + 1);
 
         while left < right {
             let mid = left + (right - left) / 2;
@@ -64,10 +63,9 @@ impl Solution {
         false
     }
 
-    pub fn binary_search_2(num: i32) -> bool {
+    pub fn left_close_right_close(num: i32) -> bool {
         let num = num as i64;
-        let mut left = 1;
-        let mut right = num;
+        let (mut left, mut right) = (0, num);
 
         while left <= right {
             let mid = left + (right - left) / 2;
