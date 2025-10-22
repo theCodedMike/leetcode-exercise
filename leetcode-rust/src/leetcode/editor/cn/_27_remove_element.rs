@@ -75,11 +75,11 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-        //Self::two_pointers_1(nums, val)
-        Self::two_pointers_2(nums, val)
+        //Self::one_pointer(nums, val)
+        Self::two_pointers(nums, val)
     }
 
-    pub fn two_pointers_1(nums: &mut Vec<i32>, val: i32) -> i32 {
+    pub fn one_pointer(nums: &mut Vec<i32>, val: i32) -> i32 {
         let mut idx = 0;
 
         for i in 0..nums.len() {
@@ -93,9 +93,8 @@ impl Solution {
     }
 
     /// where the array contains few elements to remove
-    pub fn two_pointers_2(nums: &mut Vec<i32>, val: i32) -> i32 {
-        let mut idx = 0;
-        let mut len = nums.len();
+    pub fn two_pointers(nums: &mut Vec<i32>, val: i32) -> i32 {
+        let (mut idx, mut len) = (0, nums.len());
 
         while idx < len {
             if nums[idx] == val {
