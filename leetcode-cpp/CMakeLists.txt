@@ -13,4 +13,5 @@ add_executable(leetcode_cpp main.cpp
         "leetcode/editor/cn/[69]Sqrt(x).cpp"
         "leetcode/editor/cn/[367]Valid Perfect Square.cpp"
         "leetcode/editor/cn/[27]Remove Element.cpp"
+        "leetcode/editor/cn/[26]Remove Duplicates from Sorted Array.cpp"
 )
