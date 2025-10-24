@@ -32,47 +32,31 @@ pub struct Solution;
 //leetcode submit region begin(Prohibit modification and deletion)
 impl Solution {
     pub fn move_zeroes(nums: &mut Vec<i32>) {
-        //Self::copy_array(nums)
-        Self::double_pointer(nums)
+        //Self::one_pointer(nums)
+        Self::double_pointers(nums)
     }
 
-    ///  Time Complexity: O(n)
+    ///  Time Complexity: O(n^2)
     ///
     /// Space Complexity: O(n)
-    pub fn copy_array(nums: &mut Vec<i32>) {
-        // Count the zeroes
-        let mut zero_count = 0;
-        for num in nums.iter() {
-            if *num == 0 {
-                zero_count += 1;
+    pub fn one_pointer(nums: &mut Vec<i32>) {
+        for i in 1..nums.len() {
+            if nums[i] != 0 {
+                let mut j = i;
+                while j > 0 && nums[j - 1] == 0 {
+                    j -= 1;
+                }
+                nums.swap(i, j);
             }
-        }
-
-        // Make all the non-zero elements retain their original order.
-        let mut copy_array = Vec::with_capacity(nums.len());
-        for num in nums.iter() {
-            if *num != 0 {
-                copy_array.push(*num);
-            }
-        }
-
-        // Move all zeroes to the end
-        while zero_count != 0 {
-            copy_array.push(0);
-            zero_count -= 1;
-        }
-
-        // Combine the result
-        for i in 0..nums.len() {
-            nums[i] = copy_array[i]
         }
     }
 
     ///  Time Complexity: O(n)
     ///
     /// Space Complexity: O(1)
-    pub fn double_pointer(nums: &mut Vec<i32>) {
+    pub fn double_pointers(nums: &mut Vec<i32>) {
         let mut slow = 0;
+
         for fast in 0..nums.len() {
             if nums[fast] != 0 {
                 nums.swap(slow, fast);
