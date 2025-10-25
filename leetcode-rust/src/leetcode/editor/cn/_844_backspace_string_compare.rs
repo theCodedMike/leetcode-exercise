@@ -82,14 +82,12 @@ impl Solution {
     ///
     /// Space Complexity: O(1)
     pub fn two_pointers(s: String, t: String) -> bool {
-        let mut s_idx = s.len() as i32 - 1;
-        let mut t_idx = t.len() as i32 - 1;
-        let mut s_sharp_count = 0;
-        let mut t_sharp_count = 0;
+        let (mut s_idx, mut t_idx) = (s.len() as i32 - 1, t.len() as i32 - 1);
+        let (mut s_sharp_count, mut t_sharp_count) = (0, 0);
 
         while s_idx >= 0 || t_idx >= 0 {
             while s_idx >= 0 {
-                if s.index(s_idx as usize..s_idx as usize + 1) == "#" {
+                if s.chars().nth(s_idx as usize) == Some('#') {
                     s_sharp_count += 1;
                     s_idx -= 1;
                 } else if s_sharp_count > 0 {
@@ -101,7 +99,7 @@ impl Solution {
             }
 
             while t_idx >= 0 {
-                if t.index(t_idx as usize..t_idx as usize + 1) == "#" {
+                if t.chars().nth(t_idx as usize) == Some('#') {
                     t_sharp_count += 1;
                     t_idx -= 1;
                 } else if t_sharp_count > 0 {
@@ -115,8 +113,7 @@ impl Solution {
             // If two characters are different
             if s_idx >= 0
                 && t_idx >= 0
-                && s.index(s_idx as usize..s_idx as usize + 1)
-                    != t.index(t_idx as usize..t_idx as usize + 1)
+                && s.chars().nth(s_idx as usize) != t.chars().nth(t_idx as usize)
             {
                 return false;
             }
