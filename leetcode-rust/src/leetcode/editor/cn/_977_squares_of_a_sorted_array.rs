@@ -45,43 +45,38 @@ impl Solution {
         //Self::two_pointers_1(nums)
         Self::two_pointers_2(nums)
     }
-    pub fn brute_force(nums: Vec<i32>) -> Vec<i32> {
-        let mut res = nums.into_iter().map(|v| v * v).collect::<Vec<_>>();
-        res.sort_unstable();
-        res
+    pub fn brute_force(mut nums: Vec<i32>) -> Vec<i32> {
+        for num in &mut nums {
+            *num = *num * *num;
+        }
+        nums.sort_unstable();
+
+        nums
     }
 
     pub fn two_pointers_1(nums: Vec<i32>) -> Vec<i32> {
-        let len = nums.len();
-        let mut left = 0;
-        let mut right = len - 1;
-        let mut res = vec![0; len];
-        let mut idx = len - 1;
+        let (mut res, mut idx) = (vec![0; nums.len()], nums.len() as i32 - 1);
+        let (mut left, mut right) = (0_i32, nums.len() as i32 - 1);
 
-        loop {
-            let square_of_left = nums[left].pow(2);
-            let square_of_right = nums[right].pow(2);
-            if square_of_left > square_of_right {
-                res[idx] = square_of_left;
-                idx -= 1;
+        while left <= right {
+            let left_square = nums[left as usize] * nums[left as usize];
+            let right_square = nums[right as usize] * nums[right as usize];
+            if left_square > right_square {
+                res[idx as usize] = left_square;
                 left += 1;
-            } else if square_of_left < square_of_right {
-                res[idx] = square_of_right;
                 idx -= 1;
+            } else if left_square < right_square {
+                res[idx as usize] = right_square;
                 right -= 1;
+                idx -= 1;
             } else {
-                res[idx] = square_of_right;
-                if left == right {
-                    break;
+                res[idx as usize] = right_square;
+                if left != right {
+                    res[idx as usize - 1] = left_square;
                 }
-                idx -= 1;
-                res[idx] = square_of_left;
-                if left + 1 == right {
-                    break;
-                }
-                idx -= 1;
-                right -= 1;
                 left += 1;
+                right -= 1;
+                idx -= 2;
             }
         }
 
@@ -89,24 +84,21 @@ impl Solution {
     }
 
     pub fn two_pointers_2(nums: Vec<i32>) -> Vec<i32> {
-        let mut left = 0;
-        let mut right = nums.len() as i32 - 1;
-        let mut idx = nums.len() as i32 - 1;
-        let mut res = vec![0; nums.len()];
+        let (mut res, mut idx) = (vec![0; nums.len()], nums.len() as i32 - 1);
+        let (mut left, mut right) = (0_i32, nums.len() as i32 - 1);
 
         while left <= right {
-            let square_of_left = nums[left as usize].pow(2);
-            let square_of_right = nums[right as usize].pow(2);
-
-            res[idx as usize] = if square_of_left > square_of_right {
+            let left_square = nums[left as usize] * nums[left as usize];
+            let right_square = nums[right as usize] * nums[right as usize];
+            if left_square > right_square {
+                res[idx as usize] = left_square;
                 left += 1;
-                square_of_left
+                idx -= 1;
             } else {
+                res[idx as usize] = right_square;
                 right -= 1;
-                square_of_right
-            };
-
-            idx -= 1;
+                idx -= 1;
+            }
         }
 
         res

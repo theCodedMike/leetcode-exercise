@@ -57,16 +57,17 @@ class _977_有序数组的平方 {
             nums[i] *= nums[i];
         }
         Arrays.sort(nums);
+
         return nums;
     }
 
     public int[] twoPointers1(int[] nums) {
         int[] res = new int[nums.length];
+        int idx = nums.length - 1;
         int left = 0;
         int right = nums.length - 1;
-        int idx = nums.length - 1;
 
-        while (true) {
+        while (left <= right) {
             int square_of_left = nums[left] * nums[left];
             int square_of_right = nums[right] * nums[right];
             if (square_of_left > square_of_right) {
@@ -79,17 +80,11 @@ class _977_有序数组的平方 {
                 right--;
             } else {
                 res[idx] = square_of_right;
-                if (left == right) {
-                    break;
-                }
-                idx--;
-                res[idx] = square_of_left;
-                if (left + 1 == right) {
-                    break;
-                }
-                idx--;
+                if (left != right)
+                    res[idx - 1] = square_of_left;
                 left++;
                 right--;
+                idx -= 2;
             }
         }
 
@@ -98,16 +93,20 @@ class _977_有序数组的平方 {
 
     public int[] twoPointers2(int[] nums) {
         int[] res = new int[nums.length];
+        int idx = nums.length - 1;
+        int left = 0;
+        int right = nums.length - 1;
 
-        for (int idx = nums.length - 1, left = 0, right = nums.length - 1; left <= right;) {
+        while (left <= right) {
             int square_of_left = nums[left] * nums[left];
             int square_of_right = nums[right] * nums[right];
-
             if (square_of_left > square_of_right) {
-                res[idx--] = square_of_left;
+                res[idx] = square_of_left;
+                idx--;
                 left++;
             } else {
-                res[idx--] = square_of_right;
+                res[idx] = square_of_right;
+                idx--;
                 right--;
             }
         }

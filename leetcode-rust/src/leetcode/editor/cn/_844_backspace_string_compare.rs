@@ -46,8 +46,6 @@
 pub struct Solution;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-use std::ops::Index;
-
 impl Solution {
     pub fn backspace_compare(s: String, t: String) -> bool {
         //Self::build_string(s, t)
