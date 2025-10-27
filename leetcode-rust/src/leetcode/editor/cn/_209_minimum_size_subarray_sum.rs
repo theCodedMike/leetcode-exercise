@@ -94,11 +94,8 @@ impl Solution {
         }
         for i in 0..len {
             let to_find = target + sums[i];
-            let idx = match sums.binary_search(&to_find) {
-                Ok(idx) => idx,
-                Err(idx) => idx,
-            };
-            if idx != sums.len() {
+            let idx = sums.binary_search(&to_find).unwrap_or_else(|idx| idx);
+            if idx <= len {
                 res = std::cmp::min(res, idx - i);
             }
         }

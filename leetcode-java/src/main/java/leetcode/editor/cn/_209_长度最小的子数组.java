@@ -96,7 +96,7 @@ class _209_长度最小的子数组 {
             int toFind = target + sums[i];
             int idx = Arrays.binarySearch(sums, toFind);
             idx = idx < 0 ? Math.abs(idx) - 1 : idx;
-            if (idx != sums.length) {
+            if (idx <= nums.length) {
                 res = Math.min(res, idx - i);
             }
         }

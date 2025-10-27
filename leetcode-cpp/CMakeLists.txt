@@ -17,4 +17,5 @@ add_executable(leetcode_cpp main.cpp
         "leetcode/editor/cn/[283]Move Zeroes.cpp"
         "leetcode/editor/cn/[844]Backspace String Compare.cpp"
         "leetcode/editor/cn/[977]Squares of a Sorted Array.cpp"
+        "leetcode/editor/cn/[209]Minimum Size Subarray Sum.cpp"
 )
