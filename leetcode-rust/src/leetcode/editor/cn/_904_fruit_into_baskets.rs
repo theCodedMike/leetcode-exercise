@@ -68,16 +68,18 @@ impl Solution {
     }
 
     /// Time Limit Exceeded
+    ///
+    /// Time Complexity: O(n^3)
+    /// Space Complexity: O(1)
     pub fn brute_force(fruits: Vec<i32>) -> i32 {
         let len = fruits.len();
         let mut set = HashSet::new();
 
         for width in (2..=len).rev() {
             let mut left = 0;
-            let mut right = left + width;
+            let mut right = width;
 
             while right <= len {
-                set.clear();
                 for i in left..right {
                     set.insert(fruits[i]);
                     if set.len() > 2 {
@@ -90,12 +92,16 @@ impl Solution {
 
                 left += 1;
                 right = left + width;
+                set.clear()
             }
         }
 
-        fruits.len() as i32
+        len as i32
     }
 
+    /// Time Complexity: O(n^2)
+    ///
+    /// Space Complexity: O(1)
     pub fn sliding_window(fruits: Vec<i32>) -> i32 {
         let mut map = HashMap::new();
         let mut left = 0;

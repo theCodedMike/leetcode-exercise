@@ -75,10 +75,9 @@ class _904_水果成篮 {
 
         for (int width = fruits.length; width >= 2; width--) {
             int left = 0;
-            int right = left + width;
+            int right = width;
 
             while (right <= fruits.length) {
-                set.clear();
                 for (int i = left; i < right; i++) {
                     set.add(fruits[i]);
                     if (set.size() > 2) {
@@ -91,6 +90,7 @@ class _904_水果成篮 {
 
                 left++;
                 right = left + width;
+                set.clear();
             }
         }
 
