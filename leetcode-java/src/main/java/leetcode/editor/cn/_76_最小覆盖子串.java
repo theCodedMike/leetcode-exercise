@@ -58,41 +58,40 @@ import java.util.HashMap;
 //leetcode submit region begin(Prohibit modification and deletion)
 class _76_最小覆盖子串 {
     public String minWindow(String s, String t) {
-        HashMap<Character, Integer> map2 = new HashMap<>();
+        HashMap<Character, Integer> tMap = new HashMap<>();
         for (int i = 0, len = t.length(); i < len; i++) {
             char c = t.charAt(i);
-            map2.put(c, map2.getOrDefault(c, 0) + 1);
+            tMap.put(c, tMap.getOrDefault(c, 0) + 1);
         }
-
         int left = 0;
-        int left_when_min = 0;
-        int w_len = Integer.MAX_VALUE;
-        HashMap<Character, Integer> map1 = new HashMap<>();
+        int leftWhenMin = 0;
+        int wLen = Integer.MAX_VALUE;
+        HashMap<Character, Integer> sMap = new HashMap<>();
+
         for (int right = 0, len = s.length(); right < len; right++) {
             char c = s.charAt(right);
-            map1.put(c, map1.getOrDefault(c, 0) + 1);
+            sMap.put(c, sMap.getOrDefault(c, 0) + 1);
 
-            while (map1_contains_map2(map1, map2)) {
-                if ((right - left + 1) < w_len) {
-                    w_len = right - left + 1;
-                    left_when_min = left;
+            while (sMapContainsTmap(sMap, tMap)) {
+                if (wLen > (right - left + 1)) {
+                    wLen = right - left + 1;
+                    leftWhenMin = left;
                 }
 
-                char left_c = s.charAt(left);
-                map1.put(left_c, map1.get(left_c) - 1);
+                char leftC = s.charAt(left);
+                sMap.put(leftC, sMap.get(leftC) - 1);
                 left++;
             }
         }
 
-        return w_len == Integer.MAX_VALUE ? "" : s.substring(left_when_min, left_when_min + w_len);
+        return wLen == Integer.MAX_VALUE ? "" : s.substring(leftWhenMin, leftWhenMin + wLen);
     }
 
-    boolean map1_contains_map2(HashMap<Character, Integer> map1, HashMap<Character, Integer> map2) {
-        return map2.keySet().stream().allMatch((k2) -> {
-            if (!map1.containsKey(k2)) {
+    boolean sMapContainsTmap(HashMap<Character, Integer> sMap, HashMap<Character, Integer> tMap) {
+        return tMap.entrySet().stream().allMatch((tEntry) -> {
+            if (!sMap.containsKey(tEntry.getKey()))
                 return false;
-            }
-            return map1.get(k2) >= map2.get(k2);
+            return sMap.get(tEntry.getKey()) >= tEntry.getValue();
         });
     }
 }

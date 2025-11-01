@@ -57,24 +57,21 @@ use std::ops::Index;
 
 impl Solution {
     pub fn min_window(s: String, t: String) -> String {
-        let mut w_len = usize::MAX;
-        let mut left = 0;
-        let mut left_when_min = 0;
-        let map2 = t.chars().fold(HashMap::new(), |mut map, c| {
+        let t_map = t.chars().fold(HashMap::new(), |mut map, c| {
             map.entry(c).and_modify(|v| *v += 1).or_insert(1);
             map
         });
-        let mut map1 = HashMap::new();
+        let (mut left, mut left_when_min, mut w_len) = (0, 0, usize::MAX);
+        let mut s_map = HashMap::new();
 
-        let chars = s.chars().collect::<Vec<_>>();
-        for (right, &c) in chars.iter().enumerate() {
-            map1.entry(c).and_modify(|v| *v += 1).or_insert(1);
-            while Self::map1_contains_map2(&map1, &map2) {
+        for (right, c) in s.chars().enumerate() {
+            s_map.entry(c).and_modify(|v| *v += 1).or_insert(1);
+            while Self::s_map_contains_t_map(&s_map, &t_map) {
                 if w_len > (right - left + 1) {
+                    w_len = right - left + 1;
                     left_when_min = left;
-                    w_len = right - left + 1
                 };
-                if let Some(v) = map1.get_mut(&chars[left]) {
+                if let Some(v) = s_map.get_mut(&s.chars().nth(left).unwrap()) {
                     *v -= 1;
                 }
                 left += 1;
@@ -84,13 +81,14 @@ impl Solution {
         if w_len == usize::MAX {
             "".to_string()
         } else {
-            s.index(left_when_min..left_when_min + w_len).to_string()
+            s[left_when_min..left_when_min + w_len].to_string()
         }
     }
 
-    fn map1_contains_map2(map1: &HashMap<char, i32>, map2: &HashMap<char, i32>) -> bool {
-        map2.into_iter()
-            .all(|(k2, &v2)| map1.get(k2).map_or(false, |&v1| v1 >= v2))
+    fn s_map_contains_t_map(s_map: &HashMap<char, i32>, t_map: &HashMap<char, i32>) -> bool {
+        t_map
+            .into_iter()
+            .all(|(t_key, &t_val)| s_map.get(t_key).map_or(false, |&s_val| s_val >= t_val))
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
